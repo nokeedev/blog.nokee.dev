@@ -1,0 +1,37 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: introducing-leaf-bird
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-id: {jbake-permalink}
+= Introducing Leaf Bird
+Daniel Lacasse
+2020-05-07
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: blog
+:jbake-description: Hello, leaf bird! The new logo for Nokee plugins.
+:jbake-leadimage: leaf-bird-announcement-small.png
+:jbake-leadimagealt: New logo for Nokee plugins
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+While I'm putting the final touch to the next release packed with impressive features, let's take a quick break to welcome our happy leaf bird.
+
+It's no surprise that graphic design isn't my strong point.
+The first logo, if we can even call it that, was simply the link:https://github.blog/2013-08-14-identicons/[GitHub identicon] automatically generated when I created the organization.
+It was a placeholder until I find a worthy replacement.
+All this time, it was painful to see how horrible my initial design work was.
+
+I finally decided to reach out to link:https://www.thompsoncreative.co/[Jason Thompson, an awesome designer] and a good friend, to help me out on finding the perfect logo for Nokee.
+It didn't take long before we narrowed down to this lovely leaf-like bird.
+It gives an excellent narrative to the project, but most importantly, a great emotion.
+
+Stay tuned for the next release.
+If you can't wait and want to spoil the surprise, head over to the link:/docs/nightly/manual/user-manual.html[nightly documentation] to learn more about the next release.

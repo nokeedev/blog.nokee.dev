@@ -1,0 +1,27 @@
+:jbake-permalink: ios-development-poll
+:jbake-id: {jbake-permalink}
+= iOS Development Poll
+Daniel Lacasse
+2020-02-13
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: blog
+:idprefix:
+
+// Target audience: users and build authors
+
+I want to thanks everyone for the positive response following the https://nokee.dev/blog/hello-native[announcement last week].
+As discussed briefly in conversations with some of you, the focus is on bridging the gap around cross-compilation, more specifically on iOS support.
+This first step is critical in improving the native support in Gradle.
+It's also a significant milestone for mobile development.
+
+To focus on what is truly important, I created the https://forms.gle/YEaaeAjGACEpeFcR8[this short, anonymous poll] for users and build authors regardless of their current environment.
+Gathering this information is essential to you and me, so the Gradle plugins released can bring happiness into your build.
+It's important to remember that Gradle is highly configurable.
+A common practice in native is to resolve pain points slowing down your development by using Gradle as an orchestrator.
+It can be tedious to migrate from another build system to Gradle.
+However, it could be trivial to wrap another build system inside Gradle to benefit from all of its star features, such as https://docs.gradle.org/6.1.1/userguide/build_cache.html[a build cache], https://docs.gradle.org/6.1.1/userguide/core_dependency_management.html[a powerful dependency engine] or https://discuss.gradle.org/[an active community].
+
+For the ones that would love to have a more active voice during the development process, you can https://forms.gle/YEaaeAjGACEpeFcR8[leave your contact information at the end of the poll], and I will contact you for a more in-depth interview.
+
+If you have any questions, always feel free to reach out to me via https://nokee.dev/blog/{jbake-permalink}#disqus_thread[comments on the blog post], sending an email to hello@nokee.dev, or https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[joining the Gradle Community Slack].

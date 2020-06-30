@@ -1,0 +1,156 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: release-0.2-announcement
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-id: {jbake-permalink}
+= Release 0.2 Announcement
+Daniel Lacasse
+2020-04-20
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: blog
+:jbake-description: Announcing the second release of the Nokee plugin suite.
+:jbake-leadimage: release-announcement-small.png
+:jbake-leadimagealt: Release 0.2 announcement
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+Join me today in celebrating the link:/docs/0.2.0/release-notes.html[second release of the Nokee plugins] with some oatmeal cookies. footnote:[I added semi-sweet chocolat chips to the link:https://www.allrecipes.com/recipe/19247/soft-oatmeal-cookies/[cookie recipe].]
+Some great features are being released like the support for macOS framework as normal dependencies.
+I will also go through the outcomes of various experimentation that happen since the first release.
+
+== macOS Framework Dependencies
+
+It is common for macOS and iOS developers to rely on frameworks as dependencies.
+Historically, developers had to rely on the compiler and linker flags to support them.
+Why does it have to be this way?
+This release introduces the first step in enabling macOS framework bundles as standard dependencies.
+There are some limitations to the current implementation, and I'm going to work on removing them in future releases.
+
+The following code snippet shows two interesting aspects of framework dependencies.
+Head over to the link:/docs/0.2.0/samples/jni-library-with-framework-dependencies[sample page for the complete code].
+
+.Adding dependencies on macOS frameworks
+====
+[.multi-language-sample]
+=====
+.build.gradle
+[source,groovy]
+----
+library {
+   dependencies {
+      nativeImplementation 'dev.nokee.framework:Cocoa:10.15'       // <1>
+
+      nativeImplementation('dev.nokee.framework:JavaVM:10.15') {
+         capabilities {
+            requireCapability 'JavaVM:JavaNativeFoundation:10.15'  // <2>
+         }
+      }
+   }
+}
+----
+=====
+[.multi-language-sample]
+=====
+.build.gradle.kts
+[source,kotlin]
+----
+library {
+   dependencies {
+      nativeImplementation("dev.nokee.framework:Cocoa:10.15")      // <1>
+
+      nativeImplementation("dev.nokee.framework:JavaVM:10.15") {
+         capabilities {
+            requireCapability("JavaVM:JavaNativeFoundation:10.15") // <2>
+         }
+      }
+   }
+}
+----
+=====
+====
+<1> Adding dependencies on a system framework
+<2> Adding dependencies on a subframework of a system framework
+
+As shown in the previous snippet, a framework dependency is as simple as any other dependencies.
+In fact, the framework dependency resolution uses the Gradle dependency engine.
+It uses a magic group name (e.g. `dev.nokee.framework`) so the resolution engine can direct the request to the right resolver.
+Despite https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Tasks/IncludingFrameworks.html#//apple_ref/doc/uid/20002257-97149[Apple's recommendation to avoid referencing subframework directly] footnote:[Subframeworks are frameworks embedded in other frameworks. In a nutshell, they should be seen as implementation details of the target framework and, like everything, there are exceptions], there is still a need to reference them for https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/OSX_Technology_Overview/SystemFrameworks/SystemFrameworks.html[older deprecated frameworks like `JavaVM` and its subframework, `JavaNativeFoundation`].
+The dependency on subframework support is modeled using the link:{gradle-user-manual}/dependency_management_terminology.html#sub:terminology_capability[Gradle capability support].
+The second example in the above snippet shows a dependency on the `JavaNativeFoundation` subframework.
+You can see the complete link:/docs/0.2.0/samples/jni-library-with-framework-dependencies[sample inside the documentation].
+
+An interesting side-effect of using the Gradle dependency engine is the ability to customize your dependency just like any other dependencies.
+
+You may be wondering how do the Nokee plugins hook into the dependency engine?
+One of the highest requested feature for native during my time at Gradle was support for Conan packages.
+Adam and I even experimented footnote:[Mostly just Adam; I simply made the code merge ready] with https://github.com/gradle/gradle/commits/am/resolver-spike[adding support for Homebrew using a custom resolver] for consuming native artifacts.
+The issue with this approach is how tangled it is with the internal of Gradle.
+The spike we developed doesn't work with the latest Gradle.
+It just shows how fragile such an approach is, and it's not something I can maintain.
+There are also other artifact types the Nokee plugins should support out-of-the-box (e.g. Nuget, system libraries, Windows SDK/DDK, and toolchains).
+Gradle's dependency engine is powerful.
+Relying on the Gradle's dependency engine for the artifact resolution has positive side-effects.
+For starter, we can benefit from the link:{gradle-user-manual}/rich_versions.html[rich version matching] or link:{gradle-user-manual}/resolution_rules.html[gracefully resolve dependency conflict].
+What about link:{gradle-user-manual}/variant_model.html[variant selection]?
+Native artifacts have the same variant selection problems.
+
+The big problem is how we can feed custom dependency data inside the dependency engine?
+Nokee's solution is an embedded HTTP server that serves as a customizable resolver for finding and providing all the required artifacts to your build.
+It uses all public APIs, which makes the solution forward compatible.
+The challenge is to ensure harmony between Gradle and Nokee without impacting the performance of the build.
+Thankfully, the Gradle team has been releasing helpful features such as the build service that enable such a solution.
+The consumers request artifacts as a standard group, artifact, version (GAV) triplet, optionally using the rich Gradle metadata for more advanced selection.
+Nokee's embedded server aggregate all the artifacts found by his resolvers and let Gradle perform the selection and conflict resolution.
+It effectively creates a translation layer between Gradle and the chaotic world of native.
+
+== New Objective-C and Objective-{cpp} Language Plugins
+
+A language plugin's sole job is to provide a specific implementation language capability to the applied project.
+With this release, I'm introducing two new language plugins to support JNI libraries written in Objective-C and Objective-{cpp}.
+They work just like any of the link:/docs/0.2.0/manual/plugin-references.html#sec:native-language-plugins[other Nokee language plugins].
+
+== JNI Library Resource Path Customization
+
+The previous version had incomplete support for multi-variant JNI libraries.
+When assembling the JAR of the final JNI library, there was no way to customize the resource path where to put the native libraries would reside.
+Some JNI projects already have an opinion on where the native libraries are located inside the JAR so they can be unpacked and loaded at runtime.
+This release allows users to link:/docs/0.2.0/samples/jni-library-with-resource-path[customize the resource path per-variant].
+A default mapping is provided based on the project group and ambiguous dimension values (e.g. when several supported operating systems).
+
+== Testing Coverage
+
+Before I learned about the upcoming Gradle support for distributed testing, I did some experimentation on spawning Gradle workers on remote machines.
+In a previous job, I wrote a remote native testing capability for Gradle.
+I can't begin to tell you how useful it was, not for performance, but for the convenience of being able to test the code on specific systems by any developers.
+I recently had a great discussion with a community member regarding his bare metal x86 development with Gradle.
+At such a low level, the issue is rarely the build time.
+Usually, it's all the intermediate steps that are required to accurately tests the software.
+Often those steps are so troublesome that testing isn't automated if you are even lucky to have testing in place.
+
+In my case, I wanted to simplify the testing infrastructure by avoiding the classic dance of fanning out the pipeline at the testing phase.
+My experiment had some success on Linux but hit some roadblock on Windows.
+I decided to shelve the idea for the time being.
+However, rest assured that remote orchestration of Gradle workers would be hugely beneficial for the native ecosystem.
+
+== What's Next?
+
+The next versions will focus on adding support for Swift implementation language, the last native language needed before attacking full on iOS support in Gradle.
+There will be improvements to toolchain support, in particular the toolchain selection.
+At the moment, toolchain selection is preventing FreeBSD official support.
+It's also preventing cross-compilation on all major operating system which in turn prevent iOS support in Gradle.
+
+There will also be improvements to the testing coverage, particularly across multiple toolchains and multiple Gradle.
+Both of these are being worked on as part of the https://github.com/gradle-plugins/toolbox[Gradle Development Plugins], a project aimed at improving plugin authoring.
+The goal is to provide near zero-configuration for Gradle plugin development.
+It also extends the core plugin development by modelling minimum Gradle version support and fixtures to improve your testing coverage.
+The next versions will focus on adding testing strategies for the plugin functional tests across multiple Gradle version.
+
+Don't hesitate to link:#disqus_thread[leave a comment below] or ping me on the https://gradle-community.slack.com/[Gradle community Slack].

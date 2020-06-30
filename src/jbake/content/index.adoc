@@ -1,0 +1,3 @@
+= Blog
+:jbake-type: blog_index
+:jbake-status: published

@@ -1,0 +1,86 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: release-0.4-announcement
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-id: {jbake-permalink}
+= Release 0.4 Announcement
+Daniel Lacasse
+2020-06-29
+:jbake-type: blog_post
+:jbake-status: unpublished
+:jbake-tags: blog
+:jbake-description: Announcing release 0.4 of the Nokee plugin suite.
+:jbake-leadimage: release-announcement-small.png
+:jbake-leadimagealt: Release 0.4 announcement
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+Join us to celebrate the link:/docs/0.4.0/release-notes.html[fourth version of the Nokee plugins].
+
+Longer than expected release cycle helped leap Nokee forward.
+In this release, we change the configuration model of Nokee plugins, which may potentially break current users.
+We made ten new plugins available for our users to support building native applications/libraries implemented in C, {cpp}, Objective-C, Objective-{cpp} and Swift.
+We have also included five additional plugins to enhance the development of Gradle plugins.
+Let's explore the release together.
+
+== Configuration model changes
+
+The configuration model of Gradle was a talking subject for many years.
+It started with the zero configuration effort, aimed at minimizing the time spent processing the build script.
+Then, it was the software model, a different configuration model with ambitious goals.
+Now, it's all about the configuration cache.
+When completed, it will allow near-instant execution of your Gradle builds.
+As the Gradle's configuration cache near its completion, thanks to the fantastic work by the Gradle team, it's essential to enable forward compatibility.
+
+This release removes our dependency on obsolete Gradle core configuration modelling.
+It gives us more control for our future work required to push the iOS support forward.
+We also took a different direction than the native plugins developed by the Gradle team.
+The Gradle core plugins never instantiate unbuildable variants, making them impossible to access during the configuration phase.
+It's a struggle point when adopting these new plugins for intermediate use cases.
+As part of this release, the Nokee plugins will instantiate all variants as required.
+It makes use cases like link:docs/0.4.0/samples/jni-library-with-pre-built-binaries[using previously built binaries when the local environment cannot produce the binaries possible].
+
+== New native plugins
+
+This release contains ten new plugins for building native!
+They support building native applications and native libraries implemented in C, {cpp}, Objective-C, Objective-{cpp}, and Swift.
+These new plugins are similar in features and will improve them over the next releases.
+They will provide parity with all the native language supported by the core Gradle plugins.
+See link:/docs/0.4.0/manual/plugin-references.html#sec:plugin-reference-native-development[their respective plugin reference chapters] to learn more.
+
+== Gradle Plugin Toolbox version 1.0 announcement
+
+We link:../introducing-gradle-toolbox/[recently announced the Gradle Plugin Toolbox] to help plugin authors.
+As part of building the Nokee project, we experience every issue of the Gradle plugin development process.
+For this reason, we decided to share our development plugins with everyone.
+It allows testing against multiple Gradle versions as well as targeting specific Gradle APIs.
+Head over to the link:/docs/nightly/manual/gradle-plugin-development[user manual] to learn more about the Gradle Plugin Toolbox features.
+
+== New Swift iOS application support
+
+The iOS support got a new plugin to link:/docs/0.4.0/samples/swift-ios-application[build applications written in Swift].
+Due to the lack of cross-compilation support in the core Gradle infrastructure, dependencies on libraries didn't make it in this release.
+However, we are hard at work in improving our supporting infrastructure.
+
+Unfortunately, dependencies on libraries didn't make it in this release mostly due to the lack of cross-compilation support in the core Gradle infrastructure.
+The next releases will move away from the core toolchain infrastructure to allow more flexibility and better configuration.
+
+== What's Next?
+
+With release 0.4, we leaped forward.
+Over the next releases, the focus will be on testing, publishing and toolchain support.
+Testing is an important story often overlooked by build systems.
+Our goal is to allow for the most straightforward testing setup as possible.
+Finally, publishing is hard to get right in native.
+We are discussing various scenarios to solve the problem for everyone using Nokee plugins.
+For developers relying on building from sources, we will soon start working on build wrapping stories.
+
+link:#disqus_thread[Leave a comment below] or reach out on the https://gradle-community.slack.com/[Gradle community Slack].
+If you want to work with us, email us at hello@nokee.dev.

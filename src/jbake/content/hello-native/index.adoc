@@ -1,0 +1,67 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: hello-native
+:jbake-id: {jbake-permalink}
+= Hello Native
+Daniel Lacasse
+2020-02-04
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: blog
+:jbake-description: Announcing the Nokee plugin suite, a continuous effort for painless native development in Gradle.
+:jbake-leadimage: hello-native-presentation.png
+:jbake-leadimagealt: Announcing the Nokee plugin suite
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+:cpplower: c++
+
+My name is Daniel Lacasse, and I'm the world's most experience build engineer in native (C/C++/Assembly) with Gradle.
+I started my interest in Gradle for native long before I joined Gradle inc.
+It was in http://gradle.1045684.n5.nabble.com/Offering-Help-for-Native-Support-td5707874.html[May of 2012] when I was researching how to replace a massive native _frankenbuild system_ in a previous job.
+In January 2013, I prepared a proof-of-concept (POC) as part of an internal workshop supporting the idea of using Gradle to build our native monolith.
+The catch?
+Gradle didn't have any of the native features we needed.
+Despite this shortcoming, it was accepted unanimously as the step forward to alleviate our pain.
+Yeah, my POC was that impressive!
+It was the start of my long journey in becoming a world-class Gradle engineer advocating for native support.
+
+== Quick history lesson
+Following the success of my POC, I wrote and directed the statement of work that became the native support introduced in the Gradle 1.x releases (see the release notes for
+link:https://docs.gradle.org/1.7/release-notes.html#major-improvements-to-{cpplower}-project-support[1.7],
+link:https://docs.gradle.org/1.8/release-notes.html#create-native-libraries-and-executables-from-c-and-assembler-sources[1.8],
+link:https://docs.gradle.org/1.9/release-notes.html#build-multiple-variants-of-a-native-binary[1.9],
+link:https://docs.gradle.org/1.10/release-notes.html#incremental-compile-for-{cpplower}-and-c-sources[1.10],
+https://docs.gradle.org/1.11/release-notes.html#choose-applicable-platforms,-build-types-and-flavors-for-a-native-component[1.11], and
+https://docs.gradle.org/1.12/release-notes.html#customise-clang-compiler-tool-chain[1.12]).
+The final result was https://youtu.be/KZdgxKe9wO8[presented at the Gradle Summit 2014].
+It was also the https://docs.gradle.org/1.11/release-notes.html#changed-dsl-and-model-for-native-binary-components[beginning of what is known today as the software model].
+Spoiler alert, https://blog.gradle.org/state-and-future-of-the-gradle-software-model[the software model is phasing out].
+I extended the core native plugins in incredible ways adding support for remote testing, artifact publication, artifact promotion, unattended provisioning of the Windows SDK, https://developers.google.com/protocol-buffers[Protocol Buffers], http://www.doxygen.nl/[Doxygen], and many more supporting technologies for native.
+The massive success I got out of Gradle was just the tip of the potential iceberg Gradle had to offer.
+In 2016, I joined Gradle inc. to help improve the native support.
+Shortly after, I was the bearer of bad news for the Gradle community https://www.youtube.com/watch?v=o0uH52TEZvo&feature=youtu.be&t=2947[announcing the phase-out of the software model].
+I felt personally responsible for the disruption this news brought to the build engineers that, just like me, were praising and centralizing their development around it.
+I transitioned to the C++ and Swift revival of the core native support development.
+The approach and feature set were extremely promising (see https://blog.gradle.org/introducing-the-new-cpp-plugins[here], https://blog.gradle.org/update-on-the-new-cpp-plugins[here] and https://blog.gradle.org/introducing-the-swift-plugins[here]).
+Unfortunately, the effort was short-lived.
+
+== What is Nokee?
+Nokee is a blank slate, a fresh start, lessons learned from mistakes and, most importantly, a path forward to bring a grand vision to reality.
+It is, first and foremost, a continuous effort for native support in Gradle where I will dedicate the majority of my time nurturing the native ecosystem of Gradle.
+Second, it will be a set of high-quality Gradle plugins to enhance and work in tandem with the core native plugins.
+Fear not, the plugins will be compatible with the Gradle core plugins, and a clear migration path will be communicated where needed.
+The focus will be around improving the shortcoming of the current core plugins.
+
+== How can you help?
+You may be as excited as me and wonder how you can help.
+You can provide feedback by link:#disqus_thread[commenting on posts like this one], send an email to hello@nokee.dev, https://discuss.gradle.org/tags/c/help-discuss/14/native[tag your native questions on the Gradle user forum] and https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[join the discussion in the #native channel over on the Gradle Community Slack].
+
+== How can you keep up-to-date?
+Maybe the excitement hasn't grown on you yet, and you want to keep informed.
+I suggest you watch the https://github.com/nokeedev[project's GitHub organization], https://feed.nokee.dev/feed.xml[subscribe to the blog's atom feed], and link:#mc_embed_signup[join the newsletter] for future announcements.
+
+Let's make 2020 a Gradle native year!

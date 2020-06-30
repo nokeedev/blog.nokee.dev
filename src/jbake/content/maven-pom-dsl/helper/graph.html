@@ -1,0 +1,46 @@
+<html>
+<head>
+	<script src="https://unpkg.com/rough-viz@1.0.6"></script>
+</head>
+<body>
+<!--you can name each id whatever you want -->
+<div id="viz0"></div>
+<div id="viz1"></div>
+<script>
+	const d = [...Array(10).keys()].map(v => 4 * v + 2);
+	const l = [...Array(10).keys()].map(v => `${v+1}k`);
+	// create Bar chart from csv file, using default options
+	new roughViz.Bar({
+		element: '#viz0', // container selection
+		data: {
+			labels: l,
+			values: d,
+		},
+		roughness: 18,
+		interactive: false,
+		width: window.innerWidth,
+		xLabel: 'Time Saved (kh)',
+		yLabel: 'Features (#)',
+		color: ['#6BA530'],
+	});
+
+
+	new roughViz.Line({
+		element: '#viz1',
+		data: {
+			'extra features delivered': d
+		},
+		width: window.innerWidth,
+		xLabel: 'Time Saved (kh)',
+		yLabel: 'Features (#)',
+		interactive: false,
+		roughness: 3,
+		circleRadius: 5,
+		circleRoughness: 3,
+		simplification: 0.5,
+		bowing: 3,
+		colors: ['#6BA530'],
+	})
+</script>
+</body>
+</html>
