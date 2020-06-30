@@ -66,6 +66,7 @@ tasks.named('site', Sync) {
 tasks.register('publish', PublishToGitHubPages) {
 	def siteTask = tasks.named('site', Sync)
 	publishDirectory.fileProvider(siteTask.map { it.destinationDir })
+	uri = uri("https://github.com/nokeedev/blog.nokee.dev.git")
 	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key').orDefault('nokeedevbot') }
 	gitHubSecret = providers.of(SecretValue) { it.parameters.from('GITHUB_TOKEN').or('dev.nokee.github.secret') }
 }
