@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+	<title>Introducing Gradle Plugin Toolbox</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Introducing new plugins to help developing Gradle plugins.">
+<meta name="author" content="@nokeedev">
+<meta name="keywords" content="blog">
+
+<link rel="canonical" href="https://blog.nokee.dev/introducing-gradle-toolbox/">
+<meta property="og:url" content="https://blog.nokee.dev/introducing-gradle-toolbox/">
+
+
+
+
+
+<script type="application/ld+json">
+    [{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+  "@type": "ListItem",
+  "position": 1,
+  "name": "Blog",
+  "item": "https://blog.nokee.dev/blog/"
+},{
+  "@type": "ListItem",
+  "position": 2,
+  "name": "Introducing Gradle Plugin Toolbox",
+  "item": "https://blog.nokee.dev/introducing-gradle-toolbox/"
+}]
+    }]
+</script>
+
+
+
+
+<meta property="og:site_name" content="Nokee">
+<meta property="og:title" content="Introducing Gradle Plugin Toolbox">
+<meta name="og:description" content="Introducing new plugins to help developing Gradle plugins.">
+<meta name="og:image" content="https://blog.nokee.dev/introducing-gradle-toolbox/announcement-toolbox-small.png">
+
+
+<meta name="twitter:site" content="@nokeedev">
+<meta name="twitter:creator" content="@lacasseio">
+<meta name="twitter:title" content="Introducing Gradle Plugin Toolbox">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Introducing new plugins to help developing Gradle plugins.">
+
+	<meta name="twitter:image" content="https://blog.nokee.dev/introducing-gradle-toolbox/announcement-toolbox-small.png">
+	<meta name="twitter:image:alt" content="Gradle Plugin Toolbox Announcement">
+
+
+
+<!-- Le styles -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/css/normalize-8.0.1.css" rel="stylesheet">
+<link href="/css/prettify.css" rel="stylesheet">
+<link href="/css/menu.css" rel="stylesheet">
+
+<link href="/css/colorscheme-light.css" rel="stylesheet">
+
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="/js/html5shiv.min.js"></script>
+<![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#001824">
+<meta name="msapplication-TileColor" content="#00a300">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157599764-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-157599764-1');
+</script>
+
+	<link href="../css/docs-asciidoctor.css" rel="stylesheet">
+	<link href="../css/docs-asciidoctor-override.css" rel="stylesheet">
+	<link href="../css/docs-asciidoctor-color-override.css" rel="stylesheet">
+	<link href="../css/docs-base.css" rel="stylesheet">
+	<link href="../css/multi-language-sample.css" rel="stylesheet">
+	<link href="../css/blog-email-signup.css" rel="stylesheet">
+	<link href="../css/blog-layout.css" rel="stylesheet">
+	
+</head>
+<body onload="prettyPrint()">
+
+	
+<nav class="navigation" aria-labelledby="primary-navigation">
+	<a href="/" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 49.96"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="full-dark"><g id="nokee"><path d="M180.38,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25H193.8A5.92,5.92,0,0,1,198.17,14a6,6,0,0,1,1.83,4.4V28.88H180.49s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H180.49Z"/><path d="M51.3,40.13v-28H71A6,6,0,0,1,75.34,14a6,6,0,0,1,1.83,4.4V40.13H70.88l-.07-21.65H57.65l-.06,21.65Z"/><path d="M88.94,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,106.74,14a6.07,6.07,0,0,1,1.82,4.4V33.88a6.05,6.05,0,0,1-1.82,4.4,5.92,5.92,0,0,1-4.38,1.85Zm13.26-6.36s0-15.29,0-15.29H89.05s0,15.25,0,15.29S102.16,33.82,102.2,33.77Z"/><path d="M114.13,40.13V6.26h6.29V23.38h4l8.84-11.28h8.19L129.92,26.54l11.49,13.59h-8.19l-8.84-10.42h-4V40.13Z"/><path d="M149.25,40.13A6.32,6.32,0,0,1,143,33.88V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,167.05,14a6.07,6.07,0,0,1,1.82,4.4V28.88H149.36s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H149.36Z"/></g><g id="bird"><path d="M41.82,10.21,25.58.83a6.24,6.24,0,0,0-6.23,0L3.11,10.21A6.24,6.24,0,0,0,0,15.6V34.35a6.25,6.25,0,0,0,3.11,5.4l16.24,9.37a6.24,6.24,0,0,0,6.23,0l16.24-9.37a6.25,6.25,0,0,0,3.11-5.4V15.6A6.24,6.24,0,0,0,41.82,10.21Zm-6,10.92c0,12.59-7.92,17.46-21.73,17.46A16.46,16.46,0,0,1,5,36c8.22-5.58,10.56-9.95,12.4-17.5,1.11-4.54,4.25-8.06,9.22-8.06,3.6,0,6.62,1.28,8.14,4.7h6.5l-5.49,4.39C35.82,20,35.84,20.57,35.84,21.13Z"/><path d="M28.94,13.72a3.35,3.35,0,0,0-3,1.76.83.83,0,0,0,1.46.79,1.7,1.7,0,0,1,3,0,.83.83,0,0,0,1.13.33.82.82,0,0,0,.33-1.12A3.36,3.36,0,0,0,28.94,13.72Z"/></g></g></g></g></svg></a>
+	<input class="navigation-hamburger" type="checkbox" id="navigation-hamburger" />
+	<label class="menu-icon" for="navigation-hamburger"><span class="navicon"></span></label>
+	<ul class="navigation-items">
+		<li><a href="/docs/current/manual/user-manual.html">Docs</a></li>
+		<li><a href="/blog">Blog</a></li>
+		<li>
+			<ul class="navigation-socials">
+				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
+				<li class="navigation-github"><a href="https://github.com/nokeedev" title="Nokee on GitHub"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 10 4.836c.85.004 1.705.114 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C17.137 18.163 20 14.418 20 10c0-5.523-4.478-10-10-10" fill-rule="evenodd"></path></svg></a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+	<div class="main-content">
+
+		<div class="chapter">
+			<div class="header">
+				<img src="announcement-toolbox-small.png"/>
+				<h1>Introducing Gradle Plugin Toolbox</h1>
+				<p><em>22 June 2020</em></p>
+			</div>
+
+			<div class="content">
+				<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Gradle plugin development process is tedious.
+Writing a simple plugin is somewhat acceptable; however, very painful when developing complex plugins.
+The Nokee team is glade to officially unveil a toolbox to enhance the task at hand.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="releasing_new_gradle_plugins"><a class="anchor" href="#releasing_new_gradle_plugins"></a><a class="link" href="#releasing_new_gradle_plugins">Releasing new Gradle plugins</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Today, we are announcing five plugins to improve the Gradle plugin development process:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="https://nokee.dev/docs/nightly/manual/java-gradle-plugin-plugin.html"><code>dev.gradleplugins.java-gradle-plugin</code></a></dt>
+<dd>
+<p>Provides support for developing Gradle plugin implemented in Java.</p>
+</dd>
+<dt class="hdlist1"><a href="https://nokee.dev/docs/nightly/manual/groovy-gradle-plugin-plugin.html"><code>dev.gradleplugins.groovy-gradle-plugin</code></a></dt>
+<dd>
+<p>Provides support for developing Gradle plugin implemented in Groovy.</p>
+</dd>
+<dt class="hdlist1"><a href="https://nokee.dev/docs/nightly/manual/gradle-plugin-development-plugin.html"><code>dev.gradleplugins.gradle-plugin-development</code></a></dt>
+<dd>
+<p>Provides additional support for developing Gradle plugin-related projects.</p>
+</dd>
+<dt class="hdlist1"><a href="https://nokee.dev/docs/nightly/manual/gradle-plugin-unit-test-plugin.html"><code>dev.gradleplugins.gradle-plugin-unit-test</code></a></dt>
+<dd>
+<p>Provides support for unit testing Gradle plugins.</p>
+</dd>
+<dt class="hdlist1"><a href="https://nokee.dev/docs/nightly/manual/gradle-plugin-functional-test-plugin.html"><code>dev.gradleplugins.gradle-plugin-functional-test</code></a></dt>
+<dd>
+<p>Provides support for functional testing Gradle plugins.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The first two plugins are a welcome alternative for the <code>java-gradle-plugin</code> core plugin and focus on Java and Groovy language, respectively.
+The Kotlin ecosystem is a bit particular due to some <em>workarounds</em>(hacks) in Gradle itself.</p>
+</div>
+<div class="paragraph">
+<p>The third plugin provides conveniences to projects supporting the development of Gradle plugins.
+It&#8217;s a settings plugin and decorates all projects.
+The plugin provides conveniences for adding Gradle API dependencies of a specific version, querying compatibility information for released Gradle distribution, and adding dependencies on Gradle fixtures for testing maintained by Nokee.
+Have a look at the <a href="https://nokee.dev/docs/nightly/samples/gradle-plugin-development-runtime-compatibilities/">Gradle runtime compatibility sample</a> to learn more.</p>
+</div>
+<div class="paragraph">
+<p>The final two plugins formalize <a href="https://nokee.dev/docs/nightly/manual/gradle-plugin-development.html#sec:gradle-dev-unit-testing">unit</a> and <a href="https://nokee.dev/docs/nightly/manual/gradle-plugin-development.html#sec:gradle-dev-functional-testing">functional</a> testing for Gradle plugin development.
+Typically, unit tests focus on individual classes using the <code>ProjectBuilder</code> testing fixtures.
+On the other hand, functional tests focus on execution behaviours using the Gradle TestKit testing fixtures.</p>
+</div>
+<div class="sect2">
+<h3 id="why_replace_the_core_gradle_development_plugins"><a class="anchor" href="#why_replace_the_core_gradle_development_plugins"></a><a class="link" href="#why_replace_the_core_gradle_development_plugins">Why replace the core Gradle development plugins?</a></h3>
+<div class="paragraph">
+<p>The core Gradle development plugins, e.g. <code>java-gradle-plugin</code> released as part of the Gradle distribution, are unfavorable to a fast iterative process.
+We have seen little improvement catering to the Gradle plugin development experience despite a need for key features to aid high-quality plugin development.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="features"><a class="anchor" href="#features"></a><a class="link" href="#features">Features</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="developing_under_a_specific_gradle_version_while_building_with_another"><a class="anchor" href="#developing_under_a_specific_gradle_version_while_building_with_another"></a><a class="link" href="#developing_under_a_specific_gradle_version_while_building_with_another">Developing under a specific Gradle version while building with another</a></h3>
+<div class="paragraph">
+<p>Modelling the minimum Gradle version supported by the plugins is an essential use case solved by the toolbox; instead of runtime errors Gradle will automatically detect the errors at compile-time by using the <a href="https://nokee.dev/docs/nightly/samples/gradle-plugin-development-with-minimum-gradle-version/">correct Gradle API JAR regardless of the running Gradle version</a>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Configuring minimum supported Gradle</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">gradlePlugin {
+   compatibility {
+      minimumGradleVersion = '4.9'
+   }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="kotlin">gradlePlugin {
+   compatibility {
+      minimumGradleVersion.set("4.9")
+   }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Nokee published the generated Gradle API&#8217;s JAR from each distribution together with its matching sources.
+Additionally, we included it&#8217;s correct Groovy/Kotlin runtime version as dependencies.
+We&#8217;ve written a utility class to map the different Gradle versions to it&#8217;s appropriate JVM runtimes; Java, Groovy, Kotlin.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="dependency-gradle-api.png" alt="Build scan showing the Gradle API dependency of a Gradle plugin development project.">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="improving_compatibility_defaults"><a class="anchor" href="#improving_compatibility_defaults"></a><a class="link" href="#improving_compatibility_defaults">Improving compatibility defaults</a></h3>
+<div class="paragraph">
+<p>Our plugins select Gradle&#8217;s source and target compatibility based on the minimum supported Gradle version of your plugins.
+The plugins still allows you to overwrite Java compatibility as you typically would.</p>
+</div>
+<div class="paragraph">
+<p>The same process applies to the Groovy runtime dependency as shown by the build scan.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="dependency-groovy.png" alt="Build scan showing the Groovy dependency of a Gradle plugin development project.">
+</div>
+</div>
+<div class="paragraph">
+<p>By applying the <code>dev.gradleplugins.gradle-plugin-development</code> plugin in your settings script, you will have access to the <code>GradleCompatibility</code> class, used by our plugins' automatic compatibility selection, from every project.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Querying Gradle compatibility information</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+    id 'dev.gradleplugins.gradle-plugin-development' version '1.0.0'
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import static dev.gradleplugins.GradleCompatibility.*
+
+tasks.register('gradleCompatibility') {
+    def gradleVersion = '4.9'
+    doLast {
+      println "=== Gradle ${gradleVersion} Compatibility Information ==="
+      println "Minimum Java version: ${minimumJavaVersionFor(gradleVersion)}"
+      println "Groovy version: ${groovyVersionOf(gradleVersion)}"
+      println "Kotlin version: ${kotlinVersionOf(gradleVersion).orElse('N/A')}"
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">settings.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
+    id("dev.gradleplugins.gradle-plugin-development") version("1.0.0")
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="kotlin">import dev.gradleplugins.GradleCompatibility.*
+
+tasks.register("gradleCompatibility") {
+    val gradleVersion = "4.9"
+    doLast {
+      println("=== Gradle ${gradleVersion} Compatibility Information ===")
+      println("Minimum Java version: ${minimumJavaVersionFor(gradleVersion)}")
+      println("Groovy version: ${groovyVersionOf(gradleVersion)}")
+      println("Kotlin version: ${kotlinVersionOf(gradleVersion).orElse("N/A")}")
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="testing_strategies"><a class="anchor" href="#testing_strategies"></a><a class="link" href="#testing_strategies">Testing strategies</a></h3>
+<div class="paragraph">
+<p>Plugin testing is the most important shortcoming in Gradle plugin development.
+Unfortunately, writing tests are the only way to ensure high-quality plugins.
+Our plugins support test coverage across several Gradle versions.
+As part of this release, we include three common testing strategies: minimum supported Gradle version, latest released Gradle, and latest nightly.
+Have a look at the <a href="https://nokee.dev/docs/nightly/samples/gradle-plugin-development-with-testing-strategies/">testing strategies sample</a> to learn more.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="testing-strategies-build-scan.png" alt="Build scan showing the testing strategy-aware testing">
+</div>
+</div>
+<div class="paragraph">
+<p>You can select the testing strategy from IntelliJ.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="testing-strategies-inside-idea.png" alt="Idea windows showing how to select a specific testing strategy">
+</div>
+</div>
+<div class="paragraph">
+<p>Extracted from the Gradle codebase, our plugins offer complementary test fixtures for common assertions, e.g. content of archives, files, Maven repositories.
+These test fixtures work in tandem with those provided by the Gradle team and already available: <code>ProjectBuilder</code> and Gradle TestKit.
+An early preview is <a href="https://nokee.dev/docs/nightly/manual/gradle-plugin-development.html#sec:gradle-dev-gradle-fixtures">now available for trial</a>, and <a href="https://github.com/gradle-plugins/toolbox/issues">your feedback</a> will help us prioritize future release features.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generate_groovydoc_jar"><a class="anchor" href="#generate_groovydoc_jar"></a><a class="link" href="#generate_groovydoc_jar">Generate Groovydoc JAR</a></h3>
+<div class="paragraph">
+<p>Our Groovy development plugin enables the creation and publication of the Groovydoc JAR via the <code>groovy</code> extension on <code>gradlePlugin</code>.
+It automatically registers the Groovydoc JAR as an outgoing artifact for the project.
+Gradle will then publish the JAR side-by-side with your other plugin artifacts.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 3. Creating Groovydoc JAR for Gradle plugins</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+    id 'dev.gradleplugins.groovy-gradle-plugin' version '1.0.0'
+}
+
+gradlePlugin {
+    groovy {
+        withGroovydocJar()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
+    id("dev.gradleplugins.groovy-gradle-plugin") version("1.0.0")
+}
+
+gradlePlugin {
+    groovy {
+        withGroovydocJar()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="whats_next"><a class="anchor" href="#whats_next"></a><a class="link" href="#whats_next">What&#8217;s next?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://nokee.dev/docs/nightly/samples/#sec:samples-gradle-dev">Try</a>, share, <a href="https://github.com/nokeedev/gradle-native/issues">exchange your ideas and suggestion</a>.
+The Nokee team is eagerly awaiting your feedback!</p>
+</div>
+<div class="paragraph">
+<p>We have a lot more features to come soon!
+Please vote for your favourite to help us prioritize which feature to deliver first in our next release.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="https://github.com/gradle-plugins/toolbox/issues/8">Add compatibility information to the JAR plugin</a></dt>
+<dd>
+<p>Help diagnose incompatible plugins in future releases.</p>
+</dd>
+<dt class="hdlist1"><a href="https://github.com/gradle-plugins/toolbox/issues/9">Helpful runtime message for incompatible environments</a></dt>
+<dd>
+<p>Improve user experience and promote plugin adoptions.</p>
+</dd>
+<dt class="hdlist1"><a href="https://github.com/gradle-plugins/toolbox/issues/10">Improve the modularization of the Gradle fixtures</a></dt>
+<dd>
+<p>Use the Gradle fixtures with any testing framework.</p>
+</dd>
+<dt class="hdlist1"><a href="https://github.com/gradle-plugins/toolbox/issues/11">Allow testing strategy for specific Gradle version</a></dt>
+<dd>
+<p>Offer more coverage options to plugin authors.</p>
+</dd>
+<dt class="hdlist1"><a href="https://github.com/gradle-plugins/toolbox/issues/12">Add cross-JVM testing strategies</a></dt>
+<dd>
+<p>Improve the plugin testing coverage across JDKs.</p>
+</dd>
+<dt class="hdlist1"><a href="https://github.com/gradle-plugins/toolbox/issues/13">Formalize well-behaving test suite for tasks and plugins</a></dt>
+<dd>
+<p>Ensure a baseline quality for all plugins.</p>
+</dd>
+<dt class="hdlist1"><a href="https://github.com/gradle-plugins/toolbox/issues/14">Support low-ceremony plugin development</a></dt>
+<dd>
+<p>Quick and easy creation of plugins by removing the majority of a plugin project setup steps.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p><a href="#disqus_thread">Leave a comment below</a>, write us on the <a href="https://gradle-community.slack.com/">Gradle community Slack</a> or email us at <a href="mailto:hello@nokee.dev">hello@nokee.dev</a>.</p>
+</div>
+</div>
+</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="push"></div>
+
+	<!-- Begin Mailchimp Signup Form -->
+	<p style="text-align:center">Stay on top of new features and news by subscribing:</p>
+	<div id="mc_embed_signup">
+		<form action="https://dev.us4.list-manage.com/subscribe/post?u=c1b91750dbe075432c8729552&amp;id=93402e2466" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+			<div id="mc_embed_signup_scroll">
+
+			<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+			<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+			<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_c1b91750dbe075432c8729552_93402e2466" tabindex="-1" value=""></div>
+			<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+			</div>
+			<small>* We will never send spam, and you can unsubscribe at any time</small>
+		</form>
+	</div>
+
+	<!--End mc_embed_signup-->
+
+	<!-- Start of comment -->
+	<div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+    */
+    var disqus_config = function () {
+    this.page.url = 'https://blog.nokee.dev/introducing-gradle-toolbox/index.html';
+    this.page.identifier = 'introducing-gradle-toolbox';
+    };
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://nokeedev.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<div id="push"></div>
+
+		<div id="footer">
+			<div class="container">
+				<p class="muted credit">&copy; 2020</p>
+			</div>
+		</div>
+
+		<gdpr-banner></gdpr-banner>
+<script src="/js/gdpr-banner.js" type="module"></script>
+
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="../js/prettify.js"></script>
+		<script src="../js/multi-language-sample.js"></script>
+
+	</body>
+
+</html>
