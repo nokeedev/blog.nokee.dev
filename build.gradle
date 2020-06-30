@@ -56,6 +56,13 @@ def robotsTask = tasks.register('robots', GenerateRobots) {
 }
 tasks.named('site', Sync) { from(robotsTask.flatMap { it.generatedRobotsFile }) }
 
+tasks.named('site', Sync) {
+	doLast {
+		new File(destinationDir, '.nojekyll').createNewFile()
+		new File(destinationDir, 'CNAME').text = 'blog.nokee.dev\n'
+	}
+}
+
 tasks.register('publish', PublishToGitHubPages) {
 	def siteTask = tasks.named('site', Sync)
 	publishDirectory.fileProvider(siteTask.map { it.destinationDir })
