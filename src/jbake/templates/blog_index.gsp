@@ -13,7 +13,7 @@
 		<p>Don't wait and subscribe to the <a href="${config.feed_host}/${config.feed_file}">feed</a>.</p>
 	</div>
 	<%published_blog_posts.each {post ->%>
-		<a href="/blog/${post.permalink}"><h2>${post.title}</h2></a>
+		<a href="/${post.permalink}"><h2>${post.title}</h2></a>
 		<p>${new java.text.SimpleDateFormat("yyyy MMMM dd", Locale.ENGLISH).format(post.date)}</p>
 	<%}%>
 

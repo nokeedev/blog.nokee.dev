@@ -1,0 +1,34 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: what-is-the-latest-nokee-version
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-id: {jbake-permalink}
+= What's the latest Nokee version?
+Daniel Lacasse
+2020-09-07
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: blog
+:jbake-description: Find out how to stay up-to-date with the latest Nokee versions.
+:jbake-leadimage: what-is-the-latest-nokee-version-small.png
+:jbake-leadimagealt: What's the latest Nokee version?
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+As more users adopt Nokee for building their native codebases, we often get asked what's the latest version they can try.
+As part of an effort to answer this question, we introduce a web service available at link:https://services.nokee.dev[services.nokee.dev].
+The service aims at gathering useful information about Nokee.
+It also lay the groundwork for tighter integration with Gradle, which we will announce shortly.
+
+At the moment, we expose version information about the link:https://services.nokee.dev/versions/latest-snapshot.json[latest snapshot], link:https://services.nokee.dev/versions/current.json[latest release] and link:https://services.nokee.dev/versions/all.json[all available versions].
+We update the data daily.
+If you have neat ideas or want to improve this web service, feel free to link:https://github.com/nokeedev/services.nokee.dev[open issues or contribute to the GitHub repository].
+
+Stay tuned for more information about the upcoming Nokee release.

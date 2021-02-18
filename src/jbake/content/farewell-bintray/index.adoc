@@ -1,0 +1,63 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: farewell-bintray
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-id: {jbake-permalink}
+= Farewell Bintray...
+Daniel Lacasse
+2021-02-16
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: blog
+:jbake-description: Introducing our new artifact repositories for Nokee.
+:jbake-leadimage: farewell-bintray-small.png
+:jbake-leadimagealt: Farewell Bintray
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+On February 3rd, link:https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/[JFrog announced the sunset of Bintray and JCenter services].
+This news is particularly devastating as we depended on those services to release our hard work to you, our fantastic users.
+We are committed to offering our plugins and libraries without interruption, which is why solving this issue became our top priority.
+
+We maintain two major artifact groups:
+
+* link:https://github.com/nokeedev[`dev.nokee`]: a suite of Gradle plugins for painless native development
+* link:https://github.com/gradle-plugins[`dev.gradleplugins`]: a suite of Gradle plugins and libraries for accelerated Gradle plugin development.
+
+Moving forward, we will host the artifacts for both groups on our servers.
+Unfortunately, we won't release the subsequent versions simultaneously into the central plugin portal until link:https://github.com/gradle/plugin-portal-requests/issues/78[the Gradle team provide more guidance to the plugin development community].
+See the link:https://repo.nokee.dev[repositories landing page] for more information on how to configure your Gradle build.
+
+The following is a rundown of the replacement URLs for our Bintray repositories:
+
+* https://repo.nokee.dev/release contains the artifacts from the following Bintray repositories:
+  - hxxps://dl.bintray.com/nokeedev/distributions
+  - hxxps://dl.bintray.com/nokeedev/distributions-initialization
+  - hxxps://dl.bintray.com/gradle-plugins/distributions
+* https://repo.nokee.dev/snapshot contains the artifacts from the following Bintray repository:
+  - hxxps://dl.bintray.com/nokeedev/distributions-snapshots
+
+In general, the migration process is as simple as updating the repositories to their new locations.
+However, some of our plugins have internal dependencies to Bintray, e.g. they configure repositories for the projects.
+We recommend updating the following plugins to the minimum specified version:
+
+* `dev.gradleplugins.java-gradle-plugin` -> 1.2.1 (with link:https://github.com/gradle-plugins/toolbox/#usage[repository in `pluginManagement`])
+* `dev.gradleplugins.groovy-gradle-pluign` -> 1.2.1 (with link:https://github.com/gradle-plugins/toolbox/#usage[repository in `pluginManagement`])
+* `dev.gradleplugins.gradle-plugin-development` -> 1.2.1 (with link:https://github.com/gradle-plugins/toolbox/#usage[repository in `pluginManagement`])
+* `dev.gradleplugins.gradle-plugin-unit-test` -> 1.2.1 (with link:https://github.com/gradle-plugins/toolbox/#usage[repository in `pluginManagement`])
+* `dev.gradleplugins.gradle-plugin-functional-test` -> 1.2.1 (with link:https://github.com/gradle-plugins/toolbox/#usage[repository in `pluginManagement`])
+* Nokee init plugin -> use the link:https://raw.githubusercontent.com/nokeedev/init.nokee.dev/main/nokee.init.gradle[latest version] according to the link:https://github.com/nokeedev/init.nokee.dev/#usage[usage documentation].
+
+There are still more than two months before the service is wholly decommissioned; however, we urge our users to take the time now and proceed with a migration to the new repository locations.
+All new versions of our plugins and libraries will be released only in our repositories.
+If you have any questions regarding this migration, please sends us an email to bintray-migration@nokee.dev.
+
+We are working on deeper integration with Gradle removing your need to manage those repositories manually.
+Stay tuned.

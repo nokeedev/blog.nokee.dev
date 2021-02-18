@@ -1,0 +1,185 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: introducing-language-source-set
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-id: {jbake-permalink}
+= Introducing Language Source Set
+Daniel Lacasse
+2020-10-19
+:jbake-type: blog_post
+:jbake-status: unpublished
+:jbake-tags: blog
+:jbake-description: Introducing new plugins to help developing Gradle plugins.
+:jbake-leadimage: announcement-toolbox-small.png
+:jbake-leadimagealt: Gradle Plugin Toolbox Announcement
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+As we are putting the final touch on the next Nokee release, we want to introduce the amazing new features already available in the latest snapshot.
+Today we will focus on introducing the source set concept used by Nokee.
+If you are familiar with link:{gradle-user-manual}/building_java_projects.html#sec:java_source_sets[Gradle source set modelling] you will feel right at home.
+We preferred implementing our own source set model as Gradle's implementation focus heavily on JVM languages and doesn't allow extension.
+
+//Each Nokee's source aware components offers a source set view that you can use to access all source set declared:
+Chaque extension offer par Nokee contient une vue de tous les source sets disponible.
+Nokee support plusieurs façon de configurer les source sets selon vos besoins.
+Par example, vous pouvez configurer les sources par type:
+
+```
+plugins {
+    id 'dev.nokee.jni-library'
+    id 'dev.nokee.c-language'
+    id 'java'
+}
+
+library {
+    sources.configureEach(CSourceSet) {
+        from("src/${it.name}")
+    }
+}
+```
+
+Il est également possible de configurer les source set par leur nom:
+
+```
+plugins {
+    id 'dev.nokee.swift-library'
+}
+
+library {
+    sources.configure("swift") {
+        from('srcs')
+    }
+}
+```
+
+Pour les composantes à language unique, comme une library écrite en C ou une application iOS écrite en Swift, les source sets prédéfinit sont accessible par l'intermédiaire de getter.
+Afin de faciliter la transition entre le model de Gradle and celui de Nokee, nous offrons également la possibility de configurer les source set prédéfinit par l'intermédiaire d'action de configuration.
+
+```
+plugins {
+    id 'dev.nokee.cpp-application'
+}
+
+application {
+    cppSources.from('srcs')
+    privateHeaders {
+        from('includes')
+    }
+}
+```
+
+Focusons maintenant sur les trois cas d'usage principaux des source set, soit source files globing, individual source files picking and generated sources.
+
+IMPORTANT: We are not going to debate between between globing source files vs cherry-picking them individually as Nokee accommodates both approach to component source declaration.
+
+== Source Globing
+
+Certain utilisateurs sont familier avec les model FileCollection et FileTree offer par Gradle.
+Vous serez heureux d'apprendre que nos source sets accept ces deux models comment entré:
+
+```
+plugins {
+    id 'dev.nokee.cpp-application'
+}
+
+application {
+    cppSources.from(fileTree('src') { include('my-app').exclude('**/*Test.cpp') })
+    privateHeaders {
+        from(files('includes/common', 'src/my-app'))
+    }
+}
+```
+
+== Cherry-picking
+
+Parfois, nous voulons inclure chaque fichier individuellement.
+Pour ce faire, il suffit de passer les fichiers voulue lors de la configuration du source set:
+
+```
+plugins {
+    id 'dev.nokee.c-library'
+}
+
+library {
+    cSources.from('srcs/foo.c', 'srcs/bar.c')   // <1>
+    cSources.from(file('srcs/common.c'))        // <2>
+    publicHeaders.from(rootProject.file('includes')) // <3>
+    privateHeaders.from(layout.projectDirectory.dir('includes')) // <4>
+}
+```
+<1> You can specify multiple files at the same time as relative path from the current project.
+<2> You can specify `File` instance.
+<3> You can specify `File` instance relative to another project, such as rootProject.
+<4> You can specify `Directory` and `RegularFile` instance as well.
+
+== Generated sources
+
+Grâce au handling hors-pair des fichiers par Gradle, l'ajout de source généré est très simple.
+Les source sets de Nokee support les dépendance de taches implicite offer par `FileCollection`, `FileTree` et Provider` API.
+
+```
+plugins {
+    id 'dev.nokee.cpp-application'
+}
+
+def generatedHeaders = tasks.register('generate') {
+    def outputFile = layout.buildDirectory.file('common.h')
+
+    inputs.property('version', project.version) // <1>
+    outputs.file(outputFile)                    // <2>
+
+    doLast {
+        outputFile.asFile.get().text = "#define PROJECT_VERSION ${project.version}" // <3>
+    }
+}
+
+application {
+    privateHeaders.from(generatedHeaders) // <4>
+}
+```
+<1> Declare task inputs for up-to-date checks.
+<2> Declare task outputs for up-to-date checks and exposing the headers generated by the tasks.
+<3> Generate the header file.
+<4> Use the output files of the tasks as source set files.
+
+Afin d'utiliser le header générer, il suffit de l'inclure dans le code de votre application:
+
+```
+#include <iostream>
+#include "common.h"
+
+int main() {
+  std::cout << "Project version is " << PROJECT_VERSION << "!" << std::endl;
+  return 0;
+}
+```
+
+Les source set offer par Nokee s'occupe de correctement connecter les tâches ensemble ainsi que d'identifier le include root nécessaire à utiliser lors de la compilation.
+
+== Conventional on-disk layout
+
+Nokee utilise le même on-disk layout que Gradle pour tous les source sets, c-a-d, Nokee assume que tous les sources se retrouve sous le dossier `src` grouper par composantes.
+Pour chaque composante, les sources sont subdiviser dans un dossier portant le nom du source set.
+Par example, les sources d'une application C++ se trouve par convention dans le dossier `src/main/cpp`.
+
+// TODO: image
+
+Ceci n'est qu'une convention.
+Elle est automatiquement remplacer par les configuration respective des source sets.
+
+== IDE support
+
+Nokee expose automatiquement tous les fichiers des source sets dans les IDE workspace généré.
+Que les sources soit générer, suivant la convention établie par Nokee ou tout simplement un pêle mêle de sources, ils seront tous bien organizer dans les projects du IDE selon les composantes auquel elles appartienent.
+
+// TODO: Image de Xcode avec sources
+
+

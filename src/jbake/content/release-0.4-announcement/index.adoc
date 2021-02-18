@@ -15,7 +15,7 @@
 Daniel Lacasse
 2020-06-29
 :jbake-type: blog_post
-:jbake-status: unpublished
+:jbake-status: published
 :jbake-tags: blog
 :jbake-description: Announcing release 0.4 of the Nokee plugin suite.
 :jbake-leadimage: release-announcement-small.png
@@ -45,7 +45,7 @@ We also took a different direction than the native plugins developed by the Grad
 The Gradle core plugins never instantiate unbuildable variants, making them impossible to access during the configuration phase.
 It's a struggle point when adopting these new plugins for intermediate use cases.
 As part of this release, the Nokee plugins will instantiate all variants as required.
-It makes use cases like link:docs/0.4.0/samples/jni-library-with-pre-built-binaries[using previously built binaries when the local environment cannot produce the binaries possible].
+It makes use cases like link:/docs/0.4.0/samples/jni-library-with-pre-built-binaries[using previously built binaries when the local environment cannot produce the binaries possible].
 
 == New native plugins
 
@@ -68,9 +68,6 @@ Head over to the link:/docs/nightly/manual/gradle-plugin-development[user manual
 The iOS support got a new plugin to link:/docs/0.4.0/samples/swift-ios-application[build applications written in Swift].
 Due to the lack of cross-compilation support in the core Gradle infrastructure, dependencies on libraries didn't make it in this release.
 However, we are hard at work in improving our supporting infrastructure.
-
-Unfortunately, dependencies on libraries didn't make it in this release mostly due to the lack of cross-compilation support in the core Gradle infrastructure.
-The next releases will move away from the core toolchain infrastructure to allow more flexibility and better configuration.
 
 == What's Next?
 

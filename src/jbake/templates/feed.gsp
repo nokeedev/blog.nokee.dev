@@ -12,7 +12,7 @@
 		<%published_blog_posts.each {post -> %>
 		<item>
 			<title>${post.title}</title>
-			<link>${config.site_host}/blog/${post.permalink}</link>
+			<link>${config.feed_host}/${post.permalink}</link>
 			<pubDate>${new java.text.SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH).format(post.date)}</pubDate>
 			<guid isPermaLink="false">blog/${post.permalink}</guid>
 			<description>

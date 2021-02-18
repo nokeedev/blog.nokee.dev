@@ -1,72 +1,25 @@
-import dev.nokee.docs.SecretValue
-import dev.nokee.docs.jbake.plugins.JBakeStaleOutputCleanupPlugin
-import dev.nokee.docs.tasks.GenerateRobots
-import dev.nokee.docs.tasks.GenerateSitemap
-import dev.nokee.docs.tasks.PublishToGitHubPages
-import org.jbake.gradle.JBakeTask
-
-import static dev.nokee.docs.Filters.asCanonicalPaths
-import static dev.nokee.docs.Filters.findAllHtmlFiles
-import static dev.nokee.docs.Filters.toFiles
-import static dev.nokee.docs.Filters.toSitemapUrl
-import static dev.nokee.docs.Filters.withHost
-import static dev.nokee.docs.Filters.withoutRedirectionPages
-import static dev.nokee.docs.RepositoryUtils.nokeeDocumentation
-
-// Required because of source dependencies
-buildscript {
-	repositories {
-		maven { url = 'https://repo.eclipse.org/content/groups/releases/' }
-		mavenCentral()
-	}
-	dependencies {
-		classpath 'dev.nokee.docs:docs-gradle-plugins:latest.integration'
-	}
-}
 plugins {
-	id 'org.jbake.site' version '5.2.0'
+	id 'dev.gradleplugins.documentation.github-pages-site' version '1.0.4'
+	id 'dev.gradleplugins.documentation.jbake-render' version '1.0.4'
 }
-apply plugin: 'dev.nokee.documentation.jbake-ingredients'
-apply plugin: JBakeStaleOutputCleanupPlugin
 
 repositories {
-	maven(nokeeDocumentation())
+	mavenCentral()
+	maven {
+		name 'docsNokeeDev'
+		url = 's3://docs.nokee.dev'
+		credentials(AwsCredentials)
+	}
 }
 
 dependencies {
+	assets 'dev.nokee.docs:jbake:latest.integration'
 	templates 'dev.nokee.docs:jbake:latest.integration'
 	configuration 'dev.nokee.docs:jbake:latest.integration'
 }
 
-def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
-	group = 'documentation'
-	generatedSitemapFile = file('build/tmp/sitemap/sitemap.xml')
-	sitemapUrls.addAll(configurations.baked.incoming.files.elements
-		.map { toSitemapUrl(withHost('blog.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles(toFiles(it)))))) })
-	sitemapUrls.addAll(tasks.named('bake', JBakeTask).map {
-		toSitemapUrl(withHost('blog.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles([it.output])))))
-	})
-}
-tasks.named('site', Sync) { from(sitemapTask.flatMap { it.generatedSitemapFile }) }
-
-def robotsTask = tasks.register('robots', GenerateRobots) {
-	group = 'documentation'
-	host = 'docs.nokee.dev'
-	generatedRobotsFile = file('build/tmp/robots/robots.txt')
-}
-tasks.named('site', Sync) { from(robotsTask.flatMap { it.generatedRobotsFile }) }
-
-tasks.named('site', Sync) {
-	doLast {
-		new File(destinationDir, '.nojekyll').createNewFile()
-		new File(destinationDir, 'CNAME').text = 'blog.nokee.dev\n'
-	}
-}
-
-tasks.register('publish', PublishToGitHubPages) {
-	def siteTask = tasks.named('site', Sync)
-	publishDirectory.fileProvider(siteTask.map { it.destinationDir })
-	uri = uri("https://github.com/nokeedev/blog.nokee.dev.git")
-	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key').orDefault('nokeedevbot') }
-	gitHubSecret = providers.of(SecretValue) { it.parameters.from('GITHUB_TOKEN').or('dev.nokee.github.secret') }
+site {
+	customDomain = subdomain('blog.nokee.dev')
+	repositorySlug = 'nokeedev/blog.nokee.dev'
+	sources.from(jbake.destinationDirectory)
 }
