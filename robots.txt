@@ -1,2 +1,2 @@
 User-agent: *
-sitemap: https://docs.nokee.dev/sitemap.xml
+sitemap: https://blog.nokee.dev/sitemap.xml

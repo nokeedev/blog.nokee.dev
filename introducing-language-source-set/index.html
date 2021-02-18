@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
-	<title>Hello Native</title>
+	<title>Introducing Language Source Set</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Announcing the Nokee plugin suite, a continuous effort for painless native development in Gradle.">
+<meta name="description" content="Introducing new plugins to help developing Gradle plugins.">
 <meta name="author" content="@nokeedev">
 <meta name="keywords" content="blog">
 
-<link rel="canonical" href="https://blog.nokee.dev/hello-native/">
-<meta property="og:url" content="https://blog.nokee.dev/hello-native/">
+<link rel="canonical" href="https://blog.nokee.dev/introducing-language-source-set/">
+<meta property="og:url" content="https://blog.nokee.dev/introducing-language-source-set/">
 
 
 
@@ -27,8 +27,8 @@
 },{
   "@type": "ListItem",
   "position": 2,
-  "name": "Hello Native",
-  "item": "https://blog.nokee.dev/hello-native/"
+  "name": "Introducing Language Source Set",
+  "item": "https://blog.nokee.dev/introducing-language-source-set/"
 }]
     }]
 </script>
@@ -37,19 +37,19 @@
 
 
 <meta property="og:site_name" content="Nokee">
-<meta property="og:title" content="Hello Native">
-<meta name="og:description" content="Announcing the Nokee plugin suite, a continuous effort for painless native development in Gradle.">
-<meta name="og:image" content="https://blog.nokee.dev/hello-native/hello-native-presentation.png">
+<meta property="og:title" content="Introducing Language Source Set">
+<meta name="og:description" content="Introducing new plugins to help developing Gradle plugins.">
+<meta name="og:image" content="https://blog.nokee.dev/introducing-language-source-set/announcement-toolbox-small.png">
 
 
 <meta name="twitter:site" content="@nokeedev">
 <meta name="twitter:creator" content="@lacasseio">
-<meta name="twitter:title" content="Hello Native">
+<meta name="twitter:title" content="Introducing Language Source Set">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:description" content="Announcing the Nokee plugin suite, a continuous effort for painless native development in Gradle.">
+<meta name="twitter:description" content="Introducing new plugins to help developing Gradle plugins.">
 
-	<meta name="twitter:image" content="https://blog.nokee.dev/hello-native/hello-native-presentation.png">
-	<meta name="twitter:image:alt" content="Announcing the Nokee plugin suite">
+	<meta name="twitter:image" content="https://blog.nokee.dev/introducing-language-source-set/announcement-toolbox-small.png">
+	<meta name="twitter:image:alt" content="Gradle Plugin Toolbox Announcement">
 
 
 
@@ -122,82 +122,245 @@
 
 		<div class="chapter">
 			<div class="header">
-				<img src="hello-native-presentation.png"/>
-				<h1>Hello Native</h1>
-				<p><em>04 February 2020</em></p>
+				<img src="announcement-toolbox-small.png"/>
+				<h1>Introducing Language Source Set</h1>
+				<p><em>19 October 2020</em></p>
 			</div>
 
 			<div class="content">
 				<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>My name is Daniel Lacasse, and I&#8217;m the world&#8217;s most experience build engineer in native (C/C++/Assembly) with Gradle.
-I started my interest in Gradle for native long before I joined Gradle inc.
-It was in <a href="http://gradle.1045684.n5.nabble.com/Offering-Help-for-Native-Support-td5707874.html">May of 2012</a> when I was researching how to replace a massive native <em>frankenbuild system</em> in a previous job.
-In January 2013, I prepared a proof-of-concept (POC) as part of an internal workshop supporting the idea of using Gradle to build our native monolith.
-The catch?
-Gradle didn&#8217;t have any of the native features we needed.
-Despite this shortcoming, it was accepted unanimously as the step forward to alleviate our pain.
-Yeah, my POC was that impressive!
-It was the start of my long journey in becoming a world-class Gradle engineer advocating for native support.</p>
+<p>As we are putting the final touch on the next Nokee release, we want to introduce the amazing new features already available in the latest snapshot.
+Today we will focus on introducing the source set concept used by Nokee.
+If you are familiar with <a href="https://docs.gradle.org/6.2.1/userguide/building_java_projects.html#sec:java_source_sets">Gradle source set modelling</a> you will feel right at home.
+We preferred implementing our own source set model as Gradle&#8217;s implementation focus heavily on JVM languages and doesn&#8217;t allow extension.</p>
+</div>
+<div class="paragraph">
+<p>Chaque extension offer par Nokee contient une vue de tous les source sets disponible.
+Nokee support plusieurs façon de configurer les source sets selon vos besoins.
+Par example, vous pouvez configurer les sources par type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>plugins {
+    id 'dev.nokee.jni-library'
+    id 'dev.nokee.c-language'
+    id 'java'
+}
+
+library {
+    sources.configureEach(CSourceSet) {
+        from("src/${it.name}")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il est également possible de configurer les source set par leur nom:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>plugins {
+    id 'dev.nokee.swift-library'
+}
+
+library {
+    sources.configure("swift") {
+        from('srcs')
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pour les composantes à language unique, comme une library écrite en C ou une application iOS écrite en Swift, les source sets prédéfinit sont accessible par l&#8217;intermédiaire de getter.
+Afin de faciliter la transition entre le model de Gradle and celui de Nokee, nous offrons également la possibility de configurer les source set prédéfinit par l&#8217;intermédiaire d&#8217;action de configuration.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>plugins {
+    id 'dev.nokee.cpp-application'
+}
+
+application {
+    cppSources.from('srcs')
+    privateHeaders {
+        from('includes')
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Focusons maintenant sur les trois cas d&#8217;usage principaux des source set, soit source files globing, individual source files picking and generated sources.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+We are not going to debate between between globing source files vs cherry-picking them individually as Nokee accommodates both approach to component source declaration.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="quick_history_lesson"><a class="anchor" href="#quick_history_lesson"></a><a class="link" href="#quick_history_lesson">Quick history lesson</a></h2>
+<h2 id="source_globing"><a class="anchor" href="#source_globing"></a><a class="link" href="#source_globing">Source Globing</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Following the success of my POC, I wrote and directed the statement of work that became the native support introduced in the Gradle 1.x releases (see the release notes for
-<a href="https://docs.gradle.org/1.7/release-notes.html#major-improvements-to-c++-project-support">1.7</a>,
-<a href="https://docs.gradle.org/1.8/release-notes.html#create-native-libraries-and-executables-from-c-and-assembler-sources">1.8</a>,
-<a href="https://docs.gradle.org/1.9/release-notes.html#build-multiple-variants-of-a-native-binary">1.9</a>,
-<a href="https://docs.gradle.org/1.10/release-notes.html#incremental-compile-for-c++-and-c-sources">1.10</a>,
-<a href="https://docs.gradle.org/1.11/release-notes.html#choose-applicable-platforms,-build-types-and-flavors-for-a-native-component">1.11</a>, and
-<a href="https://docs.gradle.org/1.12/release-notes.html#customise-clang-compiler-tool-chain">1.12</a>).
-The final result was <a href="https://youtu.be/KZdgxKe9wO8">presented at the Gradle Summit 2014</a>.
-It was also the <a href="https://docs.gradle.org/1.11/release-notes.html#changed-dsl-and-model-for-native-binary-components">beginning of what is known today as the software model</a>.
-Spoiler alert, <a href="https://blog.gradle.org/state-and-future-of-the-gradle-software-model">the software model is phasing out</a>.
-I extended the core native plugins in incredible ways adding support for remote testing, artifact publication, artifact promotion, unattended provisioning of the Windows SDK, <a href="https://developers.google.com/protocol-buffers">Protocol Buffers</a>, <a href="http://www.doxygen.nl/">Doxygen</a>, and many more supporting technologies for native.
-The massive success I got out of Gradle was just the tip of the potential iceberg Gradle had to offer.
-In 2016, I joined Gradle inc. to help improve the native support.
-Shortly after, I was the bearer of bad news for the Gradle community <a href="https://www.youtube.com/watch?v=o0uH52TEZvo&amp;feature=youtu.be&amp;t=2947">announcing the phase-out of the software model</a>.
-I felt personally responsible for the disruption this news brought to the build engineers that, just like me, were praising and centralizing their development around it.
-I transitioned to the C++ and Swift revival of the core native support development.
-The approach and feature set were extremely promising (see <a href="https://blog.gradle.org/introducing-the-new-cpp-plugins">here</a>, <a href="https://blog.gradle.org/update-on-the-new-cpp-plugins">here</a> and <a href="https://blog.gradle.org/introducing-the-swift-plugins">here</a>).
-Unfortunately, the effort was short-lived.</p>
+<p>Certain utilisateurs sont familier avec les model FileCollection et FileTree offer par Gradle.
+Vous serez heureux d&#8217;apprendre que nos source sets accept ces deux models comment entré:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>plugins {
+    id 'dev.nokee.cpp-application'
+}
+
+application {
+    cppSources.from(fileTree('src') { include('my-app').exclude('**/*Test.cpp') })
+    privateHeaders {
+        from(files('includes/common', 'src/my-app'))
+    }
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="what_is_nokee"><a class="anchor" href="#what_is_nokee"></a><a class="link" href="#what_is_nokee">What is Nokee?</a></h2>
+<h2 id="cherry_picking"><a class="anchor" href="#cherry_picking"></a><a class="link" href="#cherry_picking">Cherry-picking</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Nokee is a blank slate, a fresh start, lessons learned from mistakes and, most importantly, a path forward to bring a grand vision to reality.
-It is, first and foremost, a continuous effort for native support in Gradle where I will dedicate the majority of my time nurturing the native ecosystem of Gradle.
-Second, it will be a set of high-quality Gradle plugins to enhance and work in tandem with the core native plugins.
-Fear not, the plugins will be compatible with the Gradle core plugins, and a clear migration path will be communicated where needed.
-The focus will be around improving the shortcoming of the current core plugins.</p>
+<p>Parfois, nous voulons inclure chaque fichier individuellement.
+Pour ce faire, il suffit de passer les fichiers voulue lors de la configuration du source set:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>plugins {
+    id 'dev.nokee.c-library'
+}
+
+library {
+    cSources.from('srcs/foo.c', 'srcs/bar.c')   <i class="conum" data-value="1"></i><b>(1)</b>
+    cSources.from(file('srcs/common.c'))        <i class="conum" data-value="2"></i><b>(2)</b>
+    publicHeaders.from(rootProject.file('includes')) <i class="conum" data-value="3"></i><b>(3)</b>
+    privateHeaders.from(layout.projectDirectory.dir('includes')) <i class="conum" data-value="4"></i><b>(4)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>You can specify multiple files at the same time as relative path from the current project.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>You can specify <code>File</code> instance.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>You can specify <code>File</code> instance relative to another project, such as rootProject.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>You can specify <code>Directory</code> and <code>RegularFile</code> instance as well.</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="how_can_you_help"><a class="anchor" href="#how_can_you_help"></a><a class="link" href="#how_can_you_help">How can you help?</a></h2>
+<h2 id="generated_sources"><a class="anchor" href="#generated_sources"></a><a class="link" href="#generated_sources">Generated sources</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You may be as excited as me and wonder how you can help.
-You can provide feedback by <a href="#disqus_thread">commenting on posts like this one</a>, send an email to <a href="mailto:hello@nokee.dev">hello@nokee.dev</a>, <a href="https://discuss.gradle.org/tags/c/help-discuss/14/native">tag your native questions on the Gradle user forum</a> and <a href="https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R">join the discussion in the #native channel over on the Gradle Community Slack</a>.</p>
+<p>Grâce au handling hors-pair des fichiers par Gradle, l&#8217;ajout de source généré est très simple.
+Les source sets de Nokee support les dépendance de taches implicite offer par <code>FileCollection</code>, <code>FileTree</code> et Provider` API.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>plugins {
+    id 'dev.nokee.cpp-application'
+}
+
+def generatedHeaders = tasks.register('generate') {
+    def outputFile = layout.buildDirectory.file('common.h')
+
+    inputs.property('version', project.version) <i class="conum" data-value="1"></i><b>(1)</b>
+    outputs.file(outputFile)                    <i class="conum" data-value="2"></i><b>(2)</b>
+
+    doLast {
+        outputFile.asFile.get().text = "#define PROJECT_VERSION ${project.version}" <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+}
+
+application {
+    privateHeaders.from(generatedHeaders) <i class="conum" data-value="4"></i><b>(4)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Declare task inputs for up-to-date checks.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Declare task outputs for up-to-date checks and exposing the headers generated by the tasks.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Generate the header file.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Use the output files of the tasks as source set files.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Afin d&#8217;utiliser le header générer, il suffit de l&#8217;inclure dans le code de votre application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>#include &lt;iostream&gt;
+#include "common.h"
+
+int main() {
+  std::cout &lt;&lt; "Project version is " &lt;&lt; PROJECT_VERSION &lt;&lt; "!" &lt;&lt; std::endl;
+  return 0;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Les source set offer par Nokee s&#8217;occupe de correctement connecter les tâches ensemble ainsi que d&#8217;identifier le include root nécessaire à utiliser lors de la compilation.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="how_can_you_keep_up_to_date"><a class="anchor" href="#how_can_you_keep_up_to_date"></a><a class="link" href="#how_can_you_keep_up_to_date">How can you keep up-to-date?</a></h2>
+<h2 id="conventional_on_disk_layout"><a class="anchor" href="#conventional_on_disk_layout"></a><a class="link" href="#conventional_on_disk_layout">Conventional on-disk layout</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Maybe the excitement hasn&#8217;t grown on you yet, and you want to keep informed.
-I suggest you watch the <a href="https://github.com/nokeedev">project&#8217;s GitHub organization</a>, <a href="https://feed.nokee.dev/feed.xml">subscribe to the blog&#8217;s atom feed</a>, and <a href="#mc_embed_signup">join the newsletter</a> for future announcements.</p>
+<p>Nokee utilise le même on-disk layout que Gradle pour tous les source sets, c-a-d, Nokee assume que tous les sources se retrouve sous le dossier <code>src</code> grouper par composantes.
+Pour chaque composante, les sources sont subdiviser dans un dossier portant le nom du source set.
+Par example, les sources d&#8217;une application C++ se trouve par convention dans le dossier <code>src/main/cpp</code>.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s make 2020 a Gradle native year!</p>
+<p>Ceci n&#8217;est qu&#8217;une convention.
+Elle est automatiquement remplacer par les configuration respective des source sets.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ide_support"><a class="anchor" href="#ide_support"></a><a class="link" href="#ide_support">IDE support</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nokee expose automatiquement tous les fichiers des source sets dans les IDE workspace généré.
+Que les sources soit générer, suivant la convention établie par Nokee ou tout simplement un pêle mêle de sources, ils seront tous bien organizer dans les projects du IDE selon les composantes auquel elles appartienent.</p>
 </div>
 </div>
 </div>
@@ -233,8 +396,8 @@ I suggest you watch the <a href="https://github.com/nokeedev">project&#8217;s Gi
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
     */
     var disqus_config = function () {
-    this.page.url = 'https://blog.nokee.dev/hello-native/index.html';
-    this.page.identifier = 'hello-native';
+    this.page.url = 'https://blog.nokee.dev/introducing-language-source-set/index.html';
+    this.page.identifier = 'introducing-language-source-set';
     };
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');

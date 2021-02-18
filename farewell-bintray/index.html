@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
-	<title>Introducing Leaf Bird</title>
+	<title>Farewell Bintray&#8230;&#8203;</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Hello, leaf bird! The new logo for Nokee plugins.">
+<meta name="description" content="Introducing our new artifact repositories for Nokee.">
 <meta name="author" content="@nokeedev">
 <meta name="keywords" content="blog">
 
-<link rel="canonical" href="https://blog.nokee.dev/introducing-leaf-bird/">
-<meta property="og:url" content="https://blog.nokee.dev/introducing-leaf-bird/">
+<link rel="canonical" href="https://blog.nokee.dev/farewell-bintray/">
+<meta property="og:url" content="https://blog.nokee.dev/farewell-bintray/">
 
 
 
@@ -27,8 +27,8 @@
 },{
   "@type": "ListItem",
   "position": 2,
-  "name": "Introducing Leaf Bird",
-  "item": "https://blog.nokee.dev/introducing-leaf-bird/"
+  "name": "Farewell Bintray&#8230;&#8203;",
+  "item": "https://blog.nokee.dev/farewell-bintray/"
 }]
     }]
 </script>
@@ -37,19 +37,19 @@
 
 
 <meta property="og:site_name" content="Nokee">
-<meta property="og:title" content="Introducing Leaf Bird">
-<meta name="og:description" content="Hello, leaf bird! The new logo for Nokee plugins.">
-<meta name="og:image" content="https://blog.nokee.dev/introducing-leaf-bird/leaf-bird-announcement-small.png">
+<meta property="og:title" content="Farewell Bintray&#8230;&#8203;">
+<meta name="og:description" content="Introducing our new artifact repositories for Nokee.">
+<meta name="og:image" content="https://blog.nokee.dev/farewell-bintray/farewell-bintray-small.png">
 
 
 <meta name="twitter:site" content="@nokeedev">
 <meta name="twitter:creator" content="@lacasseio">
-<meta name="twitter:title" content="Introducing Leaf Bird">
+<meta name="twitter:title" content="Farewell Bintray&#8230;&#8203;">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:description" content="Hello, leaf bird! The new logo for Nokee plugins.">
+<meta name="twitter:description" content="Introducing our new artifact repositories for Nokee.">
 
-	<meta name="twitter:image" content="https://blog.nokee.dev/introducing-leaf-bird/leaf-bird-announcement-small.png">
-	<meta name="twitter:image:alt" content="New logo for Nokee plugins">
+	<meta name="twitter:image" content="https://blog.nokee.dev/farewell-bintray/farewell-bintray-small.png">
+	<meta name="twitter:image:alt" content="Farewell Bintray">
 
 
 
@@ -122,29 +122,103 @@
 
 		<div class="chapter">
 			<div class="header">
-				<img src="leaf-bird-announcement-small.png"/>
-				<h1>Introducing Leaf Bird</h1>
-				<p><em>07 May 2020</em></p>
+				<img src="farewell-bintray-small.png"/>
+				<h1>Farewell Bintray&#8230;&#8203;</h1>
+				<p><em>16 February 2021</em></p>
 			</div>
 
 			<div class="content">
 				<div class="paragraph">
-<p>While I&#8217;m putting the final touch to the next release packed with impressive features, let&#8217;s take a quick break to welcome our happy leaf bird.</p>
+<p>On February 3rd, <a href="https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/">JFrog announced the sunset of Bintray and JCenter services</a>.
+This news is particularly devastating as we depended on those services to release our hard work to you, our fantastic users.
+We are committed to offering our plugins and libraries without interruption, which is why solving this issue became our top priority.</p>
 </div>
 <div class="paragraph">
-<p>It&#8217;s no surprise that graphic design isn&#8217;t my strong point.
-The first logo, if we can even call it that, was simply the <a href="https://github.blog/2013-08-14-identicons/">GitHub identicon</a> automatically generated when I created the organization.
-It was a placeholder until I find a worthy replacement.
-All this time, it was painful to see how horrible my initial design work was.</p>
+<p>We maintain two major artifact groups:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/nokeedev"><code>dev.nokee</code></a>: a suite of Gradle plugins for painless native development</p>
+</li>
+<li>
+<p><a href="https://github.com/gradle-plugins"><code>dev.gradleplugins</code></a>: a suite of Gradle plugins and libraries for accelerated Gradle plugin development.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>I finally decided to reach out to <a href="https://www.thompsoncreative.co/">Jason Thompson, an awesome designer</a> and a good friend, to help me out on finding the perfect logo for Nokee.
-It didn&#8217;t take long before we narrowed down to this lovely leaf-like bird.
-It gives an excellent narrative to the project, but most importantly, a great emotion.</p>
+<p>Moving forward, we will host the artifacts for both groups on our servers.
+Unfortunately, we won&#8217;t release the subsequent versions simultaneously into the central plugin portal until <a href="https://github.com/gradle/plugin-portal-requests/issues/78">the Gradle team provide more guidance to the plugin development community</a>.
+See the <a href="https://repo.nokee.dev">repositories landing page</a> for more information on how to configure your Gradle build.</p>
 </div>
 <div class="paragraph">
-<p>Stay tuned for the next release.
-If you can&#8217;t wait and want to spoil the surprise, head over to the <a href="/docs/nightly/manual/user-manual.html">nightly documentation</a> to learn more about the next release.</p>
+<p>The following is a rundown of the replacement URLs for our Bintray repositories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://repo.nokee.dev/release" class="bare">https://repo.nokee.dev/release</a> contains the artifacts from the following Bintray repositories:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>hxxps://dl.bintray.com/nokeedev/distributions</p>
+</li>
+<li>
+<p>hxxps://dl.bintray.com/nokeedev/distributions-initialization</p>
+</li>
+<li>
+<p>hxxps://dl.bintray.com/gradle-plugins/distributions</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="https://repo.nokee.dev/snapshot" class="bare">https://repo.nokee.dev/snapshot</a> contains the artifacts from the following Bintray repository:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>hxxps://dl.bintray.com/nokeedev/distributions-snapshots</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In general, the migration process is as simple as updating the repositories to their new locations.
+However, some of our plugins have internal dependencies to Bintray, e.g. they configure repositories for the projects.
+We recommend updating the following plugins to the minimum specified version:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>dev.gradleplugins.java-gradle-plugin</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
+</li>
+<li>
+<p><code>dev.gradleplugins.groovy-gradle-pluign</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
+</li>
+<li>
+<p><code>dev.gradleplugins.gradle-plugin-development</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
+</li>
+<li>
+<p><code>dev.gradleplugins.gradle-plugin-unit-test</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
+</li>
+<li>
+<p><code>dev.gradleplugins.gradle-plugin-functional-test</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
+</li>
+<li>
+<p>Nokee init plugin &#8594; use the <a href="https://raw.githubusercontent.com/nokeedev/init.nokee.dev/main/nokee.init.gradle">latest version</a> according to the <a href="https://github.com/nokeedev/init.nokee.dev/#usage">usage documentation</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There are still more than two months before the service is wholly decommissioned; however, we urge our users to take the time now and proceed with a migration to the new repository locations.
+All new versions of our plugins and libraries will be released only in our repositories.
+If you have any questions regarding this migration, please sends us an email to <a href="mailto:bintray-migration@nokee.dev">bintray-migration@nokee.dev</a>.</p>
+</div>
+<div class="paragraph">
+<p>We are working on deeper integration with Gradle removing your need to manage those repositories manually.
+Stay tuned.</p>
 </div>
 			</div>
 		</div>
@@ -178,8 +252,8 @@ If you can&#8217;t wait and want to spoil the surprise, head over to the <a href
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
     */
     var disqus_config = function () {
-    this.page.url = 'https://blog.nokee.dev/introducing-leaf-bird/index.html';
-    this.page.identifier = 'introducing-leaf-bird';
+    this.page.url = 'https://blog.nokee.dev/farewell-bintray/index.html';
+    this.page.identifier = 'farewell-bintray';
     };
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');

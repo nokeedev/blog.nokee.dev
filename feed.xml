@@ -6,14 +6,235 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Tue, 30 Jun 2020 17:20:17 +0000</pubDate>
-		<lastBuildDate>Tue, 30 Jun 2020 17:20:17 +0000</lastBuildDate>
+		<pubDate>Wed, 17 Feb 2021 22:16:03 -0500</pubDate>
+		<lastBuildDate>Wed, 17 Feb 2021 22:16:03 -0500</lastBuildDate>
 
 		
 		<item>
+			<title>Farewell Bintray&#8230;&#8203;</title>
+			<link>https://feed.nokee.dev/farewell-bintray</link>
+			<pubDate>Tue, 16 Feb 2021 00:00:00 -0500</pubDate>
+			<guid isPermaLink="false">blog/farewell-bintray</guid>
+			<description>
+			&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On February 3rd, &lt;a href=&quot;https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/&quot;&gt;JFrog announced the sunset of Bintray and JCenter services&lt;/a&gt;.
+This news is particularly devastating as we depended on those services to release our hard work to you, our fantastic users.
+We are committed to offering our plugins and libraries without interruption, which is why solving this issue became our top priority.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We maintain two major artifact groups:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/nokeedev&quot;&gt;&lt;code&gt;dev.nokee&lt;/code&gt;&lt;/a&gt;: a suite of Gradle plugins for painless native development&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/gradle-plugins&quot;&gt;&lt;code&gt;dev.gradleplugins&lt;/code&gt;&lt;/a&gt;: a suite of Gradle plugins and libraries for accelerated Gradle plugin development.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Moving forward, we will host the artifacts for both groups on our servers.
+Unfortunately, we won&amp;#8217;t release the subsequent versions simultaneously into the central plugin portal until &lt;a href=&quot;https://github.com/gradle/plugin-portal-requests/issues/78&quot;&gt;the Gradle team provide more guidance to the plugin development community&lt;/a&gt;.
+See the &lt;a href=&quot;https://repo.nokee.dev&quot;&gt;repositories landing page&lt;/a&gt; for more information on how to configure your Gradle build.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The following is a rundown of the replacement URLs for our Bintray repositories:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://repo.nokee.dev/release&quot; class=&quot;bare&quot;&gt;https://repo.nokee.dev/release&lt;/a&gt; contains the artifacts from the following Bintray repositories:&lt;/p&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/nokeedev/distributions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/nokeedev/distributions-initialization&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/gradle-plugins/distributions&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://repo.nokee.dev/snapshot&quot; class=&quot;bare&quot;&gt;https://repo.nokee.dev/snapshot&lt;/a&gt; contains the artifacts from the following Bintray repository:&lt;/p&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/nokeedev/distributions-snapshots&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In general, the migration process is as simple as updating the repositories to their new locations.
+However, some of our plugins have internal dependencies to Bintray, e.g. they configure repositories for the projects.
+We recommend updating the following plugins to the minimum specified version:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.java-gradle-plugin&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.groovy-gradle-pluign&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-development&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-unit-test&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-functional-test&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nokee init plugin &amp;#8594; use the &lt;a href=&quot;https://raw.githubusercontent.com/nokeedev/init.nokee.dev/main/nokee.init.gradle&quot;&gt;latest version&lt;/a&gt; according to the &lt;a href=&quot;https://github.com/nokeedev/init.nokee.dev/#usage&quot;&gt;usage documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are still more than two months before the service is wholly decommissioned; however, we urge our users to take the time now and proceed with a migration to the new repository locations.
+All new versions of our plugins and libraries will be released only in our repositories.
+If you have any questions regarding this migration, please sends us an email to &lt;a href=&quot;mailto:bintray-migration@nokee.dev&quot;&gt;bintray-migration@nokee.dev&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We are working on deeper integration with Gradle removing your need to manage those repositories manually.
+Stay tuned.&lt;/p&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>What&#8217;s the latest Nokee version?</title>
+			<link>https://feed.nokee.dev/what-is-the-latest-nokee-version</link>
+			<pubDate>Mon, 7 Sep 2020 00:00:00 -0400</pubDate>
+			<guid isPermaLink="false">blog/what-is-the-latest-nokee-version</guid>
+			<description>
+			&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As more users adopt Nokee for building their native codebases, we often get asked what&amp;#8217;s the latest version they can try.
+As part of an effort to answer this question, we introduce a web service available at &lt;a href=&quot;https://services.nokee.dev&quot;&gt;services.nokee.dev&lt;/a&gt;.
+The service aims at gathering useful information about Nokee.
+It also lay the groundwork for tighter integration with Gradle, which we will announce shortly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the moment, we expose version information about the &lt;a href=&quot;https://services.nokee.dev/versions/latest-snapshot.json&quot;&gt;latest snapshot&lt;/a&gt;, &lt;a href=&quot;https://services.nokee.dev/versions/current.json&quot;&gt;latest release&lt;/a&gt; and &lt;a href=&quot;https://services.nokee.dev/versions/all.json&quot;&gt;all available versions&lt;/a&gt;.
+We update the data daily.
+If you have neat ideas or want to improve this web service, feel free to &lt;a href=&quot;https://github.com/nokeedev/services.nokee.dev&quot;&gt;open issues or contribute to the GitHub repository&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Stay tuned for more information about the upcoming Nokee release.&lt;/p&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Release 0.4 Announcement</title>
+			<link>https://feed.nokee.dev/release-0.4-announcement</link>
+			<pubDate>Mon, 29 Jun 2020 00:00:00 -0400</pubDate>
+			<guid isPermaLink="false">blog/release-0.4-announcement</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Join us to celebrate the &lt;a href=&quot;/docs/0.4.0/release-notes.html&quot;&gt;fourth version of the Nokee plugins&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Longer than expected release cycle helped leap Nokee forward.
+In this release, we change the configuration model of Nokee plugins, which may potentially break current users.
+We made ten new plugins available for our users to support building native applications/libraries implemented in C, C&amp;#43;&amp;#43;, Objective-C, Objective-C&amp;#43;&amp;#43; and Swift.
+We have also included five additional plugins to enhance the development of Gradle plugins.
+Let&amp;#8217;s explore the release together.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;configuration_model_changes&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#configuration_model_changes&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#configuration_model_changes&quot;&gt;Configuration model changes&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The configuration model of Gradle was a talking subject for many years.
+It started with the zero configuration effort, aimed at minimizing the time spent processing the build script.
+Then, it was the software model, a different configuration model with ambitious goals.
+Now, it&amp;#8217;s all about the configuration cache.
+When completed, it will allow near-instant execution of your Gradle builds.
+As the Gradle&amp;#8217;s configuration cache near its completion, thanks to the fantastic work by the Gradle team, it&amp;#8217;s essential to enable forward compatibility.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release removes our dependency on obsolete Gradle core configuration modelling.
+It gives us more control for our future work required to push the iOS support forward.
+We also took a different direction than the native plugins developed by the Gradle team.
+The Gradle core plugins never instantiate unbuildable variants, making them impossible to access during the configuration phase.
+It&amp;#8217;s a struggle point when adopting these new plugins for intermediate use cases.
+As part of this release, the Nokee plugins will instantiate all variants as required.
+It makes use cases like &lt;a href=&quot;/docs/0.4.0/samples/jni-library-with-pre-built-binaries&quot;&gt;using previously built binaries when the local environment cannot produce the binaries possible&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;new_native_plugins&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#new_native_plugins&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#new_native_plugins&quot;&gt;New native plugins&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release contains ten new plugins for building native!
+They support building native applications and native libraries implemented in C, C&amp;#43;&amp;#43;, Objective-C, Objective-C&amp;#43;&amp;#43;, and Swift.
+These new plugins are similar in features and will improve them over the next releases.
+They will provide parity with all the native language supported by the core Gradle plugins.
+See &lt;a href=&quot;/docs/0.4.0/manual/plugin-references.html#sec:plugin-reference-native-development&quot;&gt;their respective plugin reference chapters&lt;/a&gt; to learn more.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;gradle_plugin_toolbox_version_1_0_announcement&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#gradle_plugin_toolbox_version_1_0_announcement&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#gradle_plugin_toolbox_version_1_0_announcement&quot;&gt;Gradle Plugin Toolbox version 1.0 announcement&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We &lt;a href=&quot;../introducing-gradle-toolbox/&quot;&gt;recently announced the Gradle Plugin Toolbox&lt;/a&gt; to help plugin authors.
+As part of building the Nokee project, we experience every issue of the Gradle plugin development process.
+For this reason, we decided to share our development plugins with everyone.
+It allows testing against multiple Gradle versions as well as targeting specific Gradle APIs.
+Head over to the &lt;a href=&quot;/docs/nightly/manual/gradle-plugin-development&quot;&gt;user manual&lt;/a&gt; to learn more about the Gradle Plugin Toolbox features.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;new_swift_ios_application_support&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#new_swift_ios_application_support&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#new_swift_ios_application_support&quot;&gt;New Swift iOS application support&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The iOS support got a new plugin to &lt;a href=&quot;/docs/0.4.0/samples/swift-ios-application&quot;&gt;build applications written in Swift&lt;/a&gt;.
+Due to the lack of cross-compilation support in the core Gradle infrastructure, dependencies on libraries didn&amp;#8217;t make it in this release.
+However, we are hard at work in improving our supporting infrastructure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;whats_next&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#whats_next&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#whats_next&quot;&gt;What&amp;#8217;s Next?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With release 0.4, we leaped forward.
+Over the next releases, the focus will be on testing, publishing and toolchain support.
+Testing is an important story often overlooked by build systems.
+Our goal is to allow for the most straightforward testing setup as possible.
+Finally, publishing is hard to get right in native.
+We are discussing various scenarios to solve the problem for everyone using Nokee plugins.
+For developers relying on building from sources, we will soon start working on build wrapping stories.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;#disqus_thread&quot;&gt;Leave a comment below&lt;/a&gt; or reach out on the &lt;a href=&quot;https://gradle-community.slack.com/&quot;&gt;Gradle community Slack&lt;/a&gt;.
+If you want to work with us, email us at &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
 			<title>Introducing Gradle Plugin Toolbox</title>
-			<link>https://blog.nokee.dev/blog/introducing-gradle-toolbox</link>
-			<pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/introducing-gradle-toolbox</link>
+			<pubDate>Mon, 22 Jun 2020 00:00:00 -0400</pubDate>
 			<guid isPermaLink="false">blog/introducing-gradle-toolbox</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -342,8 +563,8 @@ Please vote for your favourite to help us prioritize which feature to deliver fi
 		
 		<item>
 			<title>Release 0.3 Announcement</title>
-			<link>https://blog.nokee.dev/blog/release-0.3-announcement</link>
-			<pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/release-0.3-announcement</link>
+			<pubDate>Tue, 12 May 2020 00:00:00 -0400</pubDate>
 			<guid isPermaLink="false">blog/release-0.3-announcement</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -496,8 +717,8 @@ If you want to work with me and drive the iOS support for Gradle forward with yo
 		
 		<item>
 			<title>Introducing Leaf Bird</title>
-			<link>https://blog.nokee.dev/blog/introducing-leaf-bird</link>
-			<pubDate>Thu, 7 May 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/introducing-leaf-bird</link>
+			<pubDate>Thu, 7 May 2020 00:00:00 -0400</pubDate>
 			<guid isPermaLink="false">blog/introducing-leaf-bird</guid>
 			<description>
 			&lt;div class=&quot;paragraph&quot;&gt;
@@ -523,8 +744,8 @@ If you can&amp;#8217;t wait and want to spoil the surprise, head over to the &lt
 		
 		<item>
 			<title>Release 0.2 Announcement</title>
-			<link>https://blog.nokee.dev/blog/release-0.2-announcement</link>
-			<pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/release-0.2-announcement</link>
+			<pubDate>Mon, 20 Apr 2020 00:00:00 -0400</pubDate>
 			<guid isPermaLink="false">blog/release-0.2-announcement</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -725,8 +946,8 @@ The next versions will focus on adding testing strategies for the plugin functio
 		
 		<item>
 			<title>Maven POM DSL</title>
-			<link>https://blog.nokee.dev/blog/maven-pom-dsl</link>
-			<pubDate>Wed, 1 Apr 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/maven-pom-dsl</link>
+			<pubDate>Wed, 1 Apr 2020 00:00:00 -0400</pubDate>
 			<guid isPermaLink="false">blog/maven-pom-dsl</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -1200,8 +1421,8 @@ This plugin is a demonstration, and you shouldn&amp;#8217;t use the plugin in pr
 		
 		<item>
 			<title>Release 0.1 Announcement</title>
-			<link>https://blog.nokee.dev/blog/release-0.1-announcement</link>
-			<pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/release-0.1-announcement</link>
+			<pubDate>Mon, 16 Mar 2020 00:00:00 -0400</pubDate>
 			<guid isPermaLink="false">blog/release-0.1-announcement</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -1311,8 +1532,8 @@ The next phase of the native development by the Nokee team will focus on cross-c
 		
 		<item>
 			<title>iOS Development Poll</title>
-			<link>https://blog.nokee.dev/blog/ios-development-poll</link>
-			<pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/ios-development-poll</link>
+			<pubDate>Thu, 13 Feb 2020 00:00:00 -0500</pubDate>
 			<guid isPermaLink="false">blog/ios-development-poll</guid>
 			<description>
 			&lt;div class=&quot;paragraph&quot;&gt;
@@ -1340,8 +1561,8 @@ However, it could be trivial to wrap another build system inside Gradle to benef
 		
 		<item>
 			<title>Hello Native</title>
-			<link>https://blog.nokee.dev/blog/hello-native</link>
-			<pubDate>Tue, 4 Feb 2020 00:00:00 +0000</pubDate>
+			<link>https://feed.nokee.dev/hello-native</link>
+			<pubDate>Tue, 4 Feb 2020 00:00:00 -0500</pubDate>
 			<guid isPermaLink="false">blog/hello-native</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;

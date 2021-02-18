@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
-	<title>Hello Native</title>
+	<title>Gradle Project Layout</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Announcing the Nokee plugin suite, a continuous effort for painless native development in Gradle.">
+
 <meta name="author" content="@nokeedev">
 <meta name="keywords" content="blog">
 
-<link rel="canonical" href="https://blog.nokee.dev/hello-native/">
-<meta property="og:url" content="https://blog.nokee.dev/hello-native/">
+<link rel="canonical" href="https://blog.nokee.dev/gradle-project-layout/">
+<meta property="og:url" content="https://blog.nokee.dev/gradle-project-layout/">
 
 
 
@@ -27,8 +27,8 @@
 },{
   "@type": "ListItem",
   "position": 2,
-  "name": "Hello Native",
-  "item": "https://blog.nokee.dev/hello-native/"
+  "name": "Gradle Project Layout",
+  "item": "https://blog.nokee.dev/gradle-project-layout/"
 }]
     }]
 </script>
@@ -37,19 +37,16 @@
 
 
 <meta property="og:site_name" content="Nokee">
-<meta property="og:title" content="Hello Native">
-<meta name="og:description" content="Announcing the Nokee plugin suite, a continuous effort for painless native development in Gradle.">
-<meta name="og:image" content="https://blog.nokee.dev/hello-native/hello-native-presentation.png">
+<meta property="og:title" content="Gradle Project Layout">
+
+
 
 
 <meta name="twitter:site" content="@nokeedev">
-<meta name="twitter:creator" content="@lacasseio">
-<meta name="twitter:title" content="Hello Native">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:description" content="Announcing the Nokee plugin suite, a continuous effort for painless native development in Gradle.">
+<meta name="twitter:creator" content="@nokeedev">
+<meta name="twitter:title" content="Gradle Project Layout">
+<meta name="twitter:card" content="summary">
 
-	<meta name="twitter:image" content="https://blog.nokee.dev/hello-native/hello-native-presentation.png">
-	<meta name="twitter:image:alt" content="Announcing the Nokee plugin suite">
 
 
 
@@ -122,83 +119,226 @@
 
 		<div class="chapter">
 			<div class="header">
-				<img src="hello-native-presentation.png"/>
-				<h1>Hello Native</h1>
-				<p><em>04 February 2020</em></p>
+				
+				<h1>Gradle Project Layout</h1>
+				<p><em>30 June 2020</em></p>
 			</div>
 
 			<div class="content">
 				<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>My name is Daniel Lacasse, and I&#8217;m the world&#8217;s most experience build engineer in native (C/C++/Assembly) with Gradle.
-I started my interest in Gradle for native long before I joined Gradle inc.
-It was in <a href="http://gradle.1045684.n5.nabble.com/Offering-Help-for-Native-Support-td5707874.html">May of 2012</a> when I was researching how to replace a massive native <em>frankenbuild system</em> in a previous job.
-In January 2013, I prepared a proof-of-concept (POC) as part of an internal workshop supporting the idea of using Gradle to build our native monolith.
-The catch?
-Gradle didn&#8217;t have any of the native features we needed.
-Despite this shortcoming, it was accepted unanimously as the step forward to alleviate our pain.
-Yeah, my POC was that impressive!
-It was the start of my long journey in becoming a world-class Gradle engineer advocating for native support.</p>
+<p>Most build systems use the file system as the project layout.
+It&#8217;s most notably the case for Make-based build system. <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
+The file system-based project modelling approach is quick and easy to implement.
+It relies on a simple check with the file system, and off the build goes.</p>
+</div>
+<div class="paragraph">
+<p>However, it&#8217;s not a magic solution as it can be.
+What happens when projects are deeply nested?
+Or when we move projects around?
+Or when we deal with legacy tools assuming a specific layout?
+The solutions are often unimaginative and simply work around the core issue.
+For example, native projects often prefer a flat layout.
+Developers split the includes, binaries, and source codes into top-level folders.</p>
+</div>
+<div class="paragraph">
+<p>Gradle has a distinct model for the project layout and on-disk layout.
+By convention, both follow the same layout, e.g. project <code>:foo</code> is in folder <code>foo</code>.
+However, we can configure Gradle to use two different layouts.
+The Nokee project <a href="https://github.com/nokeedev/gradle-native/blob/ceccbc982c571fa6fde913dafb255f19ad64894a/settings.gradle#L52-L54">remap all projects inside the <em>subprojects</em> folders</a>.
+The project folders follow a kebab convention, which differs from the project name, following a lowerCamelCase convention.</p>
+</div>
+<div class="paragraph">
+<p>Gradle doesn&#8217;t stop there.
+We can change the source layout convention, from the well-known Maven layout to something completely different.
+We can relocate the build directory anywhere we want.
+It renders the argument of in-source build vs out-source build irrelevant as Gradle can do both, or an hybrid or something completely crazy.
+The point is, Gradle is much more flexible than everyone is using it.</p>
+</div>
+<div class="paragraph">
+<p>With all this flexibility offered by Gradle, there isn&#8217;t an optimal project layout.
+It depends on your projects.
+Here are some guidelines to help you choose the right project layout.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="quick_history_lesson"><a class="anchor" href="#quick_history_lesson"></a><a class="link" href="#quick_history_lesson">Quick history lesson</a></h2>
+<h2 id="focus_on_what_you_are_building_instead_of_how"><a class="anchor" href="#focus_on_what_you_are_building_instead_of_how"></a><a class="link" href="#focus_on_what_you_are_building_instead_of_how">Focus on <strong>what</strong> you are building instead of <em>how</em></a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Following the success of my POC, I wrote and directed the statement of work that became the native support introduced in the Gradle 1.x releases (see the release notes for
-<a href="https://docs.gradle.org/1.7/release-notes.html#major-improvements-to-c++-project-support">1.7</a>,
-<a href="https://docs.gradle.org/1.8/release-notes.html#create-native-libraries-and-executables-from-c-and-assembler-sources">1.8</a>,
-<a href="https://docs.gradle.org/1.9/release-notes.html#build-multiple-variants-of-a-native-binary">1.9</a>,
-<a href="https://docs.gradle.org/1.10/release-notes.html#incremental-compile-for-c++-and-c-sources">1.10</a>,
-<a href="https://docs.gradle.org/1.11/release-notes.html#choose-applicable-platforms,-build-types-and-flavors-for-a-native-component">1.11</a>, and
-<a href="https://docs.gradle.org/1.12/release-notes.html#customise-clang-compiler-tool-chain">1.12</a>).
-The final result was <a href="https://youtu.be/KZdgxKe9wO8">presented at the Gradle Summit 2014</a>.
-It was also the <a href="https://docs.gradle.org/1.11/release-notes.html#changed-dsl-and-model-for-native-binary-components">beginning of what is known today as the software model</a>.
-Spoiler alert, <a href="https://blog.gradle.org/state-and-future-of-the-gradle-software-model">the software model is phasing out</a>.
-I extended the core native plugins in incredible ways adding support for remote testing, artifact publication, artifact promotion, unattended provisioning of the Windows SDK, <a href="https://developers.google.com/protocol-buffers">Protocol Buffers</a>, <a href="http://www.doxygen.nl/">Doxygen</a>, and many more supporting technologies for native.
-The massive success I got out of Gradle was just the tip of the potential iceberg Gradle had to offer.
-In 2016, I joined Gradle inc. to help improve the native support.
-Shortly after, I was the bearer of bad news for the Gradle community <a href="https://www.youtube.com/watch?v=o0uH52TEZvo&amp;feature=youtu.be&amp;t=2947">announcing the phase-out of the software model</a>.
-I felt personally responsible for the disruption this news brought to the build engineers that, just like me, were praising and centralizing their development around it.
-I transitioned to the C++ and Swift revival of the core native support development.
-The approach and feature set were extremely promising (see <a href="https://blog.gradle.org/introducing-the-new-cpp-plugins">here</a>, <a href="https://blog.gradle.org/update-on-the-new-cpp-plugins">here</a> and <a href="https://blog.gradle.org/introducing-the-swift-plugins">here</a>).
-Unfortunately, the effort was short-lived.</p>
+<p>Identifying the building blocks inside your repository will help create the project layout.
+Whether your organization follows a mono-repo or multi-repo or whatever the on-disk source layout may be, there are always holistic building blocks to your projects.
+Each of those blocks is a project.
+Some of those blocks may only make sense together; make a note of them.</p>
+</div>
+<div class="paragraph">
+<p>Some questions that can help you are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>What kind of component is your build producing? Application? Library? Something else?</p>
+</li>
+<li>
+<p>What are you distributing to your clients? RPM? Zip archives?</p>
+</li>
+<li>
+<p>What is the relationship between your components? 3rd party libraries build from sources? Helper tools?</p>
+</li>
+<li>
+<p>What are the artifacts produced? For other projects? For testing?</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="what_is_nokee"><a class="anchor" href="#what_is_nokee"></a><a class="link" href="#what_is_nokee">What is Nokee?</a></h2>
+<h2 id="make_your_developers_happy"><a class="anchor" href="#make_your_developers_happy"></a><a class="link" href="#make_your_developers_happy">Make your developers happy</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Nokee is a blank slate, a fresh start, lessons learned from mistakes and, most importantly, a path forward to bring a grand vision to reality.
-It is, first and foremost, a continuous effort for native support in Gradle where I will dedicate the majority of my time nurturing the native ecosystem of Gradle.
-Second, it will be a set of high-quality Gradle plugins to enhance and work in tandem with the core native plugins.
-Fear not, the plugins will be compatible with the Gradle core plugins, and a clear migration path will be communicated where needed.
-The focus will be around improving the shortcoming of the current core plugins.</p>
+<p>Identifying which building blocks are essential to your developers will help establish an efficient project layout.
+The developers are the users of the build.
+The build system needs to work with them.
+They also know which projects as well as which actions they require for their daily work.</p>
+</div>
+<div class="paragraph">
+<p>For example, the holistic project layout may favour deep nesting of the projects.
+However, the developer may only care about executing test coverage for a project subset.
+It&#8217;s not about solving the deep nesting of projects but rather providing tasks to allow smooth test coverage execution.
+Or maybe offer an umbrella project that exposes an aggregated set of actions for a subset of projects.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Did you know Gradle creates intermediate projects in your hierarchy?
+For example, <code>include 'a:b:c'</code> creates a project <code>:a</code>, project <code>:a:b</code> and project <code>:a:b:c</code>.
+Project <code>:a</code> could contain convenient tasks that act on its subprojects.
+Then developer could execute <code>./gradlew :a:foo</code> which would apply to project :a:b and project <code>:a:b:c</code>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="how_can_you_help"><a class="anchor" href="#how_can_you_help"></a><a class="link" href="#how_can_you_help">How can you help?</a></h2>
+<h2 id="not_all_projects_needs_a_build_script"><a class="anchor" href="#not_all_projects_needs_a_build_script"></a><a class="link" href="#not_all_projects_needs_a_build_script">Not all projects needs a build script</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You may be as excited as me and wonder how you can help.
-You can provide feedback by <a href="#disqus_thread">commenting on posts like this one</a>, send an email to <a href="mailto:hello@nokee.dev">hello@nokee.dev</a>, <a href="https://discuss.gradle.org/tags/c/help-discuss/14/native">tag your native questions on the Gradle user forum</a> and <a href="https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R">join the discussion in the #native channel over on the Gradle Community Slack</a>.</p>
+<p>Some build systems identify projects by the presence of a build script.
+Gradle configures projects as declared in the settings.gradle[.kts] file.
+Whether the project build script exists or not, the project still exists and is configurable.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Did you know Gradle can inject configuration code inside any projects?
+<code>project(path, Action)</code>, <code>subprojects(Action)</code> and <code>allprojects(Action)</code> are great ways to configure other projects than the currently configuring projects.
+For example, you could use a single build.gradle to configure multiple projects:
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>include 'a:b1'
+include 'a:b2'
+include 'a:b3'</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>project('b1') {
+    //configure b1
+}
+project('b2') {
+    //configure b2
+}
+project('b3') {
+    // configure b3
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You could even model the <code>b*</code> projects inside project <code>:a</code> with an extension.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="how_can_you_keep_up_to_date"><a class="anchor" href="#how_can_you_keep_up_to_date"></a><a class="link" href="#how_can_you_keep_up_to_date">How can you keep up-to-date?</a></h2>
+<h2 id="prefer_convention_over_configuration"><a class="anchor" href="#prefer_convention_over_configuration"></a><a class="link" href="#prefer_convention_over_configuration">Prefer convention-over-configuration</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Maybe the excitement hasn&#8217;t grown on you yet, and you want to keep informed.
-I suggest you watch the <a href="https://github.com/nokeedev">project&#8217;s GitHub organization</a>, <a href="https://feed.nokee.dev/feed.xml">subscribe to the blog&#8217;s atom feed</a>, and <a href="#mc_embed_signup">join the newsletter</a> for future announcements.</p>
+<p>The convention is always much more powerful than configuring each project individually.
+Suppose a C library project is defined by the presence of C source files located by convention in <code>src/main/cpp</code>.
+We could have something like this in the root build script:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>allprojects {
+    if (file('src/main/cpp').exists) {
+        apply plugin: 'dev.nokee.cpp-library'
+    }
+}</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s make 2020 a Gradle native year!</p>
+<p>These four lines of code may apply to 100s of projects.
+There was no need to create <code>build.gradle</code> files in those 100s of projects.</p>
 </div>
+<div class="paragraph">
+<p>Now suppose some of those C++ library projects are in fact applications, we could build a look aside list of those <em>exceptions</em> and barely make the configuration anymore complicated:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>def applicationProjects = [':foo', ':bar']
+allprojects {
+    if (file('src/main/cpp').exists) {
+        if (applicationProjects.contains(path)) {
+            apply plugin: 'dev.nokee.cpp-application'
+        } else {
+            apply plugin: 'dev.nokee.cpp-library'
+        }
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If by convention, application projects have an <code>App</code> suffix, we don&#8217;t need the lookaside list.
+It may be tempting to nest applications and libraries under umbrella projects to allow easy configurations such as <code>project(':lib').subprojects { &#8230;&#8203; }</code>.
+Experience has shown it&#8217;s usually better to avoid this kind of configuration.
+There are some cases where it makes sense.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Did you know each build script is a Turin-complete language?
+You can write modelling code as you see fit.
+For example, suppose your project has 1000s of projects, but they all follow a similar on-disk convention layout.
+You could write a file system walker to discover every project.
+Since Gradle is JVM-based, you can use the <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#walkFileTree-java.nio.file.Path-java.nio.file.FileVisitor-(" class="bare">https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#walkFileTree-java.nio.file.Path-java.nio.file.FileVisitor-(</a><code>Files#walkFileTree</code> API) for this purpose.
+There are some performance considerations, but we can mitigate them one way or another.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. Technically, Make don&#8217;t have a concept of projects, but most developers write their <em>project</em> modelling on top, which are mostly file-based.
 </div>
 </div>
 			</div>
@@ -233,8 +373,8 @@ I suggest you watch the <a href="https://github.com/nokeedev">project&#8217;s Gi
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
     */
     var disqus_config = function () {
-    this.page.url = 'https://blog.nokee.dev/hello-native/index.html';
-    this.page.identifier = 'hello-native';
+    this.page.url = 'https://blog.nokee.dev/gradle-project-layout/index.html';
+    this.page.identifier = 'gradle-project-layout';
     };
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
