@@ -1,0 +1,35 @@
+:jbake-permalink: license-clarification
+:jbake-id: {jbake-permalink}
+= License Clarification
+Daniel Lacasse
+2021-09-22
+:jbake-type: blog_post
+:jbake-status: unpublished
+:jbake-tags: blog
+:idprefix:
+:jbake-description: Nokee is officially an Apache 2.0-licensed project!
+:jbake-leadimage: license-clarification-small.png
+:jbake-leadimagealt: Title card for license clarification
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+// Target audience: users
+
+Thus far, we developed Nokee in the _open_ without ever having a precise Open Source Software (OSS) license.
+It can be a legal blocker for some teams when adopting Nokee for native development with Gradle.
+Today, we are officially clarifying Nokee source code under *Apache 2.0 license*.
+We believe this change will help Nokee grow further alongside Gradle.
+
+== Why Apache 2.0?
+
+The Gradle team already licenses Gradle Build Tool under Apache 2.0.
+Our license choice needs to be compatible with the Gradle Build Tool itself.
+To maximize Nokee's adoption, settling on Apache 2.0 was a natural choice.
+It will also reduce friction with your legal department.
+
+== What about previous versions?
+
+We won't be making any changes to the previous Nokee versions.
+However, if your team needs an Apache 2.0 friendly license for those versions, please send your request to support@nokee.dev.
+We will work together to find a solution for your needs.
+
+If you have any questions, always feel free to reach out to me via https://nokee.dev/blog/{jbake-permalink}#disqus_thread[comments on the blog post], sending an email to hello@nokee.dev, or https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[joining the Gradle Community Slack].
