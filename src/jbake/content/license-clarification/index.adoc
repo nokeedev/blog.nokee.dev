@@ -4,7 +4,7 @@
 Daniel Lacasse
 2021-09-22
 :jbake-type: blog_post
-:jbake-status: unpublished
+:jbake-status: published
 :jbake-tags: blog
 :idprefix:
 :jbake-description: Nokee is officially an Apache 2.0-licensed project!
