@@ -6,14 +6,14 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Wed, 17 Feb 2021 22:53:33 -0500</pubDate>
-		<lastBuildDate>Wed, 17 Feb 2021 22:53:33 -0500</lastBuildDate>
+		<pubDate>Wed, 22 Sep 2021 13:39:37 +0000</pubDate>
+		<lastBuildDate>Wed, 22 Sep 2021 13:39:37 +0000</lastBuildDate>
 
 		
 		<item>
 			<title>Farewell Bintray&#8230;&#8203;</title>
 			<link>https://feed.nokee.dev/farewell-bintray</link>
-			<pubDate>Tue, 16 Feb 2021 00:00:00 -0500</pubDate>
+			<pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/farewell-bintray</guid>
 			<description>
 			&lt;div class=&quot;paragraph&quot;&gt;
@@ -114,7 +114,7 @@ Stay tuned.&lt;/p&gt;
 		<item>
 			<title>What&#8217;s the latest Nokee version?</title>
 			<link>https://feed.nokee.dev/what-is-the-latest-nokee-version</link>
-			<pubDate>Mon, 7 Sep 2020 00:00:00 -0400</pubDate>
+			<pubDate>Mon, 7 Sep 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/what-is-the-latest-nokee-version</guid>
 			<description>
 			&lt;div class=&quot;paragraph&quot;&gt;
@@ -137,7 +137,7 @@ If you have neat ideas or want to improve this web service, feel free to &lt;a h
 		<item>
 			<title>Release 0.4 Announcement</title>
 			<link>https://feed.nokee.dev/release-0.4-announcement</link>
-			<pubDate>Mon, 29 Jun 2020 00:00:00 -0400</pubDate>
+			<pubDate>Mon, 29 Jun 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/release-0.4-announcement</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -234,7 +234,7 @@ If you want to work with us, email us at &lt;a href=&quot;mailto:hello@nokee.dev
 		<item>
 			<title>Introducing Gradle Plugin Toolbox</title>
 			<link>https://feed.nokee.dev/introducing-gradle-toolbox</link>
-			<pubDate>Mon, 22 Jun 2020 00:00:00 -0400</pubDate>
+			<pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/introducing-gradle-toolbox</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -564,7 +564,7 @@ Please vote for your favourite to help us prioritize which feature to deliver fi
 		<item>
 			<title>Release 0.3 Announcement</title>
 			<link>https://feed.nokee.dev/release-0.3-announcement</link>
-			<pubDate>Tue, 12 May 2020 00:00:00 -0400</pubDate>
+			<pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/release-0.3-announcement</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -718,7 +718,7 @@ If you want to work with me and drive the iOS support for Gradle forward with yo
 		<item>
 			<title>Introducing Leaf Bird</title>
 			<link>https://feed.nokee.dev/introducing-leaf-bird</link>
-			<pubDate>Thu, 7 May 2020 00:00:00 -0400</pubDate>
+			<pubDate>Thu, 7 May 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/introducing-leaf-bird</guid>
 			<description>
 			&lt;div class=&quot;paragraph&quot;&gt;
@@ -745,7 +745,7 @@ If you can&amp;#8217;t wait and want to spoil the surprise, head over to the &lt
 		<item>
 			<title>Release 0.2 Announcement</title>
 			<link>https://feed.nokee.dev/release-0.2-announcement</link>
-			<pubDate>Mon, 20 Apr 2020 00:00:00 -0400</pubDate>
+			<pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/release-0.2-announcement</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -947,7 +947,7 @@ The next versions will focus on adding testing strategies for the plugin functio
 		<item>
 			<title>Maven POM DSL</title>
 			<link>https://feed.nokee.dev/maven-pom-dsl</link>
-			<pubDate>Wed, 1 Apr 2020 00:00:00 -0400</pubDate>
+			<pubDate>Wed, 1 Apr 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/maven-pom-dsl</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -1422,7 +1422,7 @@ This plugin is a demonstration, and you shouldn&amp;#8217;t use the plugin in pr
 		<item>
 			<title>Release 0.1 Announcement</title>
 			<link>https://feed.nokee.dev/release-0.1-announcement</link>
-			<pubDate>Mon, 16 Mar 2020 00:00:00 -0400</pubDate>
+			<pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/release-0.1-announcement</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;
@@ -1533,7 +1533,7 @@ The next phase of the native development by the Nokee team will focus on cross-c
 		<item>
 			<title>iOS Development Poll</title>
 			<link>https://feed.nokee.dev/ios-development-poll</link>
-			<pubDate>Thu, 13 Feb 2020 00:00:00 -0500</pubDate>
+			<pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/ios-development-poll</guid>
 			<description>
 			&lt;div class=&quot;paragraph&quot;&gt;
@@ -1562,7 +1562,7 @@ However, it could be trivial to wrap another build system inside Gradle to benef
 		<item>
 			<title>Hello Native</title>
 			<link>https://feed.nokee.dev/hello-native</link>
-			<pubDate>Tue, 4 Feb 2020 00:00:00 -0500</pubDate>
+			<pubDate>Tue, 4 Feb 2020 00:00:00 +0000</pubDate>
 			<guid isPermaLink="false">blog/hello-native</guid>
 			<description>
 			&lt;div id=&quot;preamble&quot;&gt;

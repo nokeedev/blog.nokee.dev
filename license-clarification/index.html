@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
-	<title>Live @ HEAD</title>
+	<title>License Clarification</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="description" content="Nokee is officially an Apache 2.0-licensed project!">
 <meta name="author" content="@nokeedev">
 <meta name="keywords" content="blog">
 
-<link rel="canonical" href="https://blog.nokee.dev/live-at-head/">
-<meta property="og:url" content="https://blog.nokee.dev/live-at-head/">
+<link rel="canonical" href="https://blog.nokee.dev/license-clarification/">
+<meta property="og:url" content="https://blog.nokee.dev/license-clarification/">
 
 
 
@@ -27,8 +27,8 @@
 },{
   "@type": "ListItem",
   "position": 2,
-  "name": "Live @ HEAD",
-  "item": "https://blog.nokee.dev/live-at-head/"
+  "name": "License Clarification",
+  "item": "https://blog.nokee.dev/license-clarification/"
 }]
     }]
 </script>
@@ -37,16 +37,19 @@
 
 
 <meta property="og:site_name" content="Nokee">
-<meta property="og:title" content="Live @ HEAD">
-
-
+<meta property="og:title" content="License Clarification">
+<meta name="og:description" content="Nokee is officially an Apache 2.0-licensed project!">
+<meta name="og:image" content="https://blog.nokee.dev/license-clarification/license-clarification-small.png">
 
 
 <meta name="twitter:site" content="@nokeedev">
-<meta name="twitter:creator" content="@nokeedev">
-<meta name="twitter:title" content="Live @ HEAD">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@lacasseio">
+<meta name="twitter:title" content="License Clarification">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Nokee is officially an Apache 2.0-licensed project!">
 
+	<meta name="twitter:image" content="https://blog.nokee.dev/license-clarification/license-clarification-small.png">
+	<meta name="twitter:image:alt" content="Title card for license clarification">
 
 
 
@@ -119,23 +122,45 @@
 
 		<div class="chapter">
 			<div class="header">
-				
-				<h1>Live @ HEAD</h1>
-				<p><em>16 February 2021</em></p>
+				<img src="license-clarification-small.png"/>
+				<h1>License Clarification</h1>
+				<p><em>22 September 2021</em></p>
 			</div>
 
 			<div class="content">
-				<div class="paragraph">
-<p>Starting today, we are will be following the philosophy living at HEAD.</p>
+				<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Thus far, we developed Nokee in the <em>open</em> without ever having a precise Open Source Software (OSS) license.
+It can be a legal blocker for some teams when adopting Nokee for native development with Gradle.
+Today, we are officially clarifying Nokee source code under <strong>Apache 2.0 license</strong>.
+We believe this change will help Nokee grow further alongside Gradle.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="why_apache_2_0">Why Apache 2.0?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Gradle team already licenses Gradle Build Tool under Apache 2.0.
+Our license choice needs to be compatible with the Gradle Build Tool itself.
+To maximize Nokee&#8217;s adoption, settling on Apache 2.0 was a natural choice.
+It will also reduce friction with your legal department.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="what_about_previous_versions">What about previous versions?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We won&#8217;t be making any changes to the previous Nokee versions.
+However, if your team needs an Apache 2.0 friendly license for those versions, please send your request to <a href="mailto:support@nokee.dev">support@nokee.dev</a>.
+We will work together to find a solution for your needs.</p>
 </div>
 <div class="paragraph">
-<p>We haven&#8217;t found any compeling reason to stay behind on older releases.
-We will still produce minor and major version tags to mark certain milestone.
-The structure of how the build are going to be configured will mostly stay the same in the future but only better.</p>
+<p>If you have any questions, always feel free to reach out to me via <a href="https://nokee.dev/blog/license-clarification#disqus_thread">comments on the blog post</a>, sending an email to <a href="mailto:hello@nokee.dev">hello@nokee.dev</a>, or <a href="https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R">joining the Gradle Community Slack</a>.</p>
 </div>
-<div class="paragraph">
-<p>Maintaining all these versioned documentation has being a bottleneck for our newer release.
-With that, we a dumping all of our archived documentation in favor of a truely living and breathing documentation.</p>
+</div>
 </div>
 			</div>
 		</div>
@@ -169,8 +194,8 @@ With that, we a dumping all of our archived documentation in favor of a truely l
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
     */
     var disqus_config = function () {
-    this.page.url = 'https://blog.nokee.dev/live-at-head/index.html';
-    this.page.identifier = 'live-at-head';
+    this.page.url = 'https://blog.nokee.dev/license-clarification/index.html';
+    this.page.identifier = 'license-clarification';
     };
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
