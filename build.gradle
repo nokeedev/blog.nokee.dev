@@ -13,13 +13,18 @@ repositories {
 }
 
 dependencies {
+	jbake 'dev.nokee.docs:dotgithub:latest.release'
 	assets 'dev.nokee.docs:jbake:latest.integration'
 	templates 'dev.nokee.docs:jbake:latest.integration'
-	configuration 'dev.nokee.docs:jbake:latest.integration'
 }
 
 site {
 	customDomain = subdomain('blog.nokee.dev')
 	repositorySlug = 'nokeedev/blog.nokee.dev'
 	sources.from(jbake.destinationDirectory)
+}
+
+// Because we are using assets from 'dev.nokee.docs:jbake'
+tasks.named('stageBake', Sync) {
+	it.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
