@@ -6,7 +6,6 @@
 			</div>
 		</div>
 
-		<% include 'fragment-gdpr-banner.gsp' %>
 		<!-- Le javascript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
