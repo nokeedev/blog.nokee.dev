@@ -63,5 +63,6 @@
 
 	<!--End mc_embed_signup-->
 <%include "fragment-footer.gsp"%>
+<% include 'component-multi-language-sample.foot.gsp' %>
 </body>
 </html>
