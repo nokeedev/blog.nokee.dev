@@ -6,7 +6,6 @@
 	<link href="/css/docs-base.css" rel="stylesheet">
 	<link href="/css/blog-email-signup.css" rel="stylesheet">
 	<link href="/css/blog-layout.css" rel="stylesheet">
-	<% include 'component-multi-language-sample.head.gsp' %>
 
 	<link href="/css/normalize-8.0.1.css" rel="stylesheet">
 	<link href="/css/prettify.css" rel="stylesheet">
