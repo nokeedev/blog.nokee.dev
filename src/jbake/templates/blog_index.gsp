@@ -2,17 +2,12 @@
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
 	<!-- Le styles -->
-	<link href="/css/docs-asciidoctor.css" rel="stylesheet">
-	<link href="/css/docs-asciidoctor-override.css" rel="stylesheet">
-	<link href="/css/docs-asciidoctor-color-override.css" rel="stylesheet">
+	<% include 'component-asciidoc.head.gsp' %>
 	<link href="/css/docs-base.css" rel="stylesheet">
 	<link href="/css/blog-email-signup.css" rel="stylesheet">
 	<link href="/css/blog-layout.css" rel="stylesheet">
 	<% include 'component-multi-language-sample.head.gsp' %>
 
-	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="/css/normalize-8.0.1.css" rel="stylesheet">
 	<link href="/css/prettify.css" rel="stylesheet">
 
