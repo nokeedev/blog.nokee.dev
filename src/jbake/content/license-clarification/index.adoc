@@ -32,4 +32,4 @@ We won't be making any changes to the previous Nokee versions.
 However, if your team needs an Apache 2.0 friendly license for those versions, please send your request to support@nokee.dev.
 We will work together to find a solution for your needs.
 
-If you have any questions, always feel free to reach out to me via https://nokee.dev/blog/{jbake-permalink}#disqus_thread[comments on the blog post], sending an email to hello@nokee.dev, or https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[joining the Gradle Community Slack].
+If you have any questions, always feel free to reach out to me via https://github.com/nokeedev/gradle-native/discussions[GitHub discussion], sending an email to hello@nokee.dev, or https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[joining the Gradle Community Slack].

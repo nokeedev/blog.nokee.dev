@@ -24,4 +24,4 @@ However, it could be trivial to wrap another build system inside Gradle to benef
 
 For the ones that would love to have a more active voice during the development process, you can https://forms.gle/YEaaeAjGACEpeFcR8[leave your contact information at the end of the poll], and I will contact you for a more in-depth interview.
 
-If you have any questions, always feel free to reach out to me via https://nokee.dev/blog/{jbake-permalink}#disqus_thread[comments on the blog post], sending an email to hello@nokee.dev, or https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[joining the Gradle Community Slack].
+If you have any questions, always feel free to reach out to us via https://github.com/nokeedev/gradle-native/discussions[GitHub discussion], sending an email to hello@nokee.dev, or https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[joining the Gradle Community Slack].
