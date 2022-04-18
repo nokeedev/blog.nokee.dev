@@ -37,7 +37,6 @@
 		<div class="chapter">
 			<div class="header">
 				<h1>${content.title}</h1>
-				<p><em>${new java.text.SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(content.date)}</em></p>
 			</div>
 
 			<div class="content">
