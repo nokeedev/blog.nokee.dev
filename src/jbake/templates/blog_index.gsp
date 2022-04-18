@@ -2,8 +2,12 @@
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
 	<!-- Le styles -->
-	<link href="/css/base.css" rel="stylesheet">
+	<link href="/css/docs-asciidoctor.css" rel="stylesheet">
+	<link href="/css/docs-asciidoctor-override.css" rel="stylesheet">
+	<link href="/css/docs-asciidoctor-color-override.css" rel="stylesheet">
+	<link href="/css/docs-base.css" rel="stylesheet">
 	<link href="/css/blog-email-signup.css" rel="stylesheet">
+	<link href="/css/blog-layout.css" rel="stylesheet">
 	<% include 'component-multi-language-sample.head.gsp' %>
 
 	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
@@ -26,9 +30,9 @@
 	<% include 'component-meta-open-graph.head.gsp' %>
 	<% include 'component-meta-twitter-card.head.gsp' %>
 </head>
-<body onload="prettyPrint()"
+<body onload="prettyPrint()">
 	<% include 'component-menu.body.gsp' %>
-	<main class="main-content">
+	<div class="main-content">
 
 		<div class="chapter">
 			<div class="header">
@@ -45,7 +49,7 @@
 				<%}%>
 			</div>
 		</div>
-	</main>
+	</div>
 <%include "fragment-footer.gsp"%>
 </body>
 </html>
