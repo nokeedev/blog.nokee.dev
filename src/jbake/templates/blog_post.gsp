@@ -2,18 +2,18 @@
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
 	<% include 'fragment-header-generic.gsp' %>
-	<link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/docs-asciidoctor.css" rel="stylesheet">
-	<link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/docs-asciidoctor-override.css" rel="stylesheet">
-	<link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/docs-asciidoctor-color-override.css" rel="stylesheet">
-	<link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/docs-base.css" rel="stylesheet">
-	<link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/multi-language-sample.css" rel="stylesheet">
-	<link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/blog-email-signup.css" rel="stylesheet">
-	<link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/blog-layout.css" rel="stylesheet">
+	<link href="/css/docs-asciidoctor.css" rel="stylesheet">
+	<link href="/css/docs-asciidoctor-override.css" rel="stylesheet">
+	<link href="/css/docs-asciidoctor-color-override.css" rel="stylesheet">
+	<link href="/css/docs-base.css" rel="stylesheet">
+	<link href="/css/multi-language-sample.css" rel="stylesheet">
+	<link href="/css/blog-email-signup.css" rel="stylesheet">
+	<link href="/css/blog-layout.css" rel="stylesheet">
 	<% if (content.useroughviz && content.useroughviz == 'true') {%><script src="https://unpkg.com/rough-viz@1.0.6"></script><%}%>
 </head>
 <body onload="prettyPrint()">
 
-	<%include 'fragment-menu.gsp'%>
+	<%include 'component-menu.body.gsp'%>
 	<div class="main-content">
 
 		<div class="chapter">
@@ -48,4 +48,5 @@
 
 	<!--End mc_embed_signup-->
 <%include "fragment-footer.gsp"%>
+</body>
 </html>

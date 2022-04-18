@@ -1,3 +1,6 @@
-= Blog
 :jbake-type: blog_index
 :jbake-status: published
+:ref-feed: https://feed.nokee.dev/feed.xml
+= Welcome to the Gradle Native Blog
+
+Don't wait and subscribe to the link:{ref-feed}[feed].
