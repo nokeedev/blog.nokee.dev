@@ -1,0 +1,107 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: devlog-1
+:jbake-id: {jbake-permalink}
+= Devlog #1
+Daniel Lacasse
+2022-04-20
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Development log #1
+//:jbake-leadimage: empty.png
+//:jbake-leadimagealt: empty
+:jbake-twitter: { "creator": "@lacasseio" }
+:ref-jbake: https://jbake.org/
+:ref-jbake-official-plugin: https://github.com/jbake-org/jbake-gradle-plugin
+:ref-jbake-nokee-plugin: https://github.com/nokeedev/jbake-gradle-plugin
+:ref-gradle-native-platform: https://github.com/gradle/native-platform
+:ref-nokee-prs: https://github.com/nokeedev/gradle-native/pulls
+:ref-nokee-init-plugin: https://github.com/nokeedev/init.nokee.dev
+:ref-github-nokee-actions: https://github.com/nokeedev/actions
+:ref-vagrant: https://www.vagrantup.com/
+:ref-gradle-runner: https://github.com/gradle-plugins/toolbox/blob/main/subprojects/gradle-runner-kit-api/src/main/java/dev/gradleplugins/runnerkit/GradleRunner.java
+:ref-build-script-model: https://github.com/nokeedev/gradle-native/tree/master/gradle/libraries/gradle-build-script
+:ref-google-test-source-dependency: https://github.com/nokeedev/gradle-native/blob/master/subprojects/testing-native/src/functionalTest/groovy/dev/nokee/testing/googletest/GoogleTestTestSuiteFunctionalTest.groovy#L31-L88
+
+This development log (devlog) is more extensive than expected in the following entries.
+It includes most work done during February and March in no particular order.
+
+== Performance Testing
+
+Performance tests are essential for Nokee plugins to turn 1.0.
+We focused on performance comparison and repeatable profiling.
+We developed a new runner, similar to link:{ref-gradle-runner}[our Gradle runner], to perform build experiments.
+At the moment, we are tracking the performance of a JNI library plugin implemented using the Software Model and our Nokee plugin as part of the link:{ref-gradle-native-platform}[`gradle/native-platform` project].
+
+== iOS Support
+
+First-class support for building iOS applications and libraries requires a lot of upfront work.
+Instead, we can shortcut the work required by adapting the Xcode build system to Gradle and progress backward.
+We named this solution _build adapters_ as it adapts a complete build system to Gradle, similar to an included build.
+We already have an experimental CMake build adapter that we can use to link:{ref-google-test-source-dependency}[build Google Test as a source dependency].
+The goal of build adapters is to reduce the migration cost while maximizing maintenance and performance.
+
+We developed most of the infrastructure for handling Xcode workspace and projects.
+Gradle/Nokee can build targets within a single Xcode project.
+We successfully validated this first step using the VLC iOS application as shown below:
+
+image::https://asciinema.org/a/1qZfiGloCtyI8whxo8NeGplpH.svg[link="https://asciinema.org/a/1qZfiGloCtyI8whxo8NeGplpH", alt="Invocation of `gradle tasks` followed by `gradle CocoaHTTPServer-iOS`"]
+
+The published build scan is available link:https://scans.gradle.com/s/r3klqo6dmdkna[here].
+
+== Nokee Universal Model
+
+The Universal Model (UM) is a data-oriented design to configure Gradle.
+The typical configuration model (often referred to as _vanilla Gradle_) lacks support for deeply nested domain objects.
+The Universal Model focuses on breaking the boundaries between Gradle containers allowing a universal space for all domain objects.
+The model follows a plain Entity-Component-System architecture with the ability to project Entity into _vanilla domain objects_.
+You can follow our technical rambling about the Universal Model in link:{ref-nokee-prs}[our PRs].
+
+All of our platform plugins use the Universal Model, i.e. `c-library`, `jni-library`, etc.
+The latest work focus on performance and clean architecture.
+We identified hot spots that we will investigate before releasing v0.5.
+We also untangled capabilities that should build on top of the Universal Model, i.e. classic `Action` execution, component elements tracking (similar to Gradle's domain object container), etc.
+Finally, we prepare the architecture to support near-future capabilities such as reporting and custom repositories like Conan and vcpkg.
+
+== JBake plugin
+
+All of our documentation is statically _compiled_ using link:{ref-jbake}[JBake].
+Our needs and complexity far outweigh the link:{ref-jbake-official-plugin}[official plugin's capability], mainly around multi-repository cooperation.
+We wrote link:{ref-jbake-nokee-plugin}[our plugin] to better support our documentation development.
+This plugin will allow splitting documentation to accelerate its growth by improving test performance.
+
+== FreeBSD/ARM support
+
+Nokee officially supports building on FreeBSD and ARM systems.
+To successfully test on FreeBSD system, we developed a set of link:{ref-github-nokee-actions}[GitHub actions] using link:{ref-vagrant}[Vagrant].
+We have ARM infrastructure coming soon, enabling ARM architecture testing.
+
+== Gradle build script model
+
+As part of our test fixtures and documentation samples, we have to maintain many Gradle build scripts.
+We often compose those scripts from multiple snippets.
+Gradle's multi-DSL language support (Groovy/Kotlin) makes this task challenging.
+For this reason, we wrote a link:{ref-build-script-model}[model over Gradle build script].
+This model is crucial for our upcoming documentation samples and user onboarding stories, e.g. build init templates.
+
+== Nokee distribution management plugin experimentation
+
+The effortless nature of the build adapter plugins is a great way to bridge other build systems with Gradle.
+However, managing which Nokee distribution to use and aligning the versions between projects is tricky.
+We want Nokee to feel like a core Gradle plugin despite being a 3rd party plugin.
+We tried solving the issue via link:{ref-nokee-init-plugin}[an init plugin].
+This solution had many moving pieces, making it inadequate for users.
+Instead, we experimented with a settings plugin that provides a much easier user interface.
+
+== Gradle Enterprise server
+
+The Gradle team provided us with a Gradle Enterprise instance for Nokee.
+Although we are Gradle experts, the onboarding helped us identify a few issues with our build.
+As part of this effort, we took the time to upgrade our Gradle version to 7.4.
+We also worked on our documentation pipeline, which had a lot of caching issues.

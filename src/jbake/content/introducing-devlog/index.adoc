@@ -1,0 +1,25 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: introducing-devlog
+:jbake-id: {jbake-permalink}
+= Introducing Development Logs
+Daniel Lacasse
+2022-04-20
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Introducing recurrent development logs for Nokee
+:jbake-leadimage: introducing-devlog-small.png
+:jbake-leadimagealt: Stay UP TO DATE with Nokee development
+:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+
+Today we are introducing development logs (also known as _devlog_) to help keep our users and sponsors informed and connected.
+Those short-form, semi-formal posts focus on where we spent our efforts since the last entry.
+Feel free to link:mailto:hello@nokee.dev[reach out to us] if you have a particular request to be included in those updates.
+
+The link:/devlog-1[first devlog] is already available.
