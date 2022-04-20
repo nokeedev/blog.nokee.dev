@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+	<!-- Nokee font -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+
+<!-- Required by asciidoc font configuration -->
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Ordering is important here -->
+<link href="/component-asciidoctor.css" rel="stylesheet">
+<link href="/component-asciidoctor-override.css" rel="stylesheet">
+<link href="/component-asciidoctor-color-override.css" rel="stylesheet">
+	<link href="/css/docs-base.css" rel="stylesheet">
+	<link href="/css/blog-email-signup.css" rel="stylesheet">
+	<link href="/css/blog-layout.css" rel="stylesheet">
+	
+
+	<!-- Le styles -->
+	<link href="/component-multi-language-sample.css" rel="stylesheet">
+
+	<link href="/css/normalize-8.0.1.css" rel="stylesheet">
+	<link href="/css/prettify.css" rel="stylesheet">
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.min.js"></script>
+	<![endif]-->
+
+	<title>Release 0.3 Announcement</title>
+	<!-- Fav and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#001824">
+<meta name="msapplication-TileColor" content="#00a300">
+<meta name="theme-color" content="#ffffff">
+	<link href="/component-menu.css" rel="stylesheet">
+
+
+<link href="/component-menu-light.css" rel="stylesheet">
+
+
+	<meta charset="utf-8">
+	
+<link rel="canonical" href="https://blog.nokee.dev/release-0.3-announcement/">
+<meta name="description" content="Announcing release 0.3 of the Nokee plugin suite.">
+<meta name="author" content="@nokeedev">
+<meta name="keywords" content="blog">
+	
+<meta property="og:url" content="https://blog.nokee.dev/release-0.3-announcement/">
+
+
+
+<meta property="og:site_name" content="Nokee">
+<meta property="og:title" content="Release 0.3 Announcement">
+<meta name="og:description" content="Announcing release 0.3 of the Nokee plugin suite.">
+<meta name="og:image" content="https://blog.nokee.dev/release-0.3-announcement/release-announcement-small.png">
+
+	
+<meta name="twitter:site" content="@nokeedev">
+<meta name="twitter:creator" content="@lacasseio">
+<meta name="twitter:title" content="Release 0.3 Announcement">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Announcing release 0.3 of the Nokee plugin suite.">
+
+	<meta name="twitter:image" content="https://blog.nokee.dev/release-0.3-announcement/release-announcement-small.png">
+	<meta name="twitter:image:alt" content="Release 0.3 announcement">
+
+
+</head>
+<body onload="prettyPrint()">
+	
+
+<nav class="navigation" aria-labelledby="primary-navigation">
+	<a href="https://nokee.dev" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 49.96"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="full-dark"><g id="nokee"><path d="M180.38,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25H193.8A5.92,5.92,0,0,1,198.17,14a6,6,0,0,1,1.83,4.4V28.88H180.49s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H180.49Z"/><path d="M51.3,40.13v-28H71A6,6,0,0,1,75.34,14a6,6,0,0,1,1.83,4.4V40.13H70.88l-.07-21.65H57.65l-.06,21.65Z"/><path d="M88.94,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,106.74,14a6.07,6.07,0,0,1,1.82,4.4V33.88a6.05,6.05,0,0,1-1.82,4.4,5.92,5.92,0,0,1-4.38,1.85Zm13.26-6.36s0-15.29,0-15.29H89.05s0,15.25,0,15.29S102.16,33.82,102.2,33.77Z"/><path d="M114.13,40.13V6.26h6.29V23.38h4l8.84-11.28h8.19L129.92,26.54l11.49,13.59h-8.19l-8.84-10.42h-4V40.13Z"/><path d="M149.25,40.13A6.32,6.32,0,0,1,143,33.88V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,167.05,14a6.07,6.07,0,0,1,1.82,4.4V28.88H149.36s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H149.36Z"/></g><g id="bird"><path d="M41.82,10.21,25.58.83a6.24,6.24,0,0,0-6.23,0L3.11,10.21A6.24,6.24,0,0,0,0,15.6V34.35a6.25,6.25,0,0,0,3.11,5.4l16.24,9.37a6.24,6.24,0,0,0,6.23,0l16.24-9.37a6.25,6.25,0,0,0,3.11-5.4V15.6A6.24,6.24,0,0,0,41.82,10.21Zm-6,10.92c0,12.59-7.92,17.46-21.73,17.46A16.46,16.46,0,0,1,5,36c8.22-5.58,10.56-9.95,12.4-17.5,1.11-4.54,4.25-8.06,9.22-8.06,3.6,0,6.62,1.28,8.14,4.7h6.5l-5.49,4.39C35.82,20,35.84,20.57,35.84,21.13Z"/><path d="M28.94,13.72a3.35,3.35,0,0,0-3,1.76.83.83,0,0,0,1.46.79,1.7,1.7,0,0,1,3,0,.83.83,0,0,0,1.13.33.82.82,0,0,0,.33-1.12A3.36,3.36,0,0,0,28.94,13.72Z"/></g></g></g></g></svg></a>
+	<input class="navigation-hamburger" type="checkbox" id="navigation-hamburger" />
+	<label class="menu-icon" for="navigation-hamburger"><span class="navicon"></span></label>
+	<ul class="navigation-items">
+		<li><a href="https://docs.nokee.dev">Docs</a></li>
+		<li><a href="https://blog.nokee.dev">Blog</a></li>
+		<li><a href="https://nokee.dev/services/consulting.html">Services</a></li>
+		<li>
+			<ul class="navigation-socials">
+				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
+				<li class="navigation-github"><a href="https://github.com/nokeedev" title="Nokee on GitHub"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 10 4.836c.85.004 1.705.114 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C17.137 18.163 20 14.418 20 10c0-5.523-4.478-10-10-10" fill-rule="evenodd"></path></svg></a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+	<div class="main-content">
+
+		<div class="chapter">
+			<div class="header">
+				<img src="release-announcement-small.png"/>
+				<h1>Release 0.3 Announcement</h1>
+				<p><em>12 May 2020</em></p>
+			</div>
+
+			<div class="content">
+				<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Join me in celebrating the <a href="/docs/0.3.0/release-notes.html">third release of the Nokee plugins</a>.
+The most significant announcement of this release is the early iOS support for Gradle.
+Let&#8217;s explore this announcement as well as the other improvement accomplished as part of this release.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ios_support_for_gradle"><a class="anchor" href="#ios_support_for_gradle"></a><a class="link" href="#ios_support_for_gradle">iOS Support for Gradle</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Despite the <a href="../release-0.2-announcement">requirements express in the previous announcement road map for iOS support</a>, I decided to work around them and deliver the first milestone.
+I&#8217;m proud to show the fruit of that labour and deliver support for building iOS applications with XCTest for Gradle.
+It&#8217;s early support, which means there are limitations imposed by the plugin.
+For example, the application will only execute inside the simulator running iOS 13.2.
+The implementation language is also limited to Objective-C.
+I purposefully limited the scope for this first release so I could focus on the core experience from the developer&#8217;s perspective.
+There are two main scenarios I wanted to cover.</p>
+</div>
+<div class="paragraph">
+<p>The first scenario is building and launching the application from Xcode.
+I carefully crafted the Xcode integration to delegate the build to Gradle while allowing Xcode to launch the application inside the simulator.
+The experience aims to be as vanilla as possible.
+It means you can build via <code>Product &gt; Build</code> (Cmd+B) and launch the application via the main launch button, as shown in the video below.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="xcode-ide-launch-action.gif" alt="Launch iOS application inside simulator from Xcode IDE">
+</div>
+</div>
+<div class="paragraph">
+<p>The second scenario is testing from Xcode.
+This scenario is probably the most tricky to get right.
+The integration allows tests to be executed via the main test button in the top left corner, from the test navigator or the side dot in the editor.
+You can see it in action in the video below.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="xcode-ide-test-action.gif" alt="Execute iOS XCTest inside simulator from Xcode IDE">
+</div>
+</div>
+<div class="paragraph">
+<p>For both scenarios, the integration needed to allow indexing to work as expected.
+Developers can jump to symbol definitions, jump to files from an <code>#import</code> directive and perform searches inside the symbol navigator.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="xcode-ide-indexing.gif" alt="Navigate between symbols inside Xcode IDE">
+</div>
+</div>
+<div class="paragraph">
+<p>Feel free to <a href="/docs/0.3.0/samples/#sec:ios">try out one of the samples</a>.
+If you find any issues, please <a href="https://github.com/nokeedev/gradle-native/issues">open an issue</a>.
+Don&#8217;t hesitate to contact me at <a href="mailto:hello@nokee.dev">hello@nokee.dev</a> if you want to help sponsor the effort.
+We can work together and deliver the use case that would have the highest impact on your developer productivity first.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="java_native_interface_jni_development_improvement"><a class="anchor" href="#java_native_interface_jni_development_improvement"></a><a class="link" href="#java_native_interface_jni_development_improvement">Java Native Interface (JNI) development improvement</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The JNI library plugin kept improving during this release.
+I worked with the team behind <a href="https://github.com/weisJ/darklaf/pull/154">Darklaf to showcase the JNI library plugin on their project</a>.
+I identified gaps in the API resolving mostly around accessing variants, binaries and their tasks.
+I took this opportunity to add new APIs to allow a smoother transition.</p>
+</div>
+<div class="paragraph">
+<p>A special thanks to <a href="https://github.com/javenwang">Javen Wang</a> for his help in enabling to <a href="/docs/0.3.0/samples/kotlin-cpp-jni-library">use Kotlin as a JVM language with the JNI library plugin</a>.</p>
+</div>
+<div class="paragraph">
+<p>Finally, I also rolled out an entire <a href="/docs/0.3.0/manual/building-jni-projects.html">chapter on explaining building JNI projects with Gradle and the Nokee plugins</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="documentation_improvement"><a class="anchor" href="#documentation_improvement"></a><a class="link" href="#documentation_improvement">Documentation improvement</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On the documentation front, I wrote additional chapters to explain the <a href="/docs/0.3.0/manual/plugin-anatomy.html">anatomy of Nokee plugins</a>, <a href="/docs/0.3.0/manual/building-jni-projects.html">building JNI projects</a> and <a href="/docs/0.3.0/manual/developing-with-xcode-ide.html">developing with Xcode IDE</a>.
+I also wrote <a href="/docs/0.3.0/manual/plugin-references.html">reference chapters for all the new plugins</a> as well as <a href="/docs/0.3.0/samples/">new samples covering additional use cases raised by the community</a>.</p>
+</div>
+<div class="paragraph">
+<p>When I started my Gradle journey in 2012, I found the build language documentation (also known as DSL reference) precious to my learning.
+To honour this great resource, I wrote the automation required to generate the <a href="/docs/0.3.0/dsl">build language reference for all public types of the Nokee plugins</a>.</p>
+</div>
+<div class="paragraph">
+<p>As I take documentation very seriously, it is essential to note that I consider unclear documentation as a bug.
+If you encounter any issue with the documentation, please <a href="https://github.com/nokeedev/gradle-native/issues">open an issue</a>, so we can improve it for everyone.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="testing_improvement"><a class="anchor" href="#testing_improvement"></a><a class="link" href="#testing_improvement">Testing improvement</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On the testing front, I added automated tests to keep the Nokee plugins in sync with Gradle release cycles.
+With this new addition, we are closer to the 1.0 milestone.
+I notice some gaps in the testing coverage during the last development cycle.
+They will be closed in the next release so we can move forward with the 1.0 release!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="open_polls"><a class="anchor" href="#open_polls"></a><a class="link" href="#open_polls">Open polls</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sometimes I don&#8217;t have enough context to make a decision that would have the most impact.
+For this reason, I like working with teams to help drive the requirements forward.
+The key point is about gathering information to make clear technical decisions.
+I started to create <a href="https://github.com/nokeedev/gradle-native/labels/a%3Apoll">poll issues that ask open-ended questions for everyone to participate</a>.
+The result of those polls will help drive the Nokee plugins forward with features that you care about.
+I scattered links to the polls across the documentation contextualize them.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="open-polls-in-context.png" alt="Open polls in context within the documentations">
+</div>
+</div>
+<div class="paragraph">
+<p>Feel completely free to provide your opinion on each one of them.
+I will be using those issues as guidelines for what to work on next.
+For this reason, specific and tangible use cases are the key point I&#8217;m looking for.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="whats_next"><a class="anchor" href="#whats_next"></a><a class="link" href="#whats_next">What&#8217;s Next?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I&#8217;m scheduling improvements to toolchain support, in particular, the toolchain selection for the next release.
+This work is a fundamental feature that will help the cross-compiling stories with Gradle.
+It will be beneficial for iOS support as well as open opportunities for native Android support.
+It&#8217;s also essential to support dependencies and iOS libraries.
+CocoaPods is a must for the success of the iOS development support in Gradle.
+Luckily, the flexibility of Gradle will enable all these features over the next few releases of the Nokee plugins.</p>
+</div>
+<div class="paragraph">
+<p>Don&#8217;t hesitate to <a href="#disqus_thread">leave a comment below</a> or ping me on the <a href="https://gradle-community.slack.com/">Gradle community Slack</a>.
+If you want to work with me and drive the iOS support for Gradle forward with your team, send me an email at <a href="mailto:hello@nokee.dev">hello@nokee.dev</a>.</p>
+</div>
+</div>
+</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="push"></div>
+
+	<!-- Begin Mailchimp Signup Form -->
+	<p style="text-align:center">Stay on top of new features and news by subscribing:</p>
+	<div id="mc_embed_signup">
+		<form action="https://dev.us4.list-manage.com/subscribe/post?u=c1b91750dbe075432c8729552&amp;id=93402e2466" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+			<div id="mc_embed_signup_scroll">
+
+			<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+			<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+			<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_c1b91750dbe075432c8729552_93402e2466" tabindex="-1" value=""></div>
+			<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+			</div>
+			<small>* We will never send spam, and you can unsubscribe at any time</small>
+		</form>
+	</div>
+
+	<!--End mc_embed_signup-->
+		<div id="push"></div>
+
+		<div id="footer">
+			<div class="container">
+				<p class="muted credit">&copy; 2020</p>
+			</div>
+		</div>
+
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="/js/prettify.js"></script>
+
+<script src="/component-multi-language-sample.js"></script>
+</body>
+</html>

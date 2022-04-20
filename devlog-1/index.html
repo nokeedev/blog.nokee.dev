@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+	<!-- Nokee font -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+
+<!-- Required by asciidoc font configuration -->
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Ordering is important here -->
+<link href="/component-asciidoctor.css" rel="stylesheet">
+<link href="/component-asciidoctor-override.css" rel="stylesheet">
+<link href="/component-asciidoctor-color-override.css" rel="stylesheet">
+	<link href="/css/docs-base.css" rel="stylesheet">
+	<link href="/css/blog-email-signup.css" rel="stylesheet">
+	<link href="/css/blog-layout.css" rel="stylesheet">
+	
+
+	<!-- Le styles -->
+	<link href="/component-multi-language-sample.css" rel="stylesheet">
+
+	<link href="/css/normalize-8.0.1.css" rel="stylesheet">
+	<link href="/css/prettify.css" rel="stylesheet">
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.min.js"></script>
+	<![endif]-->
+
+	<title>Devlog #1</title>
+	<!-- Fav and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#001824">
+<meta name="msapplication-TileColor" content="#00a300">
+<meta name="theme-color" content="#ffffff">
+	<link href="/component-menu.css" rel="stylesheet">
+
+
+<link href="/component-menu-light.css" rel="stylesheet">
+
+
+	<meta charset="utf-8">
+	
+<link rel="canonical" href="https://blog.nokee.dev/devlog-1/">
+<meta name="description" content="Development log #1">
+<meta name="author" content="@nokeedev">
+<meta name="keywords" content="devlog">
+	
+<meta property="og:url" content="https://blog.nokee.dev/devlog-1/">
+
+
+
+<meta property="og:site_name" content="Nokee">
+<meta property="og:title" content="Devlog #1">
+<meta name="og:description" content="Development log #1">
+
+
+	
+<meta name="twitter:site" content="@nokeedev">
+<meta name="twitter:creator" content="@lacasseio">
+<meta name="twitter:title" content="Devlog #1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Development log #1">
+
+
+</head>
+<body onload="prettyPrint()">
+	
+
+<nav class="navigation" aria-labelledby="primary-navigation">
+	<a href="https://nokee.dev" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 49.96"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="full-dark"><g id="nokee"><path d="M180.38,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25H193.8A5.92,5.92,0,0,1,198.17,14a6,6,0,0,1,1.83,4.4V28.88H180.49s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H180.49Z"/><path d="M51.3,40.13v-28H71A6,6,0,0,1,75.34,14a6,6,0,0,1,1.83,4.4V40.13H70.88l-.07-21.65H57.65l-.06,21.65Z"/><path d="M88.94,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,106.74,14a6.07,6.07,0,0,1,1.82,4.4V33.88a6.05,6.05,0,0,1-1.82,4.4,5.92,5.92,0,0,1-4.38,1.85Zm13.26-6.36s0-15.29,0-15.29H89.05s0,15.25,0,15.29S102.16,33.82,102.2,33.77Z"/><path d="M114.13,40.13V6.26h6.29V23.38h4l8.84-11.28h8.19L129.92,26.54l11.49,13.59h-8.19l-8.84-10.42h-4V40.13Z"/><path d="M149.25,40.13A6.32,6.32,0,0,1,143,33.88V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,167.05,14a6.07,6.07,0,0,1,1.82,4.4V28.88H149.36s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H149.36Z"/></g><g id="bird"><path d="M41.82,10.21,25.58.83a6.24,6.24,0,0,0-6.23,0L3.11,10.21A6.24,6.24,0,0,0,0,15.6V34.35a6.25,6.25,0,0,0,3.11,5.4l16.24,9.37a6.24,6.24,0,0,0,6.23,0l16.24-9.37a6.25,6.25,0,0,0,3.11-5.4V15.6A6.24,6.24,0,0,0,41.82,10.21Zm-6,10.92c0,12.59-7.92,17.46-21.73,17.46A16.46,16.46,0,0,1,5,36c8.22-5.58,10.56-9.95,12.4-17.5,1.11-4.54,4.25-8.06,9.22-8.06,3.6,0,6.62,1.28,8.14,4.7h6.5l-5.49,4.39C35.82,20,35.84,20.57,35.84,21.13Z"/><path d="M28.94,13.72a3.35,3.35,0,0,0-3,1.76.83.83,0,0,0,1.46.79,1.7,1.7,0,0,1,3,0,.83.83,0,0,0,1.13.33.82.82,0,0,0,.33-1.12A3.36,3.36,0,0,0,28.94,13.72Z"/></g></g></g></g></svg></a>
+	<input class="navigation-hamburger" type="checkbox" id="navigation-hamburger" />
+	<label class="menu-icon" for="navigation-hamburger"><span class="navicon"></span></label>
+	<ul class="navigation-items">
+		<li><a href="https://docs.nokee.dev">Docs</a></li>
+		<li><a href="https://blog.nokee.dev">Blog</a></li>
+		<li><a href="https://nokee.dev/services/consulting.html">Services</a></li>
+		<li>
+			<ul class="navigation-socials">
+				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
+				<li class="navigation-github"><a href="https://github.com/nokeedev" title="Nokee on GitHub"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 10 4.836c.85.004 1.705.114 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C17.137 18.163 20 14.418 20 10c0-5.523-4.478-10-10-10" fill-rule="evenodd"></path></svg></a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+	<div class="main-content">
+
+		<div class="chapter">
+			<div class="header">
+				
+				<h1>Devlog #1</h1>
+				<p><em>20 April 2022</em></p>
+			</div>
+
+			<div class="content">
+				<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This development log (devlog) is more extensive than expected in the following entries.
+It includes most work done during February and March in no particular order.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="performance_testing"><a class="anchor" href="#performance_testing"></a><a class="link" href="#performance_testing">Performance Testing</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Performance tests are essential for Nokee plugins to turn 1.0.
+We focused on performance comparison and repeatable profiling.
+We developed a new runner, similar to <a href="https://github.com/gradle-plugins/toolbox/blob/main/subprojects/gradle-runner-kit-api/src/main/java/dev/gradleplugins/runnerkit/GradleRunner.java">our Gradle runner</a>, to perform build experiments.
+At the moment, we are tracking the performance of a JNI library plugin implemented using the Software Model and our Nokee plugin as part of the <a href="https://github.com/gradle/native-platform"><code>gradle/native-platform</code> project</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ios_support"><a class="anchor" href="#ios_support"></a><a class="link" href="#ios_support">iOS Support</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>First-class support for building iOS applications and libraries requires a lot of upfront work.
+Instead, we can shortcut the work required by adapting the Xcode build system to Gradle and progress backward.
+We named this solution <em>build adapters</em> as it adapts a complete build system to Gradle, similar to an included build.
+We already have an experimental CMake build adapter that we can use to <a href="https://github.com/nokeedev/gradle-native/blob/master/subprojects/testing-native/src/functionalTest/groovy/dev/nokee/testing/googletest/GoogleTestTestSuiteFunctionalTest.groovy#L31-L88">build Google Test as a source dependency</a>.
+The goal of build adapters is to reduce the migration cost while maximizing maintenance and performance.</p>
+</div>
+<div class="paragraph">
+<p>We developed most of the infrastructure for handling Xcode workspace and projects.
+Gradle/Nokee can build targets within a single Xcode project.
+We successfully validated this first step using the VLC iOS application as shown below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://asciinema.org/a/1qZfiGloCtyI8whxo8NeGplpH"><img src="https://asciinema.org/a/1qZfiGloCtyI8whxo8NeGplpH.svg" alt="Invocation of `gradle tasks` followed by `gradle CocoaHTTPServer-iOS`"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>The published build scan is available <a href="https://scans.gradle.com/s/r3klqo6dmdkna">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nokee_universal_model"><a class="anchor" href="#nokee_universal_model"></a><a class="link" href="#nokee_universal_model">Nokee Universal Model</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Universal Model (UM) is a data-oriented design to configure Gradle.
+The typical configuration model (often referred to as <em>vanilla Gradle</em>) lacks support for deeply nested domain objects.
+The Universal Model focuses on breaking the boundaries between Gradle containers allowing a universal space for all domain objects.
+The model follows a plain Entity-Component-System architecture with the ability to project Entity into <em>vanilla domain objects</em>.
+You can follow our technical rambling about the Universal Model in <a href="https://github.com/nokeedev/gradle-native/pulls">our PRs</a>.</p>
+</div>
+<div class="paragraph">
+<p>All of our platform plugins use the Universal Model, i.e. <code>c-library</code>, <code>jni-library</code>, etc.
+The latest work focus on performance and clean architecture.
+We identified hot spots that we will investigate before releasing v0.5.
+We also untangled capabilities that should build on top of the Universal Model, i.e. classic <code>Action</code> execution, component elements tracking (similar to Gradle&#8217;s domain object container), etc.
+Finally, we prepare the architecture to support near-future capabilities such as reporting and custom repositories like Conan and vcpkg.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="jbake_plugin"><a class="anchor" href="#jbake_plugin"></a><a class="link" href="#jbake_plugin">JBake plugin</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All of our documentation is statically <em>compiled</em> using <a href="https://jbake.org/">JBake</a>.
+Our needs and complexity far outweigh the <a href="https://github.com/jbake-org/jbake-gradle-plugin">official plugin&#8217;s capability</a>, mainly around multi-repository cooperation.
+We wrote <a href="https://github.com/nokeedev/jbake-gradle-plugin">our plugin</a> to better support our documentation development.
+This plugin will allow splitting documentation to accelerate its growth by improving test performance.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="freebsdarm_support"><a class="anchor" href="#freebsdarm_support"></a><a class="link" href="#freebsdarm_support">FreeBSD/ARM support</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nokee officially supports building on FreeBSD and ARM systems.
+To successfully test on FreeBSD system, we developed a set of <a href="https://github.com/nokeedev/actions">GitHub actions</a> using <a href="https://www.vagrantup.com/">Vagrant</a>.
+We have ARM infrastructure coming soon, enabling ARM architecture testing.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gradle_build_script_model"><a class="anchor" href="#gradle_build_script_model"></a><a class="link" href="#gradle_build_script_model">Gradle build script model</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As part of our test fixtures and documentation samples, we have to maintain many Gradle build scripts.
+We often compose those scripts from multiple snippets.
+Gradle&#8217;s multi-DSL language support (Groovy/Kotlin) makes this task challenging.
+For this reason, we wrote a <a href="https://github.com/nokeedev/gradle-native/tree/master/gradle/libraries/gradle-build-script">model over Gradle build script</a>.
+This model is crucial for our upcoming documentation samples and user onboarding stories, e.g. build init templates.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nokee_distribution_management_plugin_experimentation"><a class="anchor" href="#nokee_distribution_management_plugin_experimentation"></a><a class="link" href="#nokee_distribution_management_plugin_experimentation">Nokee distribution management plugin experimentation</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The effortless nature of the build adapter plugins is a great way to bridge other build systems with Gradle.
+However, managing which Nokee distribution to use and aligning the versions between projects is tricky.
+We want Nokee to feel like a core Gradle plugin despite being a 3rd party plugin.
+We tried solving the issue via <a href="https://github.com/nokeedev/init.nokee.dev">an init plugin</a>.
+This solution had many moving pieces, making it inadequate for users.
+Instead, we experimented with a settings plugin that provides a much easier user interface.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gradle_enterprise_server"><a class="anchor" href="#gradle_enterprise_server"></a><a class="link" href="#gradle_enterprise_server">Gradle Enterprise server</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Gradle team provided us with a Gradle Enterprise instance for Nokee.
+Although we are Gradle experts, the onboarding helped us identify a few issues with our build.
+As part of this effort, we took the time to upgrade our Gradle version to 7.4.
+We also worked on our documentation pipeline, which had a lot of caching issues.</p>
+</div>
+</div>
+</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="push"></div>
+
+	<!-- Begin Mailchimp Signup Form -->
+	<p style="text-align:center">Stay on top of new features and news by subscribing:</p>
+	<div id="mc_embed_signup">
+		<form action="https://dev.us4.list-manage.com/subscribe/post?u=c1b91750dbe075432c8729552&amp;id=93402e2466" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+			<div id="mc_embed_signup_scroll">
+
+			<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+			<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+			<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_c1b91750dbe075432c8729552_93402e2466" tabindex="-1" value=""></div>
+			<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+			</div>
+			<small>* We will never send spam, and you can unsubscribe at any time</small>
+		</form>
+	</div>
+
+	<!--End mc_embed_signup-->
+		<div id="push"></div>
+
+		<div id="footer">
+			<div class="container">
+				<p class="muted credit">&copy; 2020</p>
+			</div>
+		</div>
+
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="/js/prettify.js"></script>
+
+<script src="/component-multi-language-sample.js"></script>
+</body>
+</html>

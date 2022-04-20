@@ -1,0 +1,1835 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Nokee Labs Blog</title>
+		<link>https://feed.nokee.dev</link>
+		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
+		<description>Gradle Native Blog</description>
+		<language>en-ca</language>
+		<pubDate>Wed, 20 Apr 2022 20:48:10 +0000</pubDate>
+		<lastBuildDate>Wed, 20 Apr 2022 20:48:10 +0000</lastBuildDate>
+
+		
+		<item>
+			<title>Devlog #1</title>
+			<link>https://feed.nokee.dev/devlog-1</link>
+			<pubDate>Wed, 20 Apr 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-1</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This development log (devlog) is more extensive than expected in the following entries.
+It includes most work done during February and March in no particular order.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;performance_testing&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#performance_testing&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#performance_testing&quot;&gt;Performance Testing&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Performance tests are essential for Nokee plugins to turn 1.0.
+We focused on performance comparison and repeatable profiling.
+We developed a new runner, similar to &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/blob/main/subprojects/gradle-runner-kit-api/src/main/java/dev/gradleplugins/runnerkit/GradleRunner.java&quot;&gt;our Gradle runner&lt;/a&gt;, to perform build experiments.
+At the moment, we are tracking the performance of a JNI library plugin implemented using the Software Model and our Nokee plugin as part of the &lt;a href=&quot;https://github.com/gradle/native-platform&quot;&gt;&lt;code&gt;gradle/native-platform&lt;/code&gt; project&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;ios_support&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#ios_support&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#ios_support&quot;&gt;iOS Support&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First-class support for building iOS applications and libraries requires a lot of upfront work.
+Instead, we can shortcut the work required by adapting the Xcode build system to Gradle and progress backward.
+We named this solution &lt;em&gt;build adapters&lt;/em&gt; as it adapts a complete build system to Gradle, similar to an included build.
+We already have an experimental CMake build adapter that we can use to &lt;a href=&quot;https://github.com/nokeedev/gradle-native/blob/master/subprojects/testing-native/src/functionalTest/groovy/dev/nokee/testing/googletest/GoogleTestTestSuiteFunctionalTest.groovy#L31-L88&quot;&gt;build Google Test as a source dependency&lt;/a&gt;.
+The goal of build adapters is to reduce the migration cost while maximizing maintenance and performance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We developed most of the infrastructure for handling Xcode workspace and projects.
+Gradle/Nokee can build targets within a single Xcode project.
+We successfully validated this first step using the VLC iOS application as shown below:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;a class=&quot;image&quot; href=&quot;https://asciinema.org/a/1qZfiGloCtyI8whxo8NeGplpH&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/1qZfiGloCtyI8whxo8NeGplpH.svg&quot; alt=&quot;Invocation of `gradle tasks` followed by `gradle CocoaHTTPServer-iOS`&quot;&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The published build scan is available &lt;a href=&quot;https://scans.gradle.com/s/r3klqo6dmdkna&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;nokee_universal_model&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#nokee_universal_model&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#nokee_universal_model&quot;&gt;Nokee Universal Model&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The Universal Model (UM) is a data-oriented design to configure Gradle.
+The typical configuration model (often referred to as &lt;em&gt;vanilla Gradle&lt;/em&gt;) lacks support for deeply nested domain objects.
+The Universal Model focuses on breaking the boundaries between Gradle containers allowing a universal space for all domain objects.
+The model follows a plain Entity-Component-System architecture with the ability to project Entity into &lt;em&gt;vanilla domain objects&lt;/em&gt;.
+You can follow our technical rambling about the Universal Model in &lt;a href=&quot;https://github.com/nokeedev/gradle-native/pulls&quot;&gt;our PRs&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All of our platform plugins use the Universal Model, i.e. &lt;code&gt;c-library&lt;/code&gt;, &lt;code&gt;jni-library&lt;/code&gt;, etc.
+The latest work focus on performance and clean architecture.
+We identified hot spots that we will investigate before releasing v0.5.
+We also untangled capabilities that should build on top of the Universal Model, i.e. classic &lt;code&gt;Action&lt;/code&gt; execution, component elements tracking (similar to Gradle&amp;#8217;s domain object container), etc.
+Finally, we prepare the architecture to support near-future capabilities such as reporting and custom repositories like Conan and vcpkg.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;jbake_plugin&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#jbake_plugin&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#jbake_plugin&quot;&gt;JBake plugin&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All of our documentation is statically &lt;em&gt;compiled&lt;/em&gt; using &lt;a href=&quot;https://jbake.org/&quot;&gt;JBake&lt;/a&gt;.
+Our needs and complexity far outweigh the &lt;a href=&quot;https://github.com/jbake-org/jbake-gradle-plugin&quot;&gt;official plugin&amp;#8217;s capability&lt;/a&gt;, mainly around multi-repository cooperation.
+We wrote &lt;a href=&quot;https://github.com/nokeedev/jbake-gradle-plugin&quot;&gt;our plugin&lt;/a&gt; to better support our documentation development.
+This plugin will allow splitting documentation to accelerate its growth by improving test performance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;freebsdarm_support&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#freebsdarm_support&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#freebsdarm_support&quot;&gt;FreeBSD/ARM support&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Nokee officially supports building on FreeBSD and ARM systems.
+To successfully test on FreeBSD system, we developed a set of &lt;a href=&quot;https://github.com/nokeedev/actions&quot;&gt;GitHub actions&lt;/a&gt; using &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt;.
+We have ARM infrastructure coming soon, enabling ARM architecture testing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;gradle_build_script_model&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#gradle_build_script_model&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#gradle_build_script_model&quot;&gt;Gradle build script model&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As part of our test fixtures and documentation samples, we have to maintain many Gradle build scripts.
+We often compose those scripts from multiple snippets.
+Gradle&amp;#8217;s multi-DSL language support (Groovy/Kotlin) makes this task challenging.
+For this reason, we wrote a &lt;a href=&quot;https://github.com/nokeedev/gradle-native/tree/master/gradle/libraries/gradle-build-script&quot;&gt;model over Gradle build script&lt;/a&gt;.
+This model is crucial for our upcoming documentation samples and user onboarding stories, e.g. build init templates.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;nokee_distribution_management_plugin_experimentation&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#nokee_distribution_management_plugin_experimentation&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#nokee_distribution_management_plugin_experimentation&quot;&gt;Nokee distribution management plugin experimentation&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The effortless nature of the build adapter plugins is a great way to bridge other build systems with Gradle.
+However, managing which Nokee distribution to use and aligning the versions between projects is tricky.
+We want Nokee to feel like a core Gradle plugin despite being a 3rd party plugin.
+We tried solving the issue via &lt;a href=&quot;https://github.com/nokeedev/init.nokee.dev&quot;&gt;an init plugin&lt;/a&gt;.
+This solution had many moving pieces, making it inadequate for users.
+Instead, we experimented with a settings plugin that provides a much easier user interface.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;gradle_enterprise_server&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#gradle_enterprise_server&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#gradle_enterprise_server&quot;&gt;Gradle Enterprise server&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The Gradle team provided us with a Gradle Enterprise instance for Nokee.
+Although we are Gradle experts, the onboarding helped us identify a few issues with our build.
+As part of this effort, we took the time to upgrade our Gradle version to 7.4.
+We also worked on our documentation pipeline, which had a lot of caching issues.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Introducing Development Logs</title>
+			<link>https://feed.nokee.dev/introducing-devlog</link>
+			<pubDate>Wed, 20 Apr 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/introducing-devlog</guid>
+			<description>
+			&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today we are introducing development logs (also known as &lt;em&gt;devlog&lt;/em&gt;) to help keep our users and sponsors informed and connected.
+Those short-form, semi-formal posts focus on where we spent our efforts since the last entry.
+Feel free to &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;reach out to us&lt;/a&gt; if you have a particular request to be included in those updates.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;a href=&quot;/devlog-1&quot;&gt;first devlog&lt;/a&gt; is already available.&lt;/p&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>License Clarification</title>
+			<link>https://feed.nokee.dev/license-clarification</link>
+			<pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/license-clarification</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Thus far, we developed Nokee in the &lt;em&gt;open&lt;/em&gt; without ever having a precise Open Source Software (OSS) license.
+It can be a legal blocker for some teams when adopting Nokee for native development with Gradle.
+Today, we are officially clarifying Nokee source code under &lt;strong&gt;Apache 2.0 license&lt;/strong&gt;.
+We believe this change will help Nokee grow further alongside Gradle.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;why_apache_2_0&quot;&gt;Why Apache 2.0?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The Gradle team already licenses Gradle Build Tool under Apache 2.0.
+Our license choice needs to be compatible with the Gradle Build Tool itself.
+To maximize Nokee&amp;#8217;s adoption, settling on Apache 2.0 was a natural choice.
+It will also reduce friction with your legal department.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what_about_previous_versions&quot;&gt;What about previous versions?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We won&amp;#8217;t be making any changes to the previous Nokee versions.
+However, if your team needs an Apache 2.0 friendly license for those versions, please send your request to &lt;a href=&quot;mailto:support@nokee.dev&quot;&gt;support@nokee.dev&lt;/a&gt;.
+We will work together to find a solution for your needs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you have any questions, always feel free to reach out to me via &lt;a href=&quot;https://github.com/nokeedev/gradle-native/discussions&quot;&gt;GitHub discussion&lt;/a&gt;, sending an email to &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt;, or &lt;a href=&quot;https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R&quot;&gt;joining the Gradle Community Slack&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Farewell Bintray&#8230;&#8203;</title>
+			<link>https://feed.nokee.dev/farewell-bintray</link>
+			<pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/farewell-bintray</guid>
+			<description>
+			&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On February 3rd, &lt;a href=&quot;https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/&quot;&gt;JFrog announced the sunset of Bintray and JCenter services&lt;/a&gt;.
+This news is particularly devastating as we depended on those services to release our hard work to you, our fantastic users.
+We are committed to offering our plugins and libraries without interruption, which is why solving this issue became our top priority.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We maintain two major artifact groups:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/nokeedev&quot;&gt;&lt;code&gt;dev.nokee&lt;/code&gt;&lt;/a&gt;: a suite of Gradle plugins for painless native development&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/gradle-plugins&quot;&gt;&lt;code&gt;dev.gradleplugins&lt;/code&gt;&lt;/a&gt;: a suite of Gradle plugins and libraries for accelerated Gradle plugin development.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Moving forward, we will host the artifacts for both groups on our servers.
+Unfortunately, we won&amp;#8217;t release the subsequent versions simultaneously into the central plugin portal until &lt;a href=&quot;https://github.com/gradle/plugin-portal-requests/issues/78&quot;&gt;the Gradle team provide more guidance to the plugin development community&lt;/a&gt;.
+See the &lt;a href=&quot;https://repo.nokee.dev&quot;&gt;repositories landing page&lt;/a&gt; for more information on how to configure your Gradle build.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The following is a rundown of the replacement URLs for our Bintray repositories:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://repo.nokee.dev/release&quot; class=&quot;bare&quot;&gt;https://repo.nokee.dev/release&lt;/a&gt; contains the artifacts from the following Bintray repositories:&lt;/p&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/nokeedev/distributions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/nokeedev/distributions-initialization&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/gradle-plugins/distributions&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://repo.nokee.dev/snapshot&quot; class=&quot;bare&quot;&gt;https://repo.nokee.dev/snapshot&lt;/a&gt; contains the artifacts from the following Bintray repository:&lt;/p&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;hxxps://dl.bintray.com/nokeedev/distributions-snapshots&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In general, the migration process is as simple as updating the repositories to their new locations.
+However, some of our plugins have internal dependencies to Bintray, e.g. they configure repositories for the projects.
+We recommend updating the following plugins to the minimum specified version:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.java-gradle-plugin&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.groovy-gradle-pluign&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-development&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-unit-test&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-functional-test&lt;/code&gt; &amp;#8594; 1.2.1 (with &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/#usage&quot;&gt;repository in &lt;code&gt;pluginManagement&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nokee init plugin &amp;#8594; use the &lt;a href=&quot;https://raw.githubusercontent.com/nokeedev/init.nokee.dev/main/nokee.init.gradle&quot;&gt;latest version&lt;/a&gt; according to the &lt;a href=&quot;https://github.com/nokeedev/init.nokee.dev/#usage&quot;&gt;usage documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are still more than two months before the service is wholly decommissioned; however, we urge our users to take the time now and proceed with a migration to the new repository locations.
+All new versions of our plugins and libraries will be released only in our repositories.
+If you have any questions regarding this migration, please sends us an email to &lt;a href=&quot;mailto:bintray-migration@nokee.dev&quot;&gt;bintray-migration@nokee.dev&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We are working on deeper integration with Gradle removing your need to manage those repositories manually.
+Stay tuned.&lt;/p&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>What&#8217;s the latest Nokee version?</title>
+			<link>https://feed.nokee.dev/what-is-the-latest-nokee-version</link>
+			<pubDate>Mon, 7 Sep 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/what-is-the-latest-nokee-version</guid>
+			<description>
+			&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As more users adopt Nokee for building their native codebases, we often get asked what&amp;#8217;s the latest version they can try.
+As part of an effort to answer this question, we introduce a web service available at &lt;a href=&quot;https://services.nokee.dev&quot;&gt;services.nokee.dev&lt;/a&gt;.
+The service aims at gathering useful information about Nokee.
+It also lay the groundwork for tighter integration with Gradle, which we will announce shortly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the moment, we expose version information about the &lt;a href=&quot;https://services.nokee.dev/versions/latest-snapshot.json&quot;&gt;latest snapshot&lt;/a&gt;, &lt;a href=&quot;https://services.nokee.dev/versions/current.json&quot;&gt;latest release&lt;/a&gt; and &lt;a href=&quot;https://services.nokee.dev/versions/all.json&quot;&gt;all available versions&lt;/a&gt;.
+We update the data daily.
+If you have neat ideas or want to improve this web service, feel free to &lt;a href=&quot;https://github.com/nokeedev/services.nokee.dev&quot;&gt;open issues or contribute to the GitHub repository&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Stay tuned for more information about the upcoming Nokee release.&lt;/p&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Release 0.4 Announcement</title>
+			<link>https://feed.nokee.dev/release-0.4-announcement</link>
+			<pubDate>Mon, 29 Jun 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/release-0.4-announcement</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Join us to celebrate the &lt;a href=&quot;/docs/0.4.0/release-notes.html&quot;&gt;fourth version of the Nokee plugins&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Longer than expected release cycle helped leap Nokee forward.
+In this release, we change the configuration model of Nokee plugins, which may potentially break current users.
+We made ten new plugins available for our users to support building native applications/libraries implemented in C, C&amp;#43;&amp;#43;, Objective-C, Objective-C&amp;#43;&amp;#43; and Swift.
+We have also included five additional plugins to enhance the development of Gradle plugins.
+Let&amp;#8217;s explore the release together.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;configuration_model_changes&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#configuration_model_changes&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#configuration_model_changes&quot;&gt;Configuration model changes&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The configuration model of Gradle was a talking subject for many years.
+It started with the zero configuration effort, aimed at minimizing the time spent processing the build script.
+Then, it was the software model, a different configuration model with ambitious goals.
+Now, it&amp;#8217;s all about the configuration cache.
+When completed, it will allow near-instant execution of your Gradle builds.
+As the Gradle&amp;#8217;s configuration cache near its completion, thanks to the fantastic work by the Gradle team, it&amp;#8217;s essential to enable forward compatibility.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release removes our dependency on obsolete Gradle core configuration modelling.
+It gives us more control for our future work required to push the iOS support forward.
+We also took a different direction than the native plugins developed by the Gradle team.
+The Gradle core plugins never instantiate unbuildable variants, making them impossible to access during the configuration phase.
+It&amp;#8217;s a struggle point when adopting these new plugins for intermediate use cases.
+As part of this release, the Nokee plugins will instantiate all variants as required.
+It makes use cases like &lt;a href=&quot;/docs/0.4.0/samples/jni-library-with-pre-built-binaries&quot;&gt;using previously built binaries when the local environment cannot produce the binaries possible&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;new_native_plugins&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#new_native_plugins&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#new_native_plugins&quot;&gt;New native plugins&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release contains ten new plugins for building native!
+They support building native applications and native libraries implemented in C, C&amp;#43;&amp;#43;, Objective-C, Objective-C&amp;#43;&amp;#43;, and Swift.
+These new plugins are similar in features and will improve them over the next releases.
+They will provide parity with all the native language supported by the core Gradle plugins.
+See &lt;a href=&quot;/docs/0.4.0/manual/plugin-references.html#sec:plugin-reference-native-development&quot;&gt;their respective plugin reference chapters&lt;/a&gt; to learn more.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;gradle_plugin_toolbox_version_1_0_announcement&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#gradle_plugin_toolbox_version_1_0_announcement&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#gradle_plugin_toolbox_version_1_0_announcement&quot;&gt;Gradle Plugin Toolbox version 1.0 announcement&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We &lt;a href=&quot;../introducing-gradle-toolbox/&quot;&gt;recently announced the Gradle Plugin Toolbox&lt;/a&gt; to help plugin authors.
+As part of building the Nokee project, we experience every issue of the Gradle plugin development process.
+For this reason, we decided to share our development plugins with everyone.
+It allows testing against multiple Gradle versions as well as targeting specific Gradle APIs.
+Head over to the &lt;a href=&quot;/docs/nightly/manual/gradle-plugin-development&quot;&gt;user manual&lt;/a&gt; to learn more about the Gradle Plugin Toolbox features.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;new_swift_ios_application_support&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#new_swift_ios_application_support&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#new_swift_ios_application_support&quot;&gt;New Swift iOS application support&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The iOS support got a new plugin to &lt;a href=&quot;/docs/0.4.0/samples/swift-ios-application&quot;&gt;build applications written in Swift&lt;/a&gt;.
+Due to the lack of cross-compilation support in the core Gradle infrastructure, dependencies on libraries didn&amp;#8217;t make it in this release.
+However, we are hard at work in improving our supporting infrastructure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;whats_next&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#whats_next&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#whats_next&quot;&gt;What&amp;#8217;s Next?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With release 0.4, we leaped forward.
+Over the next releases, the focus will be on testing, publishing and toolchain support.
+Testing is an important story often overlooked by build systems.
+Our goal is to allow for the most straightforward testing setup as possible.
+Finally, publishing is hard to get right in native.
+We are discussing various scenarios to solve the problem for everyone using Nokee plugins.
+For developers relying on building from sources, we will soon start working on build wrapping stories.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;#disqus_thread&quot;&gt;Leave a comment below&lt;/a&gt; or reach out on the &lt;a href=&quot;https://gradle-community.slack.com/&quot;&gt;Gradle community Slack&lt;/a&gt;.
+If you want to work with us, email us at &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Introducing Gradle Plugin Toolbox</title>
+			<link>https://feed.nokee.dev/introducing-gradle-toolbox</link>
+			<pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/introducing-gradle-toolbox</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The Gradle plugin development process is tedious.
+Writing a simple plugin is somewhat acceptable; however, very painful when developing complex plugins.
+The Nokee team is glade to officially unveil a toolbox to enhance the task at hand.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;releasing_new_gradle_plugins&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#releasing_new_gradle_plugins&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#releasing_new_gradle_plugins&quot;&gt;Releasing new Gradle plugins&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today, we are announcing five plugins to improve the Gradle plugin development process:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://nokee.dev/docs/nightly/manual/java-gradle-plugin-plugin.html&quot;&gt;&lt;code&gt;dev.gradleplugins.java-gradle-plugin&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Provides support for developing Gradle plugin implemented in Java.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://nokee.dev/docs/nightly/manual/groovy-gradle-plugin-plugin.html&quot;&gt;&lt;code&gt;dev.gradleplugins.groovy-gradle-plugin&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Provides support for developing Gradle plugin implemented in Groovy.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://nokee.dev/docs/nightly/manual/gradle-plugin-development-plugin.html&quot;&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-development&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Provides additional support for developing Gradle plugin-related projects.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://nokee.dev/docs/nightly/manual/gradle-plugin-unit-test-plugin.html&quot;&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-unit-test&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Provides support for unit testing Gradle plugins.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://nokee.dev/docs/nightly/manual/gradle-plugin-functional-test-plugin.html&quot;&gt;&lt;code&gt;dev.gradleplugins.gradle-plugin-functional-test&lt;/code&gt;&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Provides support for functional testing Gradle plugins.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first two plugins are a welcome alternative for the &lt;code&gt;java-gradle-plugin&lt;/code&gt; core plugin and focus on Java and Groovy language, respectively.
+The Kotlin ecosystem is a bit particular due to some &lt;em&gt;workarounds&lt;/em&gt;(hacks) in Gradle itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The third plugin provides conveniences to projects supporting the development of Gradle plugins.
+It&amp;#8217;s a settings plugin and decorates all projects.
+The plugin provides conveniences for adding Gradle API dependencies of a specific version, querying compatibility information for released Gradle distribution, and adding dependencies on Gradle fixtures for testing maintained by Nokee.
+Have a look at the &lt;a href=&quot;https://nokee.dev/docs/nightly/samples/gradle-plugin-development-runtime-compatibilities/&quot;&gt;Gradle runtime compatibility sample&lt;/a&gt; to learn more.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The final two plugins formalize &lt;a href=&quot;https://nokee.dev/docs/nightly/manual/gradle-plugin-development.html#sec:gradle-dev-unit-testing&quot;&gt;unit&lt;/a&gt; and &lt;a href=&quot;https://nokee.dev/docs/nightly/manual/gradle-plugin-development.html#sec:gradle-dev-functional-testing&quot;&gt;functional&lt;/a&gt; testing for Gradle plugin development.
+Typically, unit tests focus on individual classes using the &lt;code&gt;ProjectBuilder&lt;/code&gt; testing fixtures.
+On the other hand, functional tests focus on execution behaviours using the Gradle TestKit testing fixtures.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;why_replace_the_core_gradle_development_plugins&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#why_replace_the_core_gradle_development_plugins&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#why_replace_the_core_gradle_development_plugins&quot;&gt;Why replace the core Gradle development plugins?&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The core Gradle development plugins, e.g. &lt;code&gt;java-gradle-plugin&lt;/code&gt; released as part of the Gradle distribution, are unfavorable to a fast iterative process.
+We have seen little improvement catering to the Gradle plugin development experience despite a need for key features to aid high-quality plugin development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;features&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#features&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#features&quot;&gt;Features&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;developing_under_a_specific_gradle_version_while_building_with_another&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#developing_under_a_specific_gradle_version_while_building_with_another&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#developing_under_a_specific_gradle_version_while_building_with_another&quot;&gt;Developing under a specific Gradle version while building with another&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Modelling the minimum Gradle version supported by the plugins is an essential use case solved by the toolbox; instead of runtime errors Gradle will automatically detect the errors at compile-time by using the &lt;a href=&quot;https://nokee.dev/docs/nightly/samples/gradle-plugin-development-with-minimum-gradle-version/&quot;&gt;correct Gradle API JAR regardless of the running Gradle version&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Example 1. Configuring minimum supported Gradle&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;gradlePlugin {
+   compatibility {
+      minimumGradleVersion = &apos;4.9&apos;
+   }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle.kts&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;kotlin&quot;&gt;gradlePlugin {
+   compatibility {
+      minimumGradleVersion.set(&quot;4.9&quot;)
+   }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Nokee published the generated Gradle API&amp;#8217;s JAR from each distribution together with its matching sources.
+Additionally, we included it&amp;#8217;s correct Groovy/Kotlin runtime version as dependencies.
+We&amp;#8217;ve written a utility class to map the different Gradle versions to it&amp;#8217;s appropriate JVM runtimes; Java, Groovy, Kotlin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;dependency-gradle-api.png&quot; alt=&quot;Build scan showing the Gradle API dependency of a Gradle plugin development project.&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;improving_compatibility_defaults&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#improving_compatibility_defaults&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#improving_compatibility_defaults&quot;&gt;Improving compatibility defaults&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our plugins select Gradle&amp;#8217;s source and target compatibility based on the minimum supported Gradle version of your plugins.
+The plugins still allows you to overwrite Java compatibility as you typically would.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The same process applies to the Groovy runtime dependency as shown by the build scan.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;dependency-groovy.png&quot; alt=&quot;Build scan showing the Groovy dependency of a Gradle plugin development project.&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By applying the &lt;code&gt;dev.gradleplugins.gradle-plugin-development&lt;/code&gt; plugin in your settings script, you will have access to the &lt;code&gt;GradleCompatibility&lt;/code&gt; class, used by our plugins&apos; automatic compatibility selection, from every project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Example 2. Querying Gradle compatibility information&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;settings.gradle&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;plugins {
+    id &apos;dev.gradleplugins.gradle-plugin-development&apos; version &apos;1.0.0&apos;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;import static dev.gradleplugins.GradleCompatibility.*
+
+tasks.register(&apos;gradleCompatibility&apos;) {
+    def gradleVersion = &apos;4.9&apos;
+    doLast {
+      println &quot;=== Gradle ${gradleVersion} Compatibility Information ===&quot;
+      println &quot;Minimum Java version: ${minimumJavaVersionFor(gradleVersion)}&quot;
+      println &quot;Groovy version: ${groovyVersionOf(gradleVersion)}&quot;
+      println &quot;Kotlin version: ${kotlinVersionOf(gradleVersion).orElse(&apos;N/A&apos;)}&quot;
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;settings.gradle.kts&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;kotlin&quot;&gt;plugins {
+    id(&quot;dev.gradleplugins.gradle-plugin-development&quot;) version(&quot;1.0.0&quot;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle.kts&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;kotlin&quot;&gt;import dev.gradleplugins.GradleCompatibility.*
+
+tasks.register(&quot;gradleCompatibility&quot;) {
+    val gradleVersion = &quot;4.9&quot;
+    doLast {
+      println(&quot;=== Gradle ${gradleVersion} Compatibility Information ===&quot;)
+      println(&quot;Minimum Java version: ${minimumJavaVersionFor(gradleVersion)}&quot;)
+      println(&quot;Groovy version: ${groovyVersionOf(gradleVersion)}&quot;)
+      println(&quot;Kotlin version: ${kotlinVersionOf(gradleVersion).orElse(&quot;N/A&quot;)}&quot;)
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;testing_strategies&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#testing_strategies&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#testing_strategies&quot;&gt;Testing strategies&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Plugin testing is the most important shortcoming in Gradle plugin development.
+Unfortunately, writing tests are the only way to ensure high-quality plugins.
+Our plugins support test coverage across several Gradle versions.
+As part of this release, we include three common testing strategies: minimum supported Gradle version, latest released Gradle, and latest nightly.
+Have a look at the &lt;a href=&quot;https://nokee.dev/docs/nightly/samples/gradle-plugin-development-with-testing-strategies/&quot;&gt;testing strategies sample&lt;/a&gt; to learn more.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;testing-strategies-build-scan.png&quot; alt=&quot;Build scan showing the testing strategy-aware testing&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can select the testing strategy from IntelliJ.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;testing-strategies-inside-idea.png&quot; alt=&quot;Idea windows showing how to select a specific testing strategy&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Extracted from the Gradle codebase, our plugins offer complementary test fixtures for common assertions, e.g. content of archives, files, Maven repositories.
+These test fixtures work in tandem with those provided by the Gradle team and already available: &lt;code&gt;ProjectBuilder&lt;/code&gt; and Gradle TestKit.
+An early preview is &lt;a href=&quot;https://nokee.dev/docs/nightly/manual/gradle-plugin-development.html#sec:gradle-dev-gradle-fixtures&quot;&gt;now available for trial&lt;/a&gt;, and &lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues&quot;&gt;your feedback&lt;/a&gt; will help us prioritize future release features.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;generate_groovydoc_jar&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#generate_groovydoc_jar&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#generate_groovydoc_jar&quot;&gt;Generate Groovydoc JAR&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our Groovy development plugin enables the creation and publication of the Groovydoc JAR via the &lt;code&gt;groovy&lt;/code&gt; extension on &lt;code&gt;gradlePlugin&lt;/code&gt;.
+It automatically registers the Groovydoc JAR as an outgoing artifact for the project.
+Gradle will then publish the JAR side-by-side with your other plugin artifacts.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Example 3. Creating Groovydoc JAR for Gradle plugins&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;plugins {
+    id &apos;dev.gradleplugins.groovy-gradle-plugin&apos; version &apos;1.0.0&apos;
+}
+
+gradlePlugin {
+    groovy {
+        withGroovydocJar()
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle.kts&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;kotlin&quot;&gt;plugins {
+    id(&quot;dev.gradleplugins.groovy-gradle-plugin&quot;) version(&quot;1.0.0&quot;)
+}
+
+gradlePlugin {
+    groovy {
+        withGroovydocJar()
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;whats_next&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#whats_next&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#whats_next&quot;&gt;What&amp;#8217;s next?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://nokee.dev/docs/nightly/samples/#sec:samples-gradle-dev&quot;&gt;Try&lt;/a&gt;, share, &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues&quot;&gt;exchange your ideas and suggestion&lt;/a&gt;.
+The Nokee team is eagerly awaiting your feedback!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have a lot more features to come soon!
+Please vote for your favourite to help us prioritize which feature to deliver first in our next release.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues/8&quot;&gt;Add compatibility information to the JAR plugin&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Help diagnose incompatible plugins in future releases.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues/9&quot;&gt;Helpful runtime message for incompatible environments&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Improve user experience and promote plugin adoptions.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues/10&quot;&gt;Improve the modularization of the Gradle fixtures&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Use the Gradle fixtures with any testing framework.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues/11&quot;&gt;Allow testing strategy for specific Gradle version&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Offer more coverage options to plugin authors.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues/12&quot;&gt;Add cross-JVM testing strategies&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Improve the plugin testing coverage across JDKs.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues/13&quot;&gt;Formalize well-behaving test suite for tasks and plugins&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Ensure a baseline quality for all plugins.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;a href=&quot;https://github.com/gradle-plugins/toolbox/issues/14&quot;&gt;Support low-ceremony plugin development&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Quick and easy creation of plugins by removing the majority of a plugin project setup steps.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;#disqus_thread&quot;&gt;Leave a comment below&lt;/a&gt;, write us on the &lt;a href=&quot;https://gradle-community.slack.com/&quot;&gt;Gradle community Slack&lt;/a&gt; or email us at &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Release 0.3 Announcement</title>
+			<link>https://feed.nokee.dev/release-0.3-announcement</link>
+			<pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/release-0.3-announcement</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Join me in celebrating the &lt;a href=&quot;/docs/0.3.0/release-notes.html&quot;&gt;third release of the Nokee plugins&lt;/a&gt;.
+The most significant announcement of this release is the early iOS support for Gradle.
+Let&amp;#8217;s explore this announcement as well as the other improvement accomplished as part of this release.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;ios_support_for_gradle&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#ios_support_for_gradle&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#ios_support_for_gradle&quot;&gt;iOS Support for Gradle&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Despite the &lt;a href=&quot;../release-0.2-announcement&quot;&gt;requirements express in the previous announcement road map for iOS support&lt;/a&gt;, I decided to work around them and deliver the first milestone.
+I&amp;#8217;m proud to show the fruit of that labour and deliver support for building iOS applications with XCTest for Gradle.
+It&amp;#8217;s early support, which means there are limitations imposed by the plugin.
+For example, the application will only execute inside the simulator running iOS 13.2.
+The implementation language is also limited to Objective-C.
+I purposefully limited the scope for this first release so I could focus on the core experience from the developer&amp;#8217;s perspective.
+There are two main scenarios I wanted to cover.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first scenario is building and launching the application from Xcode.
+I carefully crafted the Xcode integration to delegate the build to Gradle while allowing Xcode to launch the application inside the simulator.
+The experience aims to be as vanilla as possible.
+It means you can build via &lt;code&gt;Product &amp;gt; Build&lt;/code&gt; (Cmd+B) and launch the application via the main launch button, as shown in the video below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock text-center&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;xcode-ide-launch-action.gif&quot; alt=&quot;Launch iOS application inside simulator from Xcode IDE&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The second scenario is testing from Xcode.
+This scenario is probably the most tricky to get right.
+The integration allows tests to be executed via the main test button in the top left corner, from the test navigator or the side dot in the editor.
+You can see it in action in the video below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock text-center&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;xcode-ide-test-action.gif&quot; alt=&quot;Execute iOS XCTest inside simulator from Xcode IDE&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For both scenarios, the integration needed to allow indexing to work as expected.
+Developers can jump to symbol definitions, jump to files from an &lt;code&gt;#import&lt;/code&gt; directive and perform searches inside the symbol navigator.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock text-center&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;xcode-ide-indexing.gif&quot; alt=&quot;Navigate between symbols inside Xcode IDE&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Feel free to &lt;a href=&quot;/docs/0.3.0/samples/#sec:ios&quot;&gt;try out one of the samples&lt;/a&gt;.
+If you find any issues, please &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues&quot;&gt;open an issue&lt;/a&gt;.
+Don&amp;#8217;t hesitate to contact me at &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt; if you want to help sponsor the effort.
+We can work together and deliver the use case that would have the highest impact on your developer productivity first.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;java_native_interface_jni_development_improvement&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#java_native_interface_jni_development_improvement&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#java_native_interface_jni_development_improvement&quot;&gt;Java Native Interface (JNI) development improvement&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The JNI library plugin kept improving during this release.
+I worked with the team behind &lt;a href=&quot;https://github.com/weisJ/darklaf/pull/154&quot;&gt;Darklaf to showcase the JNI library plugin on their project&lt;/a&gt;.
+I identified gaps in the API resolving mostly around accessing variants, binaries and their tasks.
+I took this opportunity to add new APIs to allow a smoother transition.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A special thanks to &lt;a href=&quot;https://github.com/javenwang&quot;&gt;Javen Wang&lt;/a&gt; for his help in enabling to &lt;a href=&quot;/docs/0.3.0/samples/kotlin-cpp-jni-library&quot;&gt;use Kotlin as a JVM language with the JNI library plugin&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Finally, I also rolled out an entire &lt;a href=&quot;/docs/0.3.0/manual/building-jni-projects.html&quot;&gt;chapter on explaining building JNI projects with Gradle and the Nokee plugins&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;documentation_improvement&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#documentation_improvement&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#documentation_improvement&quot;&gt;Documentation improvement&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On the documentation front, I wrote additional chapters to explain the &lt;a href=&quot;/docs/0.3.0/manual/plugin-anatomy.html&quot;&gt;anatomy of Nokee plugins&lt;/a&gt;, &lt;a href=&quot;/docs/0.3.0/manual/building-jni-projects.html&quot;&gt;building JNI projects&lt;/a&gt; and &lt;a href=&quot;/docs/0.3.0/manual/developing-with-xcode-ide.html&quot;&gt;developing with Xcode IDE&lt;/a&gt;.
+I also wrote &lt;a href=&quot;/docs/0.3.0/manual/plugin-references.html&quot;&gt;reference chapters for all the new plugins&lt;/a&gt; as well as &lt;a href=&quot;/docs/0.3.0/samples/&quot;&gt;new samples covering additional use cases raised by the community&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When I started my Gradle journey in 2012, I found the build language documentation (also known as DSL reference) precious to my learning.
+To honour this great resource, I wrote the automation required to generate the &lt;a href=&quot;/docs/0.3.0/dsl&quot;&gt;build language reference for all public types of the Nokee plugins&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As I take documentation very seriously, it is essential to note that I consider unclear documentation as a bug.
+If you encounter any issue with the documentation, please &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues&quot;&gt;open an issue&lt;/a&gt;, so we can improve it for everyone.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;testing_improvement&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#testing_improvement&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#testing_improvement&quot;&gt;Testing improvement&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On the testing front, I added automated tests to keep the Nokee plugins in sync with Gradle release cycles.
+With this new addition, we are closer to the 1.0 milestone.
+I notice some gaps in the testing coverage during the last development cycle.
+They will be closed in the next release so we can move forward with the 1.0 release!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;open_polls&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#open_polls&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#open_polls&quot;&gt;Open polls&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Sometimes I don&amp;#8217;t have enough context to make a decision that would have the most impact.
+For this reason, I like working with teams to help drive the requirements forward.
+The key point is about gathering information to make clear technical decisions.
+I started to create &lt;a href=&quot;https://github.com/nokeedev/gradle-native/labels/a%3Apoll&quot;&gt;poll issues that ask open-ended questions for everyone to participate&lt;/a&gt;.
+The result of those polls will help drive the Nokee plugins forward with features that you care about.
+I scattered links to the polls across the documentation contextualize them.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;open-polls-in-context.png&quot; alt=&quot;Open polls in context within the documentations&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Feel completely free to provide your opinion on each one of them.
+I will be using those issues as guidelines for what to work on next.
+For this reason, specific and tangible use cases are the key point I&amp;#8217;m looking for.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;whats_next&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#whats_next&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#whats_next&quot;&gt;What&amp;#8217;s Next?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m scheduling improvements to toolchain support, in particular, the toolchain selection for the next release.
+This work is a fundamental feature that will help the cross-compiling stories with Gradle.
+It will be beneficial for iOS support as well as open opportunities for native Android support.
+It&amp;#8217;s also essential to support dependencies and iOS libraries.
+CocoaPods is a must for the success of the iOS development support in Gradle.
+Luckily, the flexibility of Gradle will enable all these features over the next few releases of the Nokee plugins.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Don&amp;#8217;t hesitate to &lt;a href=&quot;#disqus_thread&quot;&gt;leave a comment below&lt;/a&gt; or ping me on the &lt;a href=&quot;https://gradle-community.slack.com/&quot;&gt;Gradle community Slack&lt;/a&gt;.
+If you want to work with me and drive the iOS support for Gradle forward with your team, send me an email at &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Introducing Leaf Bird</title>
+			<link>https://feed.nokee.dev/introducing-leaf-bird</link>
+			<pubDate>Thu, 7 May 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/introducing-leaf-bird</guid>
+			<description>
+			&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;While I&amp;#8217;m putting the final touch to the next release packed with impressive features, let&amp;#8217;s take a quick break to welcome our happy leaf bird.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It&amp;#8217;s no surprise that graphic design isn&amp;#8217;t my strong point.
+The first logo, if we can even call it that, was simply the &lt;a href=&quot;https://github.blog/2013-08-14-identicons/&quot;&gt;GitHub identicon&lt;/a&gt; automatically generated when I created the organization.
+It was a placeholder until I find a worthy replacement.
+All this time, it was painful to see how horrible my initial design work was.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I finally decided to reach out to &lt;a href=&quot;https://www.thompsoncreative.co/&quot;&gt;Jason Thompson, an awesome designer&lt;/a&gt; and a good friend, to help me out on finding the perfect logo for Nokee.
+It didn&amp;#8217;t take long before we narrowed down to this lovely leaf-like bird.
+It gives an excellent narrative to the project, but most importantly, a great emotion.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Stay tuned for the next release.
+If you can&amp;#8217;t wait and want to spoil the surprise, head over to the &lt;a href=&quot;/docs/nightly/manual/user-manual.html&quot;&gt;nightly documentation&lt;/a&gt; to learn more about the next release.&lt;/p&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Release 0.2 Announcement</title>
+			<link>https://feed.nokee.dev/release-0.2-announcement</link>
+			<pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/release-0.2-announcement</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Join me today in celebrating the &lt;a href=&quot;/docs/0.2.0/release-notes.html&quot;&gt;second release of the Nokee plugins&lt;/a&gt; with some oatmeal cookies. &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_1&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_1&quot; title=&quot;View footnote.&quot;&gt;1&lt;/a&gt;]&lt;/sup&gt;
+Some great features are being released like the support for macOS framework as normal dependencies.
+I will also go through the outcomes of various experimentation that happen since the first release.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;macos_framework_dependencies&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#macos_framework_dependencies&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#macos_framework_dependencies&quot;&gt;macOS Framework Dependencies&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is common for macOS and iOS developers to rely on frameworks as dependencies.
+Historically, developers had to rely on the compiler and linker flags to support them.
+Why does it have to be this way?
+This release introduces the first step in enabling macOS framework bundles as standard dependencies.
+There are some limitations to the current implementation, and I&amp;#8217;m going to work on removing them in future releases.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The following code snippet shows two interesting aspects of framework dependencies.
+Head over to the &lt;a href=&quot;/docs/0.2.0/samples/jni-library-with-framework-dependencies&quot;&gt;sample page for the complete code&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Example 1. Adding dependencies on macOS frameworks&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;library {
+   dependencies {
+      nativeImplementation &apos;dev.nokee.framework:Cocoa:10.15&apos;       &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+
+      nativeImplementation(&apos;dev.nokee.framework:JavaVM:10.15&apos;) {
+         capabilities {
+            requireCapability &apos;JavaVM:JavaNativeFoundation:10.15&apos;  &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+         }
+      }
+   }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;exampleblock multi-language-sample&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.gradle.kts&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;kotlin&quot;&gt;library {
+   dependencies {
+      nativeImplementation(&quot;dev.nokee.framework:Cocoa:10.15&quot;)      &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+
+      nativeImplementation(&quot;dev.nokee.framework:JavaVM:10.15&quot;) {
+         capabilities {
+            requireCapability(&quot;JavaVM:JavaNativeFoundation:10.15&quot;) &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+         }
+      }
+   }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;Adding dependencies on a system framework&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;Adding dependencies on a subframework of a system framework&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As shown in the previous snippet, a framework dependency is as simple as any other dependencies.
+In fact, the framework dependency resolution uses the Gradle dependency engine.
+It uses a magic group name (e.g. &lt;code&gt;dev.nokee.framework&lt;/code&gt;) so the resolution engine can direct the request to the right resolver.
+Despite &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Tasks/IncludingFrameworks.html#//apple_ref/doc/uid/20002257-97149&quot;&gt;Apple&amp;#8217;s recommendation to avoid referencing subframework directly&lt;/a&gt; &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_2&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_2&quot; title=&quot;View footnote.&quot;&gt;2&lt;/a&gt;]&lt;/sup&gt;, there is still a need to reference them for &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/OSX_Technology_Overview/SystemFrameworks/SystemFrameworks.html&quot;&gt;older deprecated frameworks like &lt;code&gt;JavaVM&lt;/code&gt; and its subframework, &lt;code&gt;JavaNativeFoundation&lt;/code&gt;&lt;/a&gt;.
+The dependency on subframework support is modeled using the &lt;a href=&quot;https://docs.gradle.org/6.2.1/userguide/dependency_management_terminology.html#sub:terminology_capability&quot;&gt;Gradle capability support&lt;/a&gt;.
+The second example in the above snippet shows a dependency on the &lt;code&gt;JavaNativeFoundation&lt;/code&gt; subframework.
+You can see the complete &lt;a href=&quot;/docs/0.2.0/samples/jni-library-with-framework-dependencies&quot;&gt;sample inside the documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;An interesting side-effect of using the Gradle dependency engine is the ability to customize your dependency just like any other dependencies.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You may be wondering how do the Nokee plugins hook into the dependency engine?
+One of the highest requested feature for native during my time at Gradle was support for Conan packages.
+Adam and I even experimented &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_3&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_3&quot; title=&quot;View footnote.&quot;&gt;3&lt;/a&gt;]&lt;/sup&gt; with &lt;a href=&quot;https://github.com/gradle/gradle/commits/am/resolver-spike&quot;&gt;adding support for Homebrew using a custom resolver&lt;/a&gt; for consuming native artifacts.
+The issue with this approach is how tangled it is with the internal of Gradle.
+The spike we developed doesn&amp;#8217;t work with the latest Gradle.
+It just shows how fragile such an approach is, and it&amp;#8217;s not something I can maintain.
+There are also other artifact types the Nokee plugins should support out-of-the-box (e.g. Nuget, system libraries, Windows SDK/DDK, and toolchains).
+Gradle&amp;#8217;s dependency engine is powerful.
+Relying on the Gradle&amp;#8217;s dependency engine for the artifact resolution has positive side-effects.
+For starter, we can benefit from the &lt;a href=&quot;https://docs.gradle.org/6.2.1/userguide/rich_versions.html&quot;&gt;rich version matching&lt;/a&gt; or &lt;a href=&quot;https://docs.gradle.org/6.2.1/userguide/resolution_rules.html&quot;&gt;gracefully resolve dependency conflict&lt;/a&gt;.
+What about &lt;a href=&quot;https://docs.gradle.org/6.2.1/userguide/variant_model.html&quot;&gt;variant selection&lt;/a&gt;?
+Native artifacts have the same variant selection problems.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The big problem is how we can feed custom dependency data inside the dependency engine?
+Nokee&amp;#8217;s solution is an embedded HTTP server that serves as a customizable resolver for finding and providing all the required artifacts to your build.
+It uses all public APIs, which makes the solution forward compatible.
+The challenge is to ensure harmony between Gradle and Nokee without impacting the performance of the build.
+Thankfully, the Gradle team has been releasing helpful features such as the build service that enable such a solution.
+The consumers request artifacts as a standard group, artifact, version (GAV) triplet, optionally using the rich Gradle metadata for more advanced selection.
+Nokee&amp;#8217;s embedded server aggregate all the artifacts found by his resolvers and let Gradle perform the selection and conflict resolution.
+It effectively creates a translation layer between Gradle and the chaotic world of native.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;new_objective_c_and_objective_c_language_plugins&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#new_objective_c_and_objective_c_language_plugins&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#new_objective_c_and_objective_c_language_plugins&quot;&gt;New Objective-C and Objective-C&amp;#43;&amp;#43; Language Plugins&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A language plugin&amp;#8217;s sole job is to provide a specific implementation language capability to the applied project.
+With this release, I&amp;#8217;m introducing two new language plugins to support JNI libraries written in Objective-C and Objective-C&amp;#43;&amp;#43;.
+They work just like any of the &lt;a href=&quot;/docs/0.2.0/manual/plugin-references.html#sec:native-language-plugins&quot;&gt;other Nokee language plugins&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;jni_library_resource_path_customization&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#jni_library_resource_path_customization&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#jni_library_resource_path_customization&quot;&gt;JNI Library Resource Path Customization&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The previous version had incomplete support for multi-variant JNI libraries.
+When assembling the JAR of the final JNI library, there was no way to customize the resource path where to put the native libraries would reside.
+Some JNI projects already have an opinion on where the native libraries are located inside the JAR so they can be unpacked and loaded at runtime.
+This release allows users to &lt;a href=&quot;/docs/0.2.0/samples/jni-library-with-resource-path&quot;&gt;customize the resource path per-variant&lt;/a&gt;.
+A default mapping is provided based on the project group and ambiguous dimension values (e.g. when several supported operating systems).&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;testing_coverage&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#testing_coverage&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#testing_coverage&quot;&gt;Testing Coverage&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Before I learned about the upcoming Gradle support for distributed testing, I did some experimentation on spawning Gradle workers on remote machines.
+In a previous job, I wrote a remote native testing capability for Gradle.
+I can&amp;#8217;t begin to tell you how useful it was, not for performance, but for the convenience of being able to test the code on specific systems by any developers.
+I recently had a great discussion with a community member regarding his bare metal x86 development with Gradle.
+At such a low level, the issue is rarely the build time.
+Usually, it&amp;#8217;s all the intermediate steps that are required to accurately tests the software.
+Often those steps are so troublesome that testing isn&amp;#8217;t automated if you are even lucky to have testing in place.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In my case, I wanted to simplify the testing infrastructure by avoiding the classic dance of fanning out the pipeline at the testing phase.
+My experiment had some success on Linux but hit some roadblock on Windows.
+I decided to shelve the idea for the time being.
+However, rest assured that remote orchestration of Gradle workers would be hugely beneficial for the native ecosystem.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;whats_next&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#whats_next&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#whats_next&quot;&gt;What&amp;#8217;s Next?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The next versions will focus on adding support for Swift implementation language, the last native language needed before attacking full on iOS support in Gradle.
+There will be improvements to toolchain support, in particular the toolchain selection.
+At the moment, toolchain selection is preventing FreeBSD official support.
+It&amp;#8217;s also preventing cross-compilation on all major operating system which in turn prevent iOS support in Gradle.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There will also be improvements to the testing coverage, particularly across multiple toolchains and multiple Gradle.
+Both of these are being worked on as part of the &lt;a href=&quot;https://github.com/gradle-plugins/toolbox&quot;&gt;Gradle Development Plugins&lt;/a&gt;, a project aimed at improving plugin authoring.
+The goal is to provide near zero-configuration for Gradle plugin development.
+It also extends the core plugin development by modelling minimum Gradle version support and fixtures to improve your testing coverage.
+The next versions will focus on adding testing strategies for the plugin functional tests across multiple Gradle version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Don&amp;#8217;t hesitate to &lt;a href=&quot;#disqus_thread&quot;&gt;leave a comment below&lt;/a&gt; or ping me on the &lt;a href=&quot;https://gradle-community.slack.com/&quot;&gt;Gradle community Slack&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_1&quot;&gt;
+&lt;a href=&quot;#_footnoteref_1&quot;&gt;1&lt;/a&gt;. I added semi-sweet chocolat chips to the &lt;a href=&quot;https://www.allrecipes.com/recipe/19247/soft-oatmeal-cookies/&quot;&gt;cookie recipe&lt;/a&gt;.
+&lt;/div&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_2&quot;&gt;
+&lt;a href=&quot;#_footnoteref_2&quot;&gt;2&lt;/a&gt;. Subframeworks are frameworks embedded in other frameworks. In a nutshell, they should be seen as implementation details of the target framework and, like everything, there are exceptions
+&lt;/div&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_3&quot;&gt;
+&lt;a href=&quot;#_footnoteref_3&quot;&gt;3&lt;/a&gt;. Mostly just Adam; I simply made the code merge ready
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Maven POM DSL</title>
+			<link>https://feed.nokee.dev/maven-pom-dsl</link>
+			<pubDate>Wed, 1 Apr 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/maven-pom-dsl</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After &lt;a href=&quot;../hello-native&quot;&gt;8 delusional years of thinking that Gradle can become the best build system on the planet&lt;/a&gt; I realized that Maven is the way to go.
+It has a simple DSL that everyone can gasp within minutes, unlike Gradle, with its fancy Groovy and Kotlin DSL.
+A full Turing language for your build script is overrated.
+Ant and Maven worked perfectly fine, why reinvent the wheel?
+I&amp;#8217;m proud to announce that our next big project at Nokee will be a Maven Project Object Model (POM) DSL &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_1&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_1&quot; title=&quot;View footnote.&quot;&gt;1&lt;/a&gt;]&lt;/sup&gt; support for Gradle.
+It will ease your transition off Gradle toward Maven.
+If you are a native developer, have a look at &lt;a href=&quot;https://maven-nar.github.io/&quot;&gt;NAR plugin for Maven&lt;/a&gt;.
+It even supports cross-compilation, imagine that!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_does_it_work&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#how_does_it_work&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#how_does_it_work&quot;&gt;How does it work?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Pretty much how you would expect it to work.
+The plugin reads a standard &lt;code&gt;pom.xml&lt;/code&gt; file and configures your Gradle build accordingly.
+It&amp;#8217;s that simple.
+Forget about the Groovy DSL or even the new, and fancy, Kotlin DSL.
+Those are things of the past, long live the POM DSL.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock important&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-important&quot; title=&quot;Important&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Don&amp;#8217;t go on thinking that Gradle executes a full Maven instance inside the daemon&amp;#8230;&amp;#8203; that would be pure madness.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I get it, you are a smart developer and want to know how Gradle will behave with this new (old?) DSL.
+The following shows the &lt;code&gt;pom.xml&lt;/code&gt; concept mapping to Gradle:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;packaging&lt;/strong&gt;: The values &lt;code&gt;jar&lt;/code&gt;, &lt;code&gt;ear&lt;/code&gt;, and &lt;code&gt;war&lt;/code&gt; map to the Gradle core plugins &lt;code&gt;java&lt;/code&gt;, &lt;code&gt;ear&lt;/code&gt;, and &lt;code&gt;war&lt;/code&gt; respectively.
+The plugin ignores all other packaging values.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;modules&lt;/strong&gt;: The &lt;code&gt;pom.xml&lt;/code&gt; files discovery starts from the root POM file, and they all participate in the &lt;a href=&quot;https://docs.gradle.org/current/userguide/multi_project_builds.html&quot;&gt;Gradle multi-project configuration&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;properties&lt;/strong&gt;: The plugin maps the key/value pairs into the &lt;a href=&quot;https://docs.gradle.org/current/dsl/org.gradle.api.plugins.ExtraPropertiesExtension.html&quot;&gt;Gradle project&amp;#8217;s extra properties&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;dependencies&lt;/strong&gt;: It maps each dependency scope to their equivalent Gradle configuration, i.e. &lt;code&gt;runtime&lt;/code&gt; maps to &lt;code&gt;runtimeOnly&lt;/code&gt;, &lt;code&gt;provided&lt;/code&gt; maps to &lt;code&gt;compileOnly&lt;/code&gt;, etc.
+The plugin will also wire local project dependency as you would expect.
+Finally, each dependency will be subject to the constraint imposed by the &lt;code&gt;dependencyManagement&lt;/code&gt; tag.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;parent&lt;/strong&gt;: During the configuration phase, it creates an effective POM by merging all the parent POM information for each project.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+The other informational tags, i.e. &lt;code&gt;name&lt;/code&gt;, &lt;code&gt;inceptionYear&lt;/code&gt;, &lt;code&gt;contributors&lt;/code&gt;, etc., are simply copied over to the published POM.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_to_get_started&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#how_to_get_started&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#how_to_get_started&quot;&gt;How to get started?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can get started with those three easy steps:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Save the &lt;a href=&quot;https://raw.githubusercontent.com/nokeedev/gradle-pom-dsl/master/pom.init.gradle&quot;&gt;init script&lt;/a&gt; to your &lt;code&gt;~/.gradle/init.d&lt;/code&gt;.
+&lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_2&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_2&quot; title=&quot;View footnote.&quot;&gt;2&lt;/a&gt;]&lt;/sup&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Huh, that is it&amp;#8230;&amp;#8203; Only one step. Head over to the next section to see it in action.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I don&amp;#8217;t know, profit?
+Why didn&amp;#8217;t you stop at the first step like everyone else?
+I should have just said a single step&amp;#8230;&amp;#8203; Sight, I not good at this.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;From the command line, inside a POM DSL enabled project, simply execute Gradle as you would normally do:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock terminal&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ gradle assemble
+
+BUILD SUCCESSFUL
+2 actionable tasks: 2 executed&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what_is_supported&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#what_is_supported&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#what_is_supported&quot;&gt;What is supported?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m glad you asked, and the short answer is everything! &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_3&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_3&quot; title=&quot;View footnote.&quot;&gt;3&lt;/a&gt;]&lt;/sup&gt;
+What? Don&amp;#8217;t you believe me?
+Fair enough, let&amp;#8217;s go through some examples together.
+Feel free to follow along.
+We will be using &lt;a href=&quot;https://github.com/nokeedev/gradle-pom-dsl/tree/master/src/docs/samples&quot;&gt;these samples&lt;/a&gt;.
+First things first, let&amp;#8217;s clone the repository:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock terminal&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ git clone https://github.com/nokeedev/gradle-pom-dsl
+...
+$ cd gradle-pom-dsl/src/docs/samples
+$ ls -1
+1.basic-maven-example
+2.intermediate-maven-example
+3.multi-module-maven-example
+README.adoc&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;basic_configuration_check&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#basic_configuration_check&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#basic_configuration_check&quot;&gt;Basic configuration? Check.&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All the basic models, &lt;code&gt;artifactId&lt;/code&gt;, &lt;code&gt;groupId&lt;/code&gt;, &lt;code&gt;description&lt;/code&gt;, &lt;code&gt;modules&lt;/code&gt;, etc. are used for configuring the equivalent Gradle model.
+We can see it in action using the &lt;code&gt;projects&lt;/code&gt; tasks, as shown below:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock listing terminal&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ cd 3.multi-module-maven-example
+$ gradle projects
+
+&amp;gt; Task :projects
+
+------------------------------------------------------------
+Root project - This pom acts as the parent pom for the entire project.
+------------------------------------------------------------
+
+Root project &apos;parent&apos; - This pom acts as the parent pom for the entire project.
++--- Project &apos;:business&apos; - Business Layer Project.
+|    +--- Project &apos;:business:api&apos; - Business Layer API.
+|    \--- Project &apos;:business:impl&apos; - Business Implementation.
++--- Project &apos;:data&apos; - Sample Implementation of the Business Layer.
+|    +--- Project &apos;:data:api&apos; - Data Access API.
+|    \--- Project &apos;:data:impl&apos; - Data Access Implementation.
+\--- Project &apos;:model&apos; - Model Layer Project.
+
+To see a list of the tasks of a project, run gradle &amp;lt;project-path&amp;gt;:tasks
+For example, try running gradle :business:tasks
+
+BUILD SUCCESSFUL
+1 actionable task: 1 executed&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Did you see that?
+The structure of the project, as well as the description, are pulled directly from the &lt;code&gt;pom.xml&lt;/code&gt; files.
+&lt;a href=&quot;https://youtu.be/NSfBpXOzmd0?t=37&quot;&gt;Unbelievable!&lt;/a&gt;
+What&amp;#8217;s next&amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;dependency_with_exclusions_check&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#dependency_with_exclusions_check&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#dependency_with_exclusions_check&quot;&gt;Dependency with exclusions? Check.&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Do you need to exclude transitive dependencies?
+Picture the following &lt;code&gt;pom.xml&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock listing&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;&amp;lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+   xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&amp;gt;
+   &amp;lt;modelVersion&amp;gt;4.0.0&amp;lt;/modelVersion&amp;gt;
+   &amp;lt;!-- ... --&amp;gt;
+
+   &amp;lt;dependencies&amp;gt;
+      &amp;lt;!-- ... --&amp;gt;
+
+      &amp;lt;dependency&amp;gt;
+         &amp;lt;groupId&amp;gt;org.hibernate&amp;lt;/groupId&amp;gt;
+         &amp;lt;artifactId&amp;gt;hibernate&amp;lt;/artifactId&amp;gt;
+         &amp;lt;version&amp;gt;3.2.5.ga&amp;lt;/version&amp;gt;
+         &amp;lt;exclusions&amp;gt;
+            &amp;lt;exclusion&amp;gt;
+               &amp;lt;groupId&amp;gt;javax.transaction&amp;lt;/groupId&amp;gt;
+               &amp;lt;artifactId&amp;gt;jta&amp;lt;/artifactId&amp;gt;
+            &amp;lt;/exclusion&amp;gt;
+         &amp;lt;/exclusions&amp;gt;
+      &amp;lt;/dependency&amp;gt;
+   &amp;lt;/dependencies&amp;gt;
+
+    &amp;lt;!-- ... --&amp;gt;
+&amp;lt;/project&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Pretty typical, right?
+Now, let&amp;#8217;s see it in action:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock listing terminal&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ cd ../2.intermediate-maven-example
+$ gradle build --scan
+
+BUILD SUCCESSFUL
+4 actionable tasks: 4 executed
+
+Publishing a build scan to scans.gradle.com requires accepting the Gradle Terms of Service defined at https://gradle.com/terms-of-service. Do you accept these terms? [yes, no] yes
+
+Gradle Terms of Service accepted.
+
+Publishing build scan...
+https://gradle.com/s/hj73vryn73y74&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Did I mention that &lt;a href=&quot;https://scans.gradle.com/&quot;&gt;build scans&lt;/a&gt; also work?
+Speaking of which, let&amp;#8217;s look at the dependency insight report.
+We can see the artifact &lt;code&gt;javax.transaction:jta&lt;/code&gt; wasn&amp;#8217;t pulled from Maven Central.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock text-center&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;build-scan-dependency-insight.png&quot; alt=&quot;Build scan dependency insight showing dependency exclusions&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;multi_module_project_with_parent_pom_check&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#multi_module_project_with_parent_pom_check&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#multi_module_project_with_parent_pom_check&quot;&gt;Multi module project with parent POM? Check.&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So far, the features aren&amp;#8217;t that impressive.
+How about a multi-module project with parent POM configuration?
+The following example is exactly that:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock listing terminal&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ cd ../3.multi-module-maven-example
+$ gradle check --scan
+
+BUILD SUCCESSFUL
+11 actionable tasks: 11 executed
+
+Publishing a build scan to scans.gradle.com requires accepting the Gradle Terms of Service defined at https://gradle.com/terms-of-service. Do you accept these terms? [yes, no] yes
+
+Gradle Terms of Service accepted.
+
+Publishing build scan...
+https://gradle.com/s/tbul7lnihirto&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Gradle reports all those tests in the build scan.
+If you prefer, you can also look at the local reports generated by Gradle.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock text-center&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;build-scan-test.png&quot; alt=&quot;Build scan showing tests report&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Are you impressed yet?
+No?
+What about&amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;publishing_check&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#publishing_check&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#publishing_check&quot;&gt;Publishing? Check.&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Publishing!
+Everyone&amp;#8217;s favourite topic.
+The POM DSL plugin automatically applies and configure the &lt;code&gt;maven-publish&lt;/code&gt; plugin free of charge:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock text-center&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;publish-to-maven-local.gif&quot; alt=&quot;Interactive execution showing Gradle publishing to Maven local with POM DSL&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It publishes everything, see for yourself:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock listing terminal&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ tree ~/.m2/repository
+~/.m2/repository
+└── com
+    └── example
+        └── maven
+            └── layering
+                ├── example-multi-module-business
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-business-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-business-api
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-business-api-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-business-api-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-business-api-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-business-impl
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-business-impl-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-business-impl-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-business-impl-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-data
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-data-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-data-api
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-data-api-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-data-api-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-data-api-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-data-impl
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-data-impl-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-data-impl-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-data-impl-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-model
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-model-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-model-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-model-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                └── parent
+                    ├── 0.0.1-SNAPSHOT
+                    │   ├── maven-metadata-local.xml
+                    │   └── parent-0.0.1-SNAPSHOT.pom
+                    └── maven-metadata-local.xml
+
+20 directories, 34 files&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;but_why&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#but_why&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#but_why&quot;&gt;But, why?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;According to our in-depth study, the POM DSL is so simple to understand that it will give back over 9000 hours of R&amp;amp;D to your organization each week. &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_4&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_4&quot; title=&quot;View footnote.&quot;&gt;4&lt;/a&gt;]&lt;/sup&gt;
+You heard me right.
+Your developers can focus on what matters, like sending &lt;a href=&quot;https://www.youtube.com/results?search_query=cat+videos&quot;&gt;cat videos&lt;/a&gt; or &lt;a href=&quot;http://nyan.cat/&quot;&gt;brag about their Nyan score&lt;/a&gt; to each other.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;wait_wat&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#wait_wat&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#wait_wat&quot;&gt;Wait! Wat?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;That&amp;#8217;s not even a question.
+Have you been following?
+Maybe this cat picture using the POM DSL plugin will put you at ease.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock text-center&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;cat-meme.jpg&quot; alt=&quot;oh hi i can us pom??xml k?&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;convince_me_harder&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#convince_me_harder&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#convince_me_harder&quot;&gt;Convince me harder&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I can surely try.
+I had my team prepare a visual for your next meeting to help convince everyone:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div style=&quot;width: 100%;&quot; id=&quot;viz0&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+   const d = [...Array(10).keys()].map(v =&gt; 4 * v + 2);
+   const l = [...Array(10).keys()].map(v =&gt; `${v+1}k`);
+   new roughViz.Bar({
+      element: &apos;#viz0&apos;, // container selection
+      data: {
+         labels: l,
+         values: d,
+      },
+      roughness: 18,
+      interactive: false,
+      width: document.getElementById(&apos;viz0&apos;).clientWidth,
+      xLabel: &apos;Time Saved (kh)&apos;,
+      yLabel: &apos;Features (#)&apos;,
+      color: [&apos;#6BA530&apos;],
+   });
+&lt;/script&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Based on a study we did over the weekend, 1 out of 10 participants recommends the POM DSL over the current Groovy and Kotlin DSL.
+Equally, we made the breakthrough discovery that you can&amp;#8217;t trust 9 people out of 10 that participated in the study, go figure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#conclusion&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#conclusion&quot;&gt;Conclusion&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All kidding aside, Gradle is exceptionally flexible.
+It always gets me when I hear &quot;Gradle can&amp;#8217;t do X, Y or Z&quot;.
+The truth of the matter being Gradle is the most flexible build system and possibly the only one you will ever need.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the native ecosystem, the majority of developers strongly prefer Python for their scripting language.
+Similarly, in the Web ecosystem, the developers strongly prefer Javascript (or it&amp;#8217;s variant).
+Some developers go through great lengths for these preferences and create build systems with DSL that &lt;em&gt;feels&lt;/em&gt; like there preferred language.
+However, I beg the question, which is more complicated:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Creating a build system for a DSL; or&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Creating DSL for a build system?&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I realized I could have faked the entire post; after all, it&amp;#8217;s April Fool day if you didn&amp;#8217;t know.
+However, I built the entire POM DSL plugin and released the &lt;a href=&quot;https://github.com/nokeedev/gradle-pom-dsl&quot;&gt;source code on GitHub&lt;/a&gt;.
+All samples shown in this post are real examples and work as demonstrated.
+Feel free to toy around with the project and keep me posted on what you manage to accomplish.
+This plugin is a demonstration, and you shouldn&amp;#8217;t use the plugin in production. &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_5&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_5&quot; title=&quot;View footnote.&quot;&gt;5&lt;/a&gt;]&lt;/sup&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Stay safe and don&amp;#8217;t hesitate to &lt;a href=&quot;#disqus_thread&quot;&gt;leave a comment below&lt;/a&gt; or ping me on the &lt;a href=&quot;https://gradle-community.slack.com/&quot;&gt;Gradle community Slack&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_1&quot;&gt;
+&lt;a href=&quot;#_footnoteref_1&quot;&gt;1&lt;/a&gt;. DSL stands for Domain Specific Language and, in the current context, refers to the language used for configuring your build.
+&lt;/div&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_2&quot;&gt;
+&lt;a href=&quot;#_footnoteref_2&quot;&gt;2&lt;/a&gt;. It is preferred to &lt;a href=&quot;https://docs.gradle.org/current/userguide/command_line_interface.html#environment_options&quot;&gt;specify the init script using the &lt;code&gt;--init-script&lt;/code&gt; command line flag.&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_3&quot;&gt;
+&lt;a href=&quot;#_footnoteref_3&quot;&gt;3&lt;/a&gt;. Some limitations apply. Batteries not included. Not recommended to use when it surpasses ten on the Richter scale.
+&lt;/div&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_4&quot;&gt;
+&lt;a href=&quot;#_footnoteref_4&quot;&gt;4&lt;/a&gt;. Disclaimer: Don&amp;#8217;t believe everything you read online.
+&lt;/div&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_5&quot;&gt;
+&lt;a href=&quot;#_footnoteref_5&quot;&gt;5&lt;/a&gt;. I don&amp;#8217;t guarantee its efficiency and don&amp;#8217;t believe it&amp;#8217;s bug-free.
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Release 0.1 Announcement</title>
+			<link>https://feed.nokee.dev/release-0.1-announcement</link>
+			<pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/release-0.1-announcement</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m proud to announce the &lt;a href=&quot;../../docs/0.1.0/release-notes.html&quot;&gt;first version of the Nokee plugins&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;building_java_native_interface_jni_library&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#building_java_native_interface_jni_library&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#building_java_native_interface_jni_library&quot;&gt;Building Java Native Interface (JNI) Library&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you are like me, building native software has always painful regardless of the build system being used.
+&lt;a href=&quot;../hello-native/index.html&quot;&gt;Eight years ago, I showed that it doesn&amp;#8217;t have to be that way, and Gradle has the potential of being a game-changer in that ecosystem&lt;/a&gt;.
+The JNI libraries are often the first encounter with native development for Java developers.
+This encounter isn&amp;#8217;t always pleasant.
+As a first step in the ongoing native support in Gradle, I&amp;#8217;m proud to announce the release of the &lt;a href=&quot;../../docs/0.1.0/manual/jni-library-plugin.html&quot;&gt;JNI Library Plugin&lt;/a&gt;.
+It allows the users to &lt;a href=&quot;../../docs/0.1.0/samples/java-cpp-jni-library/index.html&quot;&gt;build the JVM and native code side-by-side within the same project&lt;/a&gt;.
+It also &lt;a href=&quot;../../docs/0.1.0/samples/jni-library-composing/index.html&quot;&gt;support migration use cases where each components of the JNI library are built individually&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;../../docs/0.1.0/samples/java-cpp-jni-library/all-commands.gif&quot; alt=&quot;all commands&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Everything you would expect from a JVM library is supported: &lt;a href=&quot;../../docs/0.1.0/samples/publish-jni-library/index.html&quot;&gt;publishing&lt;/a&gt;, &lt;a href=&quot;../../docs/0.1.0/samples/jni-library-with-junit-test/index.html&quot;&gt;testing&lt;/a&gt;, and developing within an IDE using the &lt;a href=&quot;https://www.jetbrains.com/help/idea/gradle.html#gradle_import_project_start&quot;&gt;IntelliJ native importer&lt;/a&gt; or &lt;a href=&quot;https://projects.eclipse.org/projects/tools.buildship&quot;&gt;Eclipse Buildship&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;documentation_portal&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#documentation_portal&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#documentation_portal&quot;&gt;Documentation Portal&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The documentation is probably more important than the plugins themselves.
+For this reason, I spent quite a bit of time ensuring it&amp;#8217;s of high quality.
+I was attached to rolling out &lt;a href=&quot;../../docs/0.1.0/samples/index.html&quot;&gt;quality samples first&lt;/a&gt;.
+They are goal-oriented, easy to write, and provide immediate value to you, the users.
+As Gradle is a very sophisticated build system, I&amp;#8217;m often resorting to Sample Driven Development (SDD) before modelling or writing feature code.
+For this reason, everyone should &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/new&quot;&gt;feel free to open issues for use cases&lt;/a&gt; that are important to you but aren&amp;#8217;t obvious to solve.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As for the user manual, the focus was on getting the core concept and direction of the plugins across.
+I suggest reading the &lt;a href=&quot;../../docs/0.1.0/manual/terminology.html&quot;&gt;terminology chapter&lt;/a&gt; to get a good understanding of the core concept.
+The &lt;a href=&quot;../../docs/0.1.0/manual/jni-library-plugin.html&quot;&gt;JNI Library Plugin reference chapter&lt;/a&gt; is also a good place to start to learn about highlighted plugin of this release.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;More will be coming in the future release.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;supporting_infrastructure&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#supporting_infrastructure&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#supporting_infrastructure&quot;&gt;Supporting Infrastructure&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The infrastructure is the invisible syndicate that ensure the users are always presented with quality work.
+One of the perks of working within the Gradle codebase was all the infrastructure already available.
+Sadly, lots of it is couple to Gradle, which prevents you from sharing the pain plugin authors are going through when developing high-quality plugins.
+Some of my supporting infrastructures are shared over on &lt;a href=&quot;https://github.com/gradle-plugins/toolbox&quot;&gt;Gradle Plugin Development&lt;/a&gt; repositories.
+The goal is to fill the repository with all the tools plugin authors may require to be successful at his job.
+It includes fixtures for executing Gradle (i.e. using the TestKit Runner or the Gradle Wrapper), making sense of the Gradle output (i.e. comparing two builds, asserting execution events) and composing source samples for testing.
+You can look at &lt;a href=&quot;https://github.com/nokeedev/gradle-native&quot;&gt;Nokee&amp;#8217;s repository&lt;/a&gt; for all the creative ways I&amp;#8217;m using those fixtures for assembling the sample templates and automating the sample tests to name a few.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The infrastructure also support &lt;a href=&quot;../../docs/nightly/index.html&quot;&gt;nightly release of the work in progress&lt;/a&gt;.
+The testing coverage is also an essential part of the infrastructure puzzle.
+I&amp;#8217;m committed to providing high-quality plugins to Gradle users.
+As the great &lt;a href=&quot;https://youtu.be/zW-i9eVGU_k?t=1524&quot;&gt;Titus Winter once said&lt;/a&gt;: if you like a feature, you should put a test on it. It is also known as The Beyoncé Rule.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;roadmap_to_1_0&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#roadmap_to_1_0&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#roadmap_to_1_0&quot;&gt;Roadmap to 1.0&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It&amp;#8217;s always hard to identify a clear roadmap as the software domain is forever changing.
+Despite this, I feel confident about the steps that will lead to version 1.0.
+I&amp;#8217;m committed to providing high-quality plugins, which assume requires good test coverage.
+The features of this release are already providing a lot of values to the users.
+However, the test coverage for individual platforms is lacking.
+It&amp;#8217;s a typical chicken and egg problem.
+Until version 1.0, I will split the R&amp;amp;D time between improving test coverage and adding valuable features for the users.
+Because of this decision, the 0.x versions may be a bit bumpy as the test coverage improve to lock the features in place and avoid bugs on a different platform.
+If you discover any issues with the plugins, &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/new&quot;&gt;please open an issue&lt;/a&gt;.
+I will make sure to prioritize a fix for those issues quickly for easy adoption.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So what does this all mean? It means there will be a heavy focus on adding test agents that support various toolchains, operating systems, and architecture.
+As the coverage improves, I will keep everyone informed via &lt;a href=&quot;https://nokee.dev/blog&quot;&gt;the blog&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/nokeedev&quot;&gt;Twitter&lt;/a&gt;.
+Feel free to follow the most convenient, so you don&amp;#8217;t miss any announcement.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;ios_development_poll&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#ios_development_poll&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#ios_development_poll&quot;&gt;iOS Development Poll&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Lastly, I want to take a moment to thanks everyone who took the time to fill the &lt;a href=&quot;../ios-development-poll/index.html&quot;&gt;iOS development poll&lt;/a&gt;.
+If you haven&amp;#8217;t filled it, you can still do so.
+The next phase of the native development by the Nokee team will focus on cross-compilation for iOS inside Gradle.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>iOS Development Poll</title>
+			<link>https://feed.nokee.dev/ios-development-poll</link>
+			<pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/ios-development-poll</guid>
+			<description>
+			&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I want to thanks everyone for the positive response following the &lt;a href=&quot;https://nokee.dev/blog/hello-native&quot;&gt;announcement last week&lt;/a&gt;.
+As discussed briefly in conversations with some of you, the focus is on bridging the gap around cross-compilation, more specifically on iOS support.
+This first step is critical in improving the native support in Gradle.
+It&amp;#8217;s also a significant milestone for mobile development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To focus on what is truly important, I created the &lt;a href=&quot;https://forms.gle/YEaaeAjGACEpeFcR8&quot;&gt;this short, anonymous poll&lt;/a&gt; for users and build authors regardless of their current environment.
+Gathering this information is essential to you and me, so the Gradle plugins released can bring happiness into your build.
+It&amp;#8217;s important to remember that Gradle is highly configurable.
+A common practice in native is to resolve pain points slowing down your development by using Gradle as an orchestrator.
+It can be tedious to migrate from another build system to Gradle.
+However, it could be trivial to wrap another build system inside Gradle to benefit from all of its star features, such as &lt;a href=&quot;https://docs.gradle.org/6.1.1/userguide/build_cache.html&quot;&gt;a build cache&lt;/a&gt;, &lt;a href=&quot;https://docs.gradle.org/6.1.1/userguide/core_dependency_management.html&quot;&gt;a powerful dependency engine&lt;/a&gt; or &lt;a href=&quot;https://discuss.gradle.org/&quot;&gt;an active community&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For the ones that would love to have a more active voice during the development process, you can &lt;a href=&quot;https://forms.gle/YEaaeAjGACEpeFcR8&quot;&gt;leave your contact information at the end of the poll&lt;/a&gt;, and I will contact you for a more in-depth interview.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you have any questions, always feel free to reach out to us via &lt;a href=&quot;https://github.com/nokeedev/gradle-native/discussions&quot;&gt;GitHub discussion&lt;/a&gt;, sending an email to &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt;, or &lt;a href=&quot;https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R&quot;&gt;joining the Gradle Community Slack&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+		<item>
+			<title>Hello Native</title>
+			<link>https://feed.nokee.dev/hello-native</link>
+			<pubDate>Tue, 4 Feb 2020 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/hello-native</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;My name is Daniel Lacasse, and I&amp;#8217;m the world&amp;#8217;s most experience build engineer in native (C/C++/Assembly) with Gradle.
+I started my interest in Gradle for native long before I joined Gradle inc.
+It was in &lt;a href=&quot;http://gradle.1045684.n5.nabble.com/Offering-Help-for-Native-Support-td5707874.html&quot;&gt;May of 2012&lt;/a&gt; when I was researching how to replace a massive native &lt;em&gt;frankenbuild system&lt;/em&gt; in a previous job.
+In January 2013, I prepared a proof-of-concept (POC) as part of an internal workshop supporting the idea of using Gradle to build our native monolith.
+The catch?
+Gradle didn&amp;#8217;t have any of the native features we needed.
+Despite this shortcoming, it was accepted unanimously as the step forward to alleviate our pain.
+Yeah, my POC was that impressive!
+It was the start of my long journey in becoming a world-class Gradle engineer advocating for native support.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;quick_history_lesson&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#quick_history_lesson&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#quick_history_lesson&quot;&gt;Quick history lesson&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Following the success of my POC, I wrote and directed the statement of work that became the native support introduced in the Gradle 1.x releases (see the release notes for
+&lt;a href=&quot;https://docs.gradle.org/1.7/release-notes.html#major-improvements-to-c++-project-support&quot;&gt;1.7&lt;/a&gt;,
+&lt;a href=&quot;https://docs.gradle.org/1.8/release-notes.html#create-native-libraries-and-executables-from-c-and-assembler-sources&quot;&gt;1.8&lt;/a&gt;,
+&lt;a href=&quot;https://docs.gradle.org/1.9/release-notes.html#build-multiple-variants-of-a-native-binary&quot;&gt;1.9&lt;/a&gt;,
+&lt;a href=&quot;https://docs.gradle.org/1.10/release-notes.html#incremental-compile-for-c++-and-c-sources&quot;&gt;1.10&lt;/a&gt;,
+&lt;a href=&quot;https://docs.gradle.org/1.11/release-notes.html#choose-applicable-platforms,-build-types-and-flavors-for-a-native-component&quot;&gt;1.11&lt;/a&gt;, and
+&lt;a href=&quot;https://docs.gradle.org/1.12/release-notes.html#customise-clang-compiler-tool-chain&quot;&gt;1.12&lt;/a&gt;).
+The final result was &lt;a href=&quot;https://youtu.be/KZdgxKe9wO8&quot;&gt;presented at the Gradle Summit 2014&lt;/a&gt;.
+It was also the &lt;a href=&quot;https://docs.gradle.org/1.11/release-notes.html#changed-dsl-and-model-for-native-binary-components&quot;&gt;beginning of what is known today as the software model&lt;/a&gt;.
+Spoiler alert, &lt;a href=&quot;https://blog.gradle.org/state-and-future-of-the-gradle-software-model&quot;&gt;the software model is phasing out&lt;/a&gt;.
+I extended the core native plugins in incredible ways adding support for remote testing, artifact publication, artifact promotion, unattended provisioning of the Windows SDK, &lt;a href=&quot;https://developers.google.com/protocol-buffers&quot;&gt;Protocol Buffers&lt;/a&gt;, &lt;a href=&quot;http://www.doxygen.nl/&quot;&gt;Doxygen&lt;/a&gt;, and many more supporting technologies for native.
+The massive success I got out of Gradle was just the tip of the potential iceberg Gradle had to offer.
+In 2016, I joined Gradle inc. to help improve the native support.
+Shortly after, I was the bearer of bad news for the Gradle community &lt;a href=&quot;https://www.youtube.com/watch?v=o0uH52TEZvo&amp;amp;feature=youtu.be&amp;amp;t=2947&quot;&gt;announcing the phase-out of the software model&lt;/a&gt;.
+I felt personally responsible for the disruption this news brought to the build engineers that, just like me, were praising and centralizing their development around it.
+I transitioned to the C++ and Swift revival of the core native support development.
+The approach and feature set were extremely promising (see &lt;a href=&quot;https://blog.gradle.org/introducing-the-new-cpp-plugins&quot;&gt;here&lt;/a&gt;, &lt;a href=&quot;https://blog.gradle.org/update-on-the-new-cpp-plugins&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;https://blog.gradle.org/introducing-the-swift-plugins&quot;&gt;here&lt;/a&gt;).
+Unfortunately, the effort was short-lived.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what_is_nokee&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#what_is_nokee&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#what_is_nokee&quot;&gt;What is Nokee?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Nokee is a blank slate, a fresh start, lessons learned from mistakes and, most importantly, a path forward to bring a grand vision to reality.
+It is, first and foremost, a continuous effort for native support in Gradle where I will dedicate the majority of my time nurturing the native ecosystem of Gradle.
+Second, it will be a set of high-quality Gradle plugins to enhance and work in tandem with the core native plugins.
+Fear not, the plugins will be compatible with the Gradle core plugins, and a clear migration path will be communicated where needed.
+The focus will be around improving the shortcoming of the current core plugins.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_can_you_help&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#how_can_you_help&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#how_can_you_help&quot;&gt;How can you help?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You may be as excited as me and wonder how you can help.
+You can provide feedback by &lt;a href=&quot;#disqus_thread&quot;&gt;commenting on posts like this one&lt;/a&gt;, send an email to &lt;a href=&quot;mailto:hello@nokee.dev&quot;&gt;hello@nokee.dev&lt;/a&gt;, &lt;a href=&quot;https://discuss.gradle.org/tags/c/help-discuss/14/native&quot;&gt;tag your native questions on the Gradle user forum&lt;/a&gt; and &lt;a href=&quot;https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R&quot;&gt;join the discussion in the #native channel over on the Gradle Community Slack&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_can_you_keep_up_to_date&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#how_can_you_keep_up_to_date&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#how_can_you_keep_up_to_date&quot;&gt;How can you keep up-to-date?&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Maybe the excitement hasn&amp;#8217;t grown on you yet, and you want to keep informed.
+I suggest you watch the &lt;a href=&quot;https://github.com/nokeedev&quot;&gt;project&amp;#8217;s GitHub organization&lt;/a&gt;, &lt;a href=&quot;https://feed.nokee.dev/feed.xml&quot;&gt;subscribe to the blog&amp;#8217;s atom feed&lt;/a&gt;, and &lt;a href=&quot;#mc_embed_signup&quot;&gt;join the newsletter&lt;/a&gt; for future announcements.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s make 2020 a Gradle native year!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
+		
+
+	</channel>
+</rss>

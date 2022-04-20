@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+	<!-- Nokee font -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+
+<!-- Required by asciidoc font configuration -->
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Ordering is important here -->
+<link href="/component-asciidoctor.css" rel="stylesheet">
+<link href="/component-asciidoctor-override.css" rel="stylesheet">
+<link href="/component-asciidoctor-color-override.css" rel="stylesheet">
+	<link href="/css/docs-base.css" rel="stylesheet">
+	<link href="/css/blog-email-signup.css" rel="stylesheet">
+	<link href="/css/blog-layout.css" rel="stylesheet">
+	<script src="https://unpkg.com/rough-viz@1.0.6"></script>
+
+	<!-- Le styles -->
+	<link href="/component-multi-language-sample.css" rel="stylesheet">
+
+	<link href="/css/normalize-8.0.1.css" rel="stylesheet">
+	<link href="/css/prettify.css" rel="stylesheet">
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.min.js"></script>
+	<![endif]-->
+
+	<title>Maven POM DSL</title>
+	<!-- Fav and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#001824">
+<meta name="msapplication-TileColor" content="#00a300">
+<meta name="theme-color" content="#ffffff">
+	<link href="/component-menu.css" rel="stylesheet">
+
+
+<link href="/component-menu-light.css" rel="stylesheet">
+
+
+	<meta charset="utf-8">
+	
+<link rel="canonical" href="https://blog.nokee.dev/maven-pom-dsl/">
+<meta name="description" content="Announcing the Maven Project Object Model (POM) DSL for Gradle.">
+<meta name="author" content="@nokeedev">
+<meta name="keywords" content="blog">
+	
+<meta property="og:url" content="https://blog.nokee.dev/maven-pom-dsl/">
+
+
+
+<meta property="og:site_name" content="Nokee">
+<meta property="og:title" content="Maven POM DSL">
+<meta name="og:description" content="Announcing the Maven Project Object Model (POM) DSL for Gradle.">
+<meta name="og:image" content="https://blog.nokee.dev/maven-pom-dsl/maven-pom-dsl-logo.png">
+
+	
+<meta name="twitter:site" content="@nokeedev">
+<meta name="twitter:creator" content="@lacasseio">
+<meta name="twitter:title" content="Maven POM DSL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Announcing the Maven Project Object Model (POM) DSL for Gradle.">
+
+	<meta name="twitter:image" content="https://blog.nokee.dev/maven-pom-dsl/maven-pom-dsl-logo.png">
+	<meta name="twitter:image:alt" content="Maven Project Object Model DSL for Gradle logo">
+
+
+</head>
+<body onload="prettyPrint()">
+	
+
+<nav class="navigation" aria-labelledby="primary-navigation">
+	<a href="https://nokee.dev" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 49.96"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="full-dark"><g id="nokee"><path d="M180.38,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25H193.8A5.92,5.92,0,0,1,198.17,14a6,6,0,0,1,1.83,4.4V28.88H180.49s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H180.49Z"/><path d="M51.3,40.13v-28H71A6,6,0,0,1,75.34,14a6,6,0,0,1,1.83,4.4V40.13H70.88l-.07-21.65H57.65l-.06,21.65Z"/><path d="M88.94,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,106.74,14a6.07,6.07,0,0,1,1.82,4.4V33.88a6.05,6.05,0,0,1-1.82,4.4,5.92,5.92,0,0,1-4.38,1.85Zm13.26-6.36s0-15.29,0-15.29H89.05s0,15.25,0,15.29S102.16,33.82,102.2,33.77Z"/><path d="M114.13,40.13V6.26h6.29V23.38h4l8.84-11.28h8.19L129.92,26.54l11.49,13.59h-8.19l-8.84-10.42h-4V40.13Z"/><path d="M149.25,40.13A6.32,6.32,0,0,1,143,33.88V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,167.05,14a6.07,6.07,0,0,1,1.82,4.4V28.88H149.36s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H149.36Z"/></g><g id="bird"><path d="M41.82,10.21,25.58.83a6.24,6.24,0,0,0-6.23,0L3.11,10.21A6.24,6.24,0,0,0,0,15.6V34.35a6.25,6.25,0,0,0,3.11,5.4l16.24,9.37a6.24,6.24,0,0,0,6.23,0l16.24-9.37a6.25,6.25,0,0,0,3.11-5.4V15.6A6.24,6.24,0,0,0,41.82,10.21Zm-6,10.92c0,12.59-7.92,17.46-21.73,17.46A16.46,16.46,0,0,1,5,36c8.22-5.58,10.56-9.95,12.4-17.5,1.11-4.54,4.25-8.06,9.22-8.06,3.6,0,6.62,1.28,8.14,4.7h6.5l-5.49,4.39C35.82,20,35.84,20.57,35.84,21.13Z"/><path d="M28.94,13.72a3.35,3.35,0,0,0-3,1.76.83.83,0,0,0,1.46.79,1.7,1.7,0,0,1,3,0,.83.83,0,0,0,1.13.33.82.82,0,0,0,.33-1.12A3.36,3.36,0,0,0,28.94,13.72Z"/></g></g></g></g></svg></a>
+	<input class="navigation-hamburger" type="checkbox" id="navigation-hamburger" />
+	<label class="menu-icon" for="navigation-hamburger"><span class="navicon"></span></label>
+	<ul class="navigation-items">
+		<li><a href="https://docs.nokee.dev">Docs</a></li>
+		<li><a href="https://blog.nokee.dev">Blog</a></li>
+		<li><a href="https://nokee.dev/services/consulting.html">Services</a></li>
+		<li>
+			<ul class="navigation-socials">
+				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
+				<li class="navigation-github"><a href="https://github.com/nokeedev" title="Nokee on GitHub"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 10 4.836c.85.004 1.705.114 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C17.137 18.163 20 14.418 20 10c0-5.523-4.478-10-10-10" fill-rule="evenodd"></path></svg></a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+	<div class="main-content">
+
+		<div class="chapter">
+			<div class="header">
+				<img src="maven-pom-dsl-logo.png"/>
+				<h1>Maven POM DSL</h1>
+				<p><em>01 April 2020</em></p>
+			</div>
+
+			<div class="content">
+				<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>After <a href="../hello-native">8 delusional years of thinking that Gradle can become the best build system on the planet</a> I realized that Maven is the way to go.
+It has a simple DSL that everyone can gasp within minutes, unlike Gradle, with its fancy Groovy and Kotlin DSL.
+A full Turing language for your build script is overrated.
+Ant and Maven worked perfectly fine, why reinvent the wheel?
+I&#8217;m proud to announce that our next big project at Nokee will be a Maven Project Object Model (POM) DSL <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> support for Gradle.
+It will ease your transition off Gradle toward Maven.
+If you are a native developer, have a look at <a href="https://maven-nar.github.io/">NAR plugin for Maven</a>.
+It even supports cross-compilation, imagine that!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="how_does_it_work"><a class="anchor" href="#how_does_it_work"></a><a class="link" href="#how_does_it_work">How does it work?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Pretty much how you would expect it to work.
+The plugin reads a standard <code>pom.xml</code> file and configures your Gradle build accordingly.
+It&#8217;s that simple.
+Forget about the Groovy DSL or even the new, and fancy, Kotlin DSL.
+Those are things of the past, long live the POM DSL.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Don&#8217;t go on thinking that Gradle executes a full Maven instance inside the daemon&#8230;&#8203; that would be pure madness.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>I get it, you are a smart developer and want to know how Gradle will behave with this new (old?) DSL.
+The following shows the <code>pom.xml</code> concept mapping to Gradle:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>packaging</strong>: The values <code>jar</code>, <code>ear</code>, and <code>war</code> map to the Gradle core plugins <code>java</code>, <code>ear</code>, and <code>war</code> respectively.
+The plugin ignores all other packaging values.</p>
+</li>
+<li>
+<p><strong>modules</strong>: The <code>pom.xml</code> files discovery starts from the root POM file, and they all participate in the <a href="https://docs.gradle.org/current/userguide/multi_project_builds.html">Gradle multi-project configuration</a>.</p>
+</li>
+<li>
+<p><strong>properties</strong>: The plugin maps the key/value pairs into the <a href="https://docs.gradle.org/current/dsl/org.gradle.api.plugins.ExtraPropertiesExtension.html">Gradle project&#8217;s extra properties</a>.</p>
+</li>
+<li>
+<p><strong>dependencies</strong>: It maps each dependency scope to their equivalent Gradle configuration, i.e. <code>runtime</code> maps to <code>runtimeOnly</code>, <code>provided</code> maps to <code>compileOnly</code>, etc.
+The plugin will also wire local project dependency as you would expect.
+Finally, each dependency will be subject to the constraint imposed by the <code>dependencyManagement</code> tag.</p>
+</li>
+<li>
+<p><strong>parent</strong>: During the configuration phase, it creates an effective POM by merging all the parent POM information for each project.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The other informational tags, i.e. <code>name</code>, <code>inceptionYear</code>, <code>contributors</code>, etc., are simply copied over to the published POM.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="how_to_get_started"><a class="anchor" href="#how_to_get_started"></a><a class="link" href="#how_to_get_started">How to get started?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can get started with those three easy steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Save the <a href="https://raw.githubusercontent.com/nokeedev/gradle-pom-dsl/master/pom.init.gradle">init script</a> to your <code>~/.gradle/init.d</code>.
+<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
+</li>
+<li>
+<p>Huh, that is it&#8230;&#8203; Only one step. Head over to the next section to see it in action.</p>
+</li>
+<li>
+<p>I don&#8217;t know, profit?
+Why didn&#8217;t you stop at the first step like everyone else?
+I should have just said a single step&#8230;&#8203; Sight, I not good at this.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>From the command line, inside a POM DSL enabled project, simply execute Gradle as you would normally do:</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre>$ gradle assemble
+
+BUILD SUCCESSFUL
+2 actionable tasks: 2 executed</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="what_is_supported"><a class="anchor" href="#what_is_supported"></a><a class="link" href="#what_is_supported">What is supported?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I&#8217;m glad you asked, and the short answer is everything! <sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>
+What? Don&#8217;t you believe me?
+Fair enough, let&#8217;s go through some examples together.
+Feel free to follow along.
+We will be using <a href="https://github.com/nokeedev/gradle-pom-dsl/tree/master/src/docs/samples">these samples</a>.
+First things first, let&#8217;s clone the repository:</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre>$ git clone https://github.com/nokeedev/gradle-pom-dsl
+...
+$ cd gradle-pom-dsl/src/docs/samples
+$ ls -1
+1.basic-maven-example
+2.intermediate-maven-example
+3.multi-module-maven-example
+README.adoc</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="basic_configuration_check"><a class="anchor" href="#basic_configuration_check"></a><a class="link" href="#basic_configuration_check">Basic configuration? Check.</a></h3>
+<div class="paragraph">
+<p>All the basic models, <code>artifactId</code>, <code>groupId</code>, <code>description</code>, <code>modules</code>, etc. are used for configuring the equivalent Gradle model.
+We can see it in action using the <code>projects</code> tasks, as shown below:</p>
+</div>
+<div class="listingblock listing terminal">
+<div class="content">
+<pre>$ cd 3.multi-module-maven-example
+$ gradle projects
+
+&gt; Task :projects
+
+------------------------------------------------------------
+Root project - This pom acts as the parent pom for the entire project.
+------------------------------------------------------------
+
+Root project 'parent' - This pom acts as the parent pom for the entire project.
++--- Project ':business' - Business Layer Project.
+|    +--- Project ':business:api' - Business Layer API.
+|    \--- Project ':business:impl' - Business Implementation.
++--- Project ':data' - Sample Implementation of the Business Layer.
+|    +--- Project ':data:api' - Data Access API.
+|    \--- Project ':data:impl' - Data Access Implementation.
+\--- Project ':model' - Model Layer Project.
+
+To see a list of the tasks of a project, run gradle &lt;project-path&gt;:tasks
+For example, try running gradle :business:tasks
+
+BUILD SUCCESSFUL
+1 actionable task: 1 executed</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Did you see that?
+The structure of the project, as well as the description, are pulled directly from the <code>pom.xml</code> files.
+<a href="https://youtu.be/NSfBpXOzmd0?t=37">Unbelievable!</a>
+What&#8217;s next&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dependency_with_exclusions_check"><a class="anchor" href="#dependency_with_exclusions_check"></a><a class="link" href="#dependency_with_exclusions_check">Dependency with exclusions? Check.</a></h3>
+<div class="paragraph">
+<p>Do you need to exclude transitive dependencies?
+Picture the following <code>pom.xml</code>:</p>
+</div>
+<div class="listingblock listing">
+<div class="content">
+<pre>&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+   &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+   &lt;!-- ... --&gt;
+
+   &lt;dependencies&gt;
+      &lt;!-- ... --&gt;
+
+      &lt;dependency&gt;
+         &lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+         &lt;artifactId&gt;hibernate&lt;/artifactId&gt;
+         &lt;version&gt;3.2.5.ga&lt;/version&gt;
+         &lt;exclusions&gt;
+            &lt;exclusion&gt;
+               &lt;groupId&gt;javax.transaction&lt;/groupId&gt;
+               &lt;artifactId&gt;jta&lt;/artifactId&gt;
+            &lt;/exclusion&gt;
+         &lt;/exclusions&gt;
+      &lt;/dependency&gt;
+   &lt;/dependencies&gt;
+
+    &lt;!-- ... --&gt;
+&lt;/project&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pretty typical, right?
+Now, let&#8217;s see it in action:</p>
+</div>
+<div class="listingblock listing terminal">
+<div class="content">
+<pre>$ cd ../2.intermediate-maven-example
+$ gradle build --scan
+
+BUILD SUCCESSFUL
+4 actionable tasks: 4 executed
+
+Publishing a build scan to scans.gradle.com requires accepting the Gradle Terms of Service defined at https://gradle.com/terms-of-service. Do you accept these terms? [yes, no] yes
+
+Gradle Terms of Service accepted.
+
+Publishing build scan...
+https://gradle.com/s/hj73vryn73y74</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Did I mention that <a href="https://scans.gradle.com/">build scans</a> also work?
+Speaking of which, let&#8217;s look at the dependency insight report.
+We can see the artifact <code>javax.transaction:jta</code> wasn&#8217;t pulled from Maven Central.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="build-scan-dependency-insight.png" alt="Build scan dependency insight showing dependency exclusions">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="multi_module_project_with_parent_pom_check"><a class="anchor" href="#multi_module_project_with_parent_pom_check"></a><a class="link" href="#multi_module_project_with_parent_pom_check">Multi module project with parent POM? Check.</a></h3>
+<div class="paragraph">
+<p>So far, the features aren&#8217;t that impressive.
+How about a multi-module project with parent POM configuration?
+The following example is exactly that:</p>
+</div>
+<div class="listingblock listing terminal">
+<div class="content">
+<pre>$ cd ../3.multi-module-maven-example
+$ gradle check --scan
+
+BUILD SUCCESSFUL
+11 actionable tasks: 11 executed
+
+Publishing a build scan to scans.gradle.com requires accepting the Gradle Terms of Service defined at https://gradle.com/terms-of-service. Do you accept these terms? [yes, no] yes
+
+Gradle Terms of Service accepted.
+
+Publishing build scan...
+https://gradle.com/s/tbul7lnihirto</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Gradle reports all those tests in the build scan.
+If you prefer, you can also look at the local reports generated by Gradle.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="build-scan-test.png" alt="Build scan showing tests report">
+</div>
+</div>
+<div class="paragraph">
+<p>Are you impressed yet?
+No?
+What about&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="publishing_check"><a class="anchor" href="#publishing_check"></a><a class="link" href="#publishing_check">Publishing? Check.</a></h3>
+<div class="paragraph">
+<p>Publishing!
+Everyone&#8217;s favourite topic.
+The POM DSL plugin automatically applies and configure the <code>maven-publish</code> plugin free of charge:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="publish-to-maven-local.gif" alt="Interactive execution showing Gradle publishing to Maven local with POM DSL">
+</div>
+</div>
+<div class="paragraph">
+<p>It publishes everything, see for yourself:</p>
+</div>
+<div class="listingblock listing terminal">
+<div class="content">
+<pre>$ tree ~/.m2/repository
+~/.m2/repository
+└── com
+    └── example
+        └── maven
+            └── layering
+                ├── example-multi-module-business
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-business-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-business-api
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-business-api-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-business-api-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-business-api-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-business-impl
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-business-impl-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-business-impl-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-business-impl-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-data
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-data-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-data-api
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-data-api-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-data-api-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-data-api-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-data-impl
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-data-impl-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-data-impl-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-data-impl-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                ├── example-multi-module-model
+                │   ├── 0.0.1-SNAPSHOT
+                │   │   ├── example-multi-module-model-0.0.1-SNAPSHOT.jar
+                │   │   ├── example-multi-module-model-0.0.1-SNAPSHOT.module
+                │   │   ├── example-multi-module-model-0.0.1-SNAPSHOT.pom
+                │   │   └── maven-metadata-local.xml
+                │   └── maven-metadata-local.xml
+                └── parent
+                    ├── 0.0.1-SNAPSHOT
+                    │   ├── maven-metadata-local.xml
+                    │   └── parent-0.0.1-SNAPSHOT.pom
+                    └── maven-metadata-local.xml
+
+20 directories, 34 files</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="but_why"><a class="anchor" href="#but_why"></a><a class="link" href="#but_why">But, why?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>According to our in-depth study, the POM DSL is so simple to understand that it will give back over 9000 hours of R&amp;D to your organization each week. <sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>
+You heard me right.
+Your developers can focus on what matters, like sending <a href="https://www.youtube.com/results?search_query=cat+videos">cat videos</a> or <a href="http://nyan.cat/">brag about their Nyan score</a> to each other.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="wait_wat"><a class="anchor" href="#wait_wat"></a><a class="link" href="#wait_wat">Wait! Wat?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>That&#8217;s not even a question.
+Have you been following?
+Maybe this cat picture using the POM DSL plugin will put you at ease.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="cat-meme.jpg" alt="oh hi i can us pom??xml k?">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="convince_me_harder"><a class="anchor" href="#convince_me_harder"></a><a class="link" href="#convince_me_harder">Convince me harder</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I can surely try.
+I had my team prepare a visual for your next meeting to help convince everyone:</p>
+</div>
+<div style="width: 100%;" id="viz0"></div>
+<script>
+   const d = [...Array(10).keys()].map(v => 4 * v + 2);
+   const l = [...Array(10).keys()].map(v => `${v+1}k`);
+   new roughViz.Bar({
+      element: '#viz0', // container selection
+      data: {
+         labels: l,
+         values: d,
+      },
+      roughness: 18,
+      interactive: false,
+      width: document.getElementById('viz0').clientWidth,
+      xLabel: 'Time Saved (kh)',
+      yLabel: 'Features (#)',
+      color: ['#6BA530'],
+   });
+</script>
+<div class="paragraph">
+<p>Based on a study we did over the weekend, 1 out of 10 participants recommends the POM DSL over the current Groovy and Kotlin DSL.
+Equally, we made the breakthrough discovery that you can&#8217;t trust 9 people out of 10 that participated in the study, go figure.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="conclusion"><a class="anchor" href="#conclusion"></a><a class="link" href="#conclusion">Conclusion</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All kidding aside, Gradle is exceptionally flexible.
+It always gets me when I hear "Gradle can&#8217;t do X, Y or Z".
+The truth of the matter being Gradle is the most flexible build system and possibly the only one you will ever need.</p>
+</div>
+<div class="paragraph">
+<p>In the native ecosystem, the majority of developers strongly prefer Python for their scripting language.
+Similarly, in the Web ecosystem, the developers strongly prefer Javascript (or it&#8217;s variant).
+Some developers go through great lengths for these preferences and create build systems with DSL that <em>feels</em> like there preferred language.
+However, I beg the question, which is more complicated:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creating a build system for a DSL; or</p>
+</li>
+<li>
+<p>Creating DSL for a build system?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I realized I could have faked the entire post; after all, it&#8217;s April Fool day if you didn&#8217;t know.
+However, I built the entire POM DSL plugin and released the <a href="https://github.com/nokeedev/gradle-pom-dsl">source code on GitHub</a>.
+All samples shown in this post are real examples and work as demonstrated.
+Feel free to toy around with the project and keep me posted on what you manage to accomplish.
+This plugin is a demonstration, and you shouldn&#8217;t use the plugin in production. <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></p>
+</div>
+<div class="paragraph">
+<p>Stay safe and don&#8217;t hesitate to <a href="#disqus_thread">leave a comment below</a> or ping me on the <a href="https://gradle-community.slack.com/">Gradle community Slack</a>.</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. DSL stands for Domain Specific Language and, in the current context, refers to the language used for configuring your build.
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. It is preferred to <a href="https://docs.gradle.org/current/userguide/command_line_interface.html#environment_options">specify the init script using the <code>--init-script</code> command line flag.</a>
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. Some limitations apply. Batteries not included. Not recommended to use when it surpasses ten on the Richter scale.
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. Disclaimer: Don&#8217;t believe everything you read online.
+</div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. I don&#8217;t guarantee its efficiency and don&#8217;t believe it&#8217;s bug-free.
+</div>
+</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="push"></div>
+
+	<!-- Begin Mailchimp Signup Form -->
+	<p style="text-align:center">Stay on top of new features and news by subscribing:</p>
+	<div id="mc_embed_signup">
+		<form action="https://dev.us4.list-manage.com/subscribe/post?u=c1b91750dbe075432c8729552&amp;id=93402e2466" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+			<div id="mc_embed_signup_scroll">
+
+			<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+			<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+			<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_c1b91750dbe075432c8729552_93402e2466" tabindex="-1" value=""></div>
+			<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+			</div>
+			<small>* We will never send spam, and you can unsubscribe at any time</small>
+		</form>
+	</div>
+
+	<!--End mc_embed_signup-->
+		<div id="push"></div>
+
+		<div id="footer">
+			<div class="container">
+				<p class="muted credit">&copy; 2020</p>
+			</div>
+		</div>
+
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="/js/prettify.js"></script>
+
+<script src="/component-multi-language-sample.js"></script>
+</body>
+</html>
