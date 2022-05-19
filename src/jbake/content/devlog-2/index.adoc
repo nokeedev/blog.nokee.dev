@@ -1,0 +1,48 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: devlog-2
+:jbake-id: {jbake-permalink}
+= Devlog #2
+Daniel Lacasse
+2022-05-19
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Development log #2
+//:jbake-leadimage: empty.png
+//:jbake-leadimagealt: empty
+:jbake-twitter: { "creator": "@lacasseio" }
+:ref-old-model-pr: https://github.com/nokeedev/gradle-native/pull/596
+:ref-source-under-binary-pr: https://github.com/nokeedev/gradle-native/pull/602
+:ref-um-binaries-pr: https://github.com/nokeedev/gradle-native/pull/604
+:ref-model-tag-pr: https://github.com/nokeedev/gradle-native/pull/614
+:ref-discovery-avoidance-issue: https://github.com/nokeedev/gradle-native/issues/630
+:ref-doc-issues: https://github.com/nokeedev/gradle-native/issues?q=is%3Aopen+is%3Aissue+label%3Aa%3Aguide%2Ca%3Asample
+:ref-gradle-native-platform-migration: https://github.com/gradle/native-platform/tree/nokee-migration
+
+This development log (devlog) includes work done since the <<devlog_1, last devlog>>.
+
+== Nokee Universal Model (UM)
+
+Since the last update, we finally link:{ref-old-model-pr}[removed an older implementation of the UM].
+We link:{ref-source-under-binary-pr}[moved the language source set entities under the binary hierarchy].
+We introduce the link:{ref-um-binaries-pr}[UM implementation of the static library, executable and bundle binaries].
+Unfortunately, we didn't migrate from the previous implementation due to missing modelling around exported headers and legacy source set implementation usage.
+We also link:{ref-model-tag-pr}[optimized the tag component (no-data component)] as we plan to move away from projection as a first-class concept in the UM.
+
+== Performance Regression
+
+One of the blockers for the next Nokee version is a performance regression that we accepted when moving forward with the Universal Model (UM) migration.
+The UM allow a link:{ref-gradle-native-platform-migration}[clean migration from Software Model to Nokee plugins in `gradle/native-platform`].
+We initially brought the regression down to about 1800ms which we then cut in half (to 900ms) with some internal optimization.
+To eliminate the regression, we will focus on link:{ref-discovery-avoidance-issue}[_discovery avoidance_ in the UM].
+
+== Documentation
+
+We are slowly ramping up a documentation effort to prepare for the next Nokee version.
+You can follow the work using link:{ref-doc-issues}[this GitHub query].
