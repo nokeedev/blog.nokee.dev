@@ -6,9 +6,57 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Wed, 20 Apr 2022 20:48:10 +0000</pubDate>
-		<lastBuildDate>Wed, 20 Apr 2022 20:48:10 +0000</lastBuildDate>
+		<pubDate>Thu, 19 May 2022 14:14:35 +0000</pubDate>
+		<lastBuildDate>Thu, 19 May 2022 14:14:35 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #2</title>
+			<link>https://feed.nokee.dev/devlog-2</link>
+			<pubDate>Thu, 19 May 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-2</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This development log (devlog) includes work done since the &lt;a href=&quot;#devlog_1&quot;&gt;last devlog&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;nokee_universal_model_um&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#nokee_universal_model_um&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#nokee_universal_model_um&quot;&gt;Nokee Universal Model (UM)&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since the last update, we finally &lt;a href=&quot;https://github.com/nokeedev/gradle-native/pull/596&quot;&gt;removed an older implementation of the UM&lt;/a&gt;.
+We &lt;a href=&quot;https://github.com/nokeedev/gradle-native/pull/602&quot;&gt;moved the language source set entities under the binary hierarchy&lt;/a&gt;.
+We introduce the &lt;a href=&quot;https://github.com/nokeedev/gradle-native/pull/604&quot;&gt;UM implementation of the static library, executable and bundle binaries&lt;/a&gt;.
+Unfortunately, we didn&amp;#8217;t migrate from the previous implementation due to missing modelling around exported headers and legacy source set implementation usage.
+We also &lt;a href=&quot;https://github.com/nokeedev/gradle-native/pull/614&quot;&gt;optimized the tag component (no-data component)&lt;/a&gt; as we plan to move away from projection as a first-class concept in the UM.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;performance_regression&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#performance_regression&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#performance_regression&quot;&gt;Performance Regression&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;One of the blockers for the next Nokee version is a performance regression that we accepted when moving forward with the Universal Model (UM) migration.
+The UM allow a &lt;a href=&quot;https://github.com/gradle/native-platform/tree/nokee-migration&quot;&gt;clean migration from Software Model to Nokee plugins in &lt;code&gt;gradle/native-platform&lt;/code&gt;&lt;/a&gt;.
+We initially brought the regression down to about 1800ms which we then cut in half (to 900ms) with some internal optimization.
+To eliminate the regression, we will focus on &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/630&quot;&gt;&lt;em&gt;discovery avoidance&lt;/em&gt; in the UM&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;documentation&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#documentation&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#documentation&quot;&gt;Documentation&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We are slowly ramping up a documentation effort to prepare for the next Nokee version.
+You can follow the work using &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues?q=is%3Aopen+is%3Aissue+label%3Aa%3Aguide%2Ca%3Asample&quot;&gt;this GitHub query&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #1</title>
