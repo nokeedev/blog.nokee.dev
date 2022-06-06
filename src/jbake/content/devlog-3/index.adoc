@@ -1,0 +1,103 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: devlog-3
+:jbake-id: {jbake-permalink}
+= Devlog #3
+Daniel Lacasse
+2022-06-06
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Development log #3
+//:jbake-leadimage: empty.png
+//:jbake-leadimagealt: empty
+:jbake-twitter: { "creator": "@lacasseio" }
+:ref-github-hacker-news: https://github.com/amitburst/HackerNews
+
+This development log (devlog) includes work done since the link:/devlog-2/[last devlog] which mostly focus on iOS support.
+
+== Xcode Build Adapter
+
+=== Building Xcode Scheme
+
+Xcode schemes are the _glue_ that ties actions (i.e. build, test, archive, etc.) and targets together.
+We map the scheme in two ways: globally, using the workspace, or locally, per project.
+The difference is subtle, but we will favour the local mapping over time as it should be more performant.
+The global mapping is a simple substitute for invoking the `xcodebuild` command line directly, as shown in the following cast:
+
+++++
+<script id="asciicast-oKB78YxZxggoyl2ruKPJcY1zO" src="https://asciinema.org/a/oKB78YxZxggoyl2ruKPJcY1zO.js" async></script>
+<noscript>
+<a href="https://asciinema.org/a/oKB78YxZxggoyl2ruKPJcY1zO" target="_blank" alt="Invoke Xcode scheme's build action on VLC iOS GitHub repository"><img src="https://asciinema.org/a/oKB78YxZxggoyl2ruKPJcY1zO.svg" /></a>
+</noscript>
+++++
+
+We can build any shared scheme from Gradle's root project.
+
+=== Execution Avoidance for Xcode Targets
+
+:ref-nokee-issue-target-clustering: https://github.com/nokeedev/gradle-native/issues/661
+
+We are link:{ref-nokee-issue-target-clustering}[investigating how Gradle can provide execution avoidance directly out-of-the-box].
+Execution avoidance includes up-to-date detection (e.g. inputs/outputs snapshotting) and build cache (local or remote).
+Xcode is significantly lacking in the up-to-date detection capability.
+From our research, it seems Xcode heavily relies on modification time.
+In scenarios where only the modification time changes (not the content), i.e. on fresh GitHub clone or on `pod install`, `xcodebuild` will perform a full rebuild.
+The following demonstrates this behaviour:
+
+++++
+<script id="asciicast-PR3VMVFt2L7CMm1rnWjkdApk3" src="https://asciinema.org/a/PR3VMVFt2L7CMm1rnWjkdApk3.js" async></script>
+<noscript>
+<a href="https://asciinema.org/a/PR3VMVFt2L7CMm1rnWjkdApk3" target="_blank" alt="Show the performance of raw xcodebuild command for building Pods-HackerNews target on HackerNews GitHub repository"><img src="https://asciinema.org/a/PR3VMVFt2L7CMm1rnWjkdApk3.svg" /></a>
+</noscript>
+++++
+
+However, with Gradle, we can detect the inputs and outputs of a target through analytics, allowing for some execution avoidance:
+
+++++
+<script id="asciicast-QlWIc4Sj6yab4umrN2SmYnPVP" src="https://asciinema.org/a/QlWIc4Sj6yab4umrN2SmYnPVP.js" async></script>
+<noscript>
+<a href="https://asciinema.org/a/QlWIc4Sj6yab4umrN2SmYnPVP" target="_blank" alt="Show Gradle up-to-date performance improvement for building Pods-HackerNews target on HackerNews GitHub repository"><img src="https://asciinema.org/a/QlWIc4Sj6yab4umrN2SmYnPVP.svg" /></a>
+</noscript>
+++++
+
+In this scenario, we used the link:{ref-github-hacker-news}[HackerNews repository], a trivial application.
+The important takeaway here is the ability to split an Xcode workspace into multiple target clusters where we can cache each one individually.
+Some targets cluster can execute for as long as 7 minutes!
+It should be possible to avoid those lengthy executions using Gradle/Nokee.
+
+Xcode error out on the side of rebuilding a target; hence proper inputs/outputs declaration isn't as important.
+We will most likely need user intervention to identify the inputs/outputs of target clusters correctly.
+
+=== Miscellaneous
+
+The following are other creative explorations we did around the Xcode Build Adapter:
+
+:ref-nokee-issue-build-scan: https://github.com/nokeedev/gradle-native/issues/662
+:ref-nokee-issue-ge-testing: https://github.com/nokeedev/gradle-native/issues/663
+:ref-nokee-issue-diff-merge: https://github.com/nokeedev/gradle-native/issues/664
+
+- link:{ref-nokee-issue-build-scan}[Providing additional Build Scan data from `xcodebuild` events].
+- link:{ref-nokee-issue-ge-testing}[Improving Xcode testing using Gradle Enterprise].
+- link:{ref-nokee-issue-diff-merge}[Supporting Xcode workspace/project diff/merge].
+
+== Nokee Version Management plugin
+
+:ref-nokee-issue-version-management: https://github.com/nokeedev/gradle-native/issues/641
+
+To provide a first-class integration between Nokee and Gradle, we are link:{ref-nokee-issue-version-management}[developing a settings plugin to manage Nokee versions and repositories].
+We initially intended for the plugin to have a narrow scope for the first version. Still, we decided to include more features for those odd projects (i.e. air-gapped, firewalled, source dependencies, etc.).
+Nokee configuration will simplify to a single plugin apply instead of the current complicated `pluginManagement` block:
+
+.settings.gradle[.kts]
+[source,groovy]
+----
+plugins {
+    id("dev.nokee.nokee-version-management") version("<version>")
+}
+----
