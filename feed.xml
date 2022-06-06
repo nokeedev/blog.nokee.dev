@@ -6,9 +6,115 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Thu, 19 May 2022 14:14:35 +0000</pubDate>
-		<lastBuildDate>Thu, 19 May 2022 14:14:35 +0000</lastBuildDate>
+		<pubDate>Mon, 6 Jun 2022 16:39:57 +0000</pubDate>
+		<lastBuildDate>Mon, 6 Jun 2022 16:39:57 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #3</title>
+			<link>https://feed.nokee.dev/devlog-3</link>
+			<pubDate>Mon, 6 Jun 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-3</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This development log (devlog) includes work done since the &lt;a href=&quot;/devlog-2/&quot;&gt;last devlog&lt;/a&gt; which mostly focus on iOS support.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;xcode_build_adapter&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#xcode_build_adapter&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#xcode_build_adapter&quot;&gt;Xcode Build Adapter&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;building_xcode_scheme&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#building_xcode_scheme&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#building_xcode_scheme&quot;&gt;Building Xcode Scheme&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Xcode schemes are the &lt;em&gt;glue&lt;/em&gt; that ties actions (i.e. build, test, archive, etc.) and targets together.
+We map the scheme in two ways: globally, using the workspace, or locally, per project.
+The difference is subtle, but we will favour the local mapping over time as it should be more performant.
+The global mapping is a simple substitute for invoking the &lt;code&gt;xcodebuild&lt;/code&gt; command line directly, as shown in the following cast:&lt;/p&gt;
+&lt;/div&gt;
+&lt;script id=&quot;asciicast-oKB78YxZxggoyl2ruKPJcY1zO&quot; src=&quot;https://asciinema.org/a/oKB78YxZxggoyl2ruKPJcY1zO.js&quot; async&gt;&lt;/script&gt;
+&lt;noscript&gt;
+&lt;a href=&quot;https://asciinema.org/a/oKB78YxZxggoyl2ruKPJcY1zO&quot; target=&quot;_blank&quot; alt=&quot;Invoke Xcode scheme&apos;s build action on VLC iOS GitHub repository&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/oKB78YxZxggoyl2ruKPJcY1zO.svg&quot; /&gt;&lt;/a&gt;
+&lt;/noscript&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We can build any shared scheme from Gradle&amp;#8217;s root project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;execution_avoidance_for_xcode_targets&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#execution_avoidance_for_xcode_targets&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#execution_avoidance_for_xcode_targets&quot;&gt;Execution Avoidance for Xcode Targets&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We are &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/661&quot;&gt;investigating how Gradle can provide execution avoidance directly out-of-the-box&lt;/a&gt;.
+Execution avoidance includes up-to-date detection (e.g. inputs/outputs snapshotting) and build cache (local or remote).
+Xcode is significantly lacking in the up-to-date detection capability.
+From our research, it seems Xcode heavily relies on modification time.
+In scenarios where only the modification time changes (not the content), i.e. on fresh GitHub clone or on &lt;code&gt;pod install&lt;/code&gt;, &lt;code&gt;xcodebuild&lt;/code&gt; will perform a full rebuild.
+The following demonstrates this behaviour:&lt;/p&gt;
+&lt;/div&gt;
+&lt;script id=&quot;asciicast-PR3VMVFt2L7CMm1rnWjkdApk3&quot; src=&quot;https://asciinema.org/a/PR3VMVFt2L7CMm1rnWjkdApk3.js&quot; async&gt;&lt;/script&gt;
+&lt;noscript&gt;
+&lt;a href=&quot;https://asciinema.org/a/PR3VMVFt2L7CMm1rnWjkdApk3&quot; target=&quot;_blank&quot; alt=&quot;Show the performance of raw xcodebuild command for building Pods-HackerNews target on HackerNews GitHub repository&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/PR3VMVFt2L7CMm1rnWjkdApk3.svg&quot; /&gt;&lt;/a&gt;
+&lt;/noscript&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, with Gradle, we can detect the inputs and outputs of a target through analytics, allowing for some execution avoidance:&lt;/p&gt;
+&lt;/div&gt;
+&lt;script id=&quot;asciicast-QlWIc4Sj6yab4umrN2SmYnPVP&quot; src=&quot;https://asciinema.org/a/QlWIc4Sj6yab4umrN2SmYnPVP.js&quot; async&gt;&lt;/script&gt;
+&lt;noscript&gt;
+&lt;a href=&quot;https://asciinema.org/a/QlWIc4Sj6yab4umrN2SmYnPVP&quot; target=&quot;_blank&quot; alt=&quot;Show Gradle up-to-date performance improvement for building Pods-HackerNews target on HackerNews GitHub repository&quot;&gt;&lt;img src=&quot;https://asciinema.org/a/QlWIc4Sj6yab4umrN2SmYnPVP.svg&quot; /&gt;&lt;/a&gt;
+&lt;/noscript&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this scenario, we used the &lt;a href=&quot;https://github.com/amitburst/HackerNews&quot;&gt;HackerNews repository&lt;/a&gt;, a trivial application.
+The important takeaway here is the ability to split an Xcode workspace into multiple target clusters where we can cache each one individually.
+Some targets cluster can execute for as long as 7 minutes!
+It should be possible to avoid those lengthy executions using Gradle/Nokee.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Xcode error out on the side of rebuilding a target; hence proper inputs/outputs declaration isn&amp;#8217;t as important.
+We will most likely need user intervention to identify the inputs/outputs of target clusters correctly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;miscellaneous&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#miscellaneous&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#miscellaneous&quot;&gt;Miscellaneous&lt;/a&gt;&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The following are other creative explorations we did around the Xcode Build Adapter:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/662&quot;&gt;Providing additional Build Scan data from &lt;code&gt;xcodebuild&lt;/code&gt; events&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/663&quot;&gt;Improving Xcode testing using Gradle Enterprise&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/664&quot;&gt;Supporting Xcode workspace/project diff/merge&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;nokee_version_management_plugin&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#nokee_version_management_plugin&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#nokee_version_management_plugin&quot;&gt;Nokee Version Management plugin&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To provide a first-class integration between Nokee and Gradle, we are &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/641&quot;&gt;developing a settings plugin to manage Nokee versions and repositories&lt;/a&gt;.
+We initially intended for the plugin to have a narrow scope for the first version. Still, we decided to include more features for those odd projects (i.e. air-gapped, firewalled, source dependencies, etc.).
+Nokee configuration will simplify to a single plugin apply instead of the current complicated &lt;code&gt;pluginManagement&lt;/code&gt; block:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;settings.gradle[.kts]&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;plugins {
+    id(&quot;dev.nokee.nokee-version-management&quot;) version(&quot;&amp;lt;version&amp;gt;&quot;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #2</title>
@@ -19,7 +125,7 @@
 			&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This development log (devlog) includes work done since the &lt;a href=&quot;#devlog_1&quot;&gt;last devlog&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This development log (devlog) includes work done since the &lt;a href=&quot;/devlog-1/&quot;&gt;last devlog&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
