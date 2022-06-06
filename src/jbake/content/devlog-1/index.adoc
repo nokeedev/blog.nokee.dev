@@ -7,7 +7,6 @@
 :linkattrs: true
 :jbake-permalink: devlog-1
 :jbake-id: {jbake-permalink}
-[[devlog_1]]
 = Devlog #1
 Daniel Lacasse
 2022-04-20
