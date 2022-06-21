@@ -6,9 +6,61 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Mon, 6 Jun 2022 16:39:57 +0000</pubDate>
-		<lastBuildDate>Mon, 6 Jun 2022 16:39:57 +0000</lastBuildDate>
+		<pubDate>Tue, 21 Jun 2022 11:55:58 +0000</pubDate>
+		<lastBuildDate>Tue, 21 Jun 2022 11:55:58 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #4</title>
+			<link>https://feed.nokee.dev/devlog-4</link>
+			<pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-4</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This development log (devlog) includes work done since the &lt;a href=&quot;/devlog-3/&quot;&gt;last devlog&lt;/a&gt;, which mainly focuses on iOS support and Nokee integration with Gradle.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;xcode_build_adapter&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#xcode_build_adapter&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#xcode_build_adapter&quot;&gt;Xcode Build Adapter&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We continue working on the Xcode build adapter plugin, which enables iOS support.
+We pushed the required changes to support implicit dependencies (e.g. Xcode&amp;#8217;s inter-project dependencies).
+We can now build a project&amp;#8217;s main target and dependencies without issues.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We still don&amp;#8217;t support cross-project references, usually present when developers nest Xcode projects.
+Those type of reference requires improvement to our Xcode modelling.
+We also need to improve our strategy for delegating to Xcode as we would need to cluster these cross-project references together, defeating the goal of using Gradle/Nokee.
+The situation is very similar to Xcode target clustering.
+We have some experiments that should allow us to break down these clusters and improve our already excellent performance results.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;documentation_pipeline&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#documentation_pipeline&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#documentation_pipeline&quot;&gt;Documentation Pipeline&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We fixed the final two stages of our documentation pipeline (e.g. merged Javadoc and DSL reference).
+We should be able to update our documentation which includes multiple changes such as moving all samples to use the latest Gradle wrapper, using the correct Nokee version, and removing broken links.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;nokee_version_management_plugin&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#nokee_version_management_plugin&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#nokee_version_management_plugin&quot;&gt;Nokee Version Management plugin&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We finished the implementation of the Nokee Version Management plugin.
+The last stretch of development required changes to our functional testing (to allow a wider spread of Gradle version to tests) and fixing our documentation pipeline.
+We expect to release this plugin soon.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #3</title>
