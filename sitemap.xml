@@ -2,94 +2,98 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blog.nokee.dev/maven-pom-dsl</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/ios-development-poll</loc>
-    <lastmod>2022-06-21</lastmod>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
     <loc>https://blog.nokee.dev/release-0.1-announcement</loc>
-    <lastmod>2022-06-21</lastmod>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
-    <loc>https://blog.nokee.dev/farewell-bintray</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/devlog-2</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/what-is-the-latest-nokee-version</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/introducing-gradle-toolbox</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/support</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/introducing-leaf-bird</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/devlog-4</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/release-0.3-announcement</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/conduct.html</loc>
-    <lastmod>2022-06-21</lastmod>
+    <loc>https://blog.nokee.dev/devlog-5</loc>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
     <loc>https://blog.nokee.dev/</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/support.html</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/introducing-devlog</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/release-0.4-announcement</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/devlog-1</loc>
-    <lastmod>2022-06-21</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.nokee.dev/devlog-3</loc>
-    <lastmod>2022-06-21</lastmod>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
     <loc>https://blog.nokee.dev/hello-native</loc>
-    <lastmod>2022-06-21</lastmod>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/conduct.html</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/devlog-2</loc>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
     <loc>https://blog.nokee.dev/license-clarification</loc>
-    <lastmod>2022-06-21</lastmod>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
-    <loc>https://blog.nokee.dev/introducing-language-source-set</loc>
-    <lastmod>2022-06-21</lastmod>
+    <loc>https://blog.nokee.dev/devlog-4</loc>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
-    <loc>https://blog.nokee.dev/release-0.2-announcement</loc>
-    <lastmod>2022-06-21</lastmod>
+    <loc>https://blog.nokee.dev/what-is-the-latest-nokee-version</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/release-0.4-announcement</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/devlog-1</loc>
+    <lastmod>2022-07-19</lastmod>
   </url>
   <url>
     <loc>https://blog.nokee.dev/conduct</loc>
-    <lastmod>2022-06-21</lastmod>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/farewell-bintray</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/introducing-language-source-set</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/devlog-3</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/introducing-leaf-bird</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/support.html</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/support</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/introducing-devlog</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/ios-development-poll</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/introducing-gradle-toolbox</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/release-0.3-announcement</loc>
+    <lastmod>2022-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.nokee.dev/release-0.2-announcement</loc>
+    <lastmod>2022-07-19</lastmod>
   </url>
 </urlset>

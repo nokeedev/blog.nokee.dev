@@ -6,9 +6,80 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Tue, 21 Jun 2022 11:55:58 +0000</pubDate>
-		<lastBuildDate>Tue, 21 Jun 2022 11:55:58 +0000</lastBuildDate>
+		<pubDate>Tue, 19 Jul 2022 14:59:36 +0000</pubDate>
+		<lastBuildDate>Tue, 19 Jul 2022 14:59:36 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #5</title>
+			<link>https://feed.nokee.dev/devlog-5</link>
+			<pubDate>Tue, 19 Jul 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-5</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This development log (devlog) includes work done since the &lt;a href=&quot;/devlog-4/&quot;&gt;last devlog&lt;/a&gt;, which mainly focuses on the Universal Model, more specifically on dependency buckets (aka Gradle &lt;code&gt;Configuration&lt;/code&gt;).
+The progress was primarily technical; hence we think sharing the major roadblocks we overcame around using &lt;code&gt;Configuration&lt;/code&gt; in a nested hierarchy would be appropriate for this devlog.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When we talk about nested hierarchy, we mean several layers of domain object ownership.
+For example, a component, variant or artifact can own a dependency bucket, which in turn, a component or variant can own artifacts, and finally, a component can own variants.
+This kind of hierarchy causes a lot of headaches in terms of discovery.
+In a fully &lt;em&gt;lazy&lt;/em&gt; build, how does Gradle know it collected every outgoing &lt;code&gt;Configuration&lt;/code&gt; for a proper dependency resolution?
+The short answer is it can&amp;#8217;t!
+The focus today is on how to configure &lt;code&gt;Configuration&lt;/code&gt; without realizing the world properly.
+Stay tuned for more discussion on the discovery in the future.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;misbehaving_plugins&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#misbehaving_plugins&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#misbehaving_plugins&quot;&gt;Misbehaving plugins&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our first surprise was a misbehaving plugin.
+In our example, the &lt;a href=&quot;https://youtrack.jetbrains.com/issue/KT-52984/Kotlin-Gradle-plugin-is-misbehaving-by-resolving-DomainObjectCollection-early&quot;&gt;Koltin Gradle plugin realizes the dependencies of a &lt;code&gt;Configuration&lt;/code&gt; too early&lt;/a&gt; preventing a pull behaviour from our model using &lt;code&gt;addAllLater&lt;/code&gt; trick.
+Thankfully, we have an internal concept of &lt;em&gt;finalized&lt;/em&gt; state, which we can use to propagate the dependencies from our buckets to their matching &lt;code&gt;Configuration&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;strong&gt;Lesson:&lt;/strong&gt; Plugin authors should avoid realizing &lt;code&gt;DomainObjectCollection&lt;/code&gt; too early.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;completing_the_configuration&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#completing_the_configuration&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#completing_the_configuration&quot;&gt;Completing the &lt;code&gt;Configuration&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To ensure we can &lt;em&gt;finalize&lt;/em&gt; a &lt;code&gt;Configuration&lt;/code&gt; before Gradle performs its dependency resolution, we need some ways to receive a notification when Gradle is &lt;em&gt;about to use&lt;/em&gt; the &lt;code&gt;Configuration&lt;/code&gt;.
+The &lt;a href=&quot;https://github.com/gradle/gradle/issues/19131&quot;&gt;only hook available to us is &lt;code&gt;ConfigurationInternal#beforeLocking&lt;/code&gt;&lt;/a&gt;.
+It would be wrong to think &lt;code&gt;Configuration#beforeResolve&lt;/code&gt; is the public API equivalent; the &lt;code&gt;Configuration&lt;/code&gt; is already immutable.
+Thanks to the internal hook, we can perform additional configuration avoidance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;resolving_gap_of_the_configuration&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#resolving_gap_of_the_configuration&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#resolving_gap_of_the_configuration&quot;&gt;Resolving gap of the &lt;code&gt;Configuration&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now that we can adequately avoid early configuration and &lt;em&gt;finalize&lt;/em&gt; the &lt;code&gt;Configuration&lt;/code&gt; itself, are we done?
+Unfortunately, we face our final surprise, &lt;code&gt;Configuration&lt;/code&gt;.s are not locked when Gradle visit their task dependencies.
+A &lt;code&gt;Configuration&lt;/code&gt; behave much like a &lt;code&gt;FileCollection&lt;/code&gt;.
+We can iterate the resolved files or visit the task dependencies that produce those files.
+In practice, visiting the task dependencies looks at &lt;code&gt;ProjectDependency&lt;/code&gt; as it&amp;#8217;s the only kind of &lt;code&gt;Dependency&lt;/code&gt; that contains meaningful &lt;code&gt;TaskDependency&lt;/code&gt;.
+Sadly for us, visiting the task dependencies does not lock the &lt;code&gt;Configuration&lt;/code&gt; and only looks at the current &lt;code&gt;DependencySet&lt;/code&gt;.
+Because of misbehaving plugins, we couldn&amp;#8217;t lazily attach our dependencies via &lt;code&gt;addAllLater&lt;/code&gt;.
+The result is a bit confusing.
+The tasks using the &lt;code&gt;Configuration&lt;/code&gt; won&amp;#8217;t have the correct task dependencies but will still end up with the expected resolved files, which points to missing files.
+In our Universal Model, we work around this issue by finalizing the dependency bucket upon collecting the incoming files.
+However, in our JNI library plugin, we had to force the &lt;code&gt;java&lt;/code&gt; plugin&amp;#8217;s &lt;code&gt;Configuration&lt;/code&gt; to lock at key locations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Note that, as of Gradle 7.4, Gradle will ignore task dependencies provided by &lt;code&gt;ProjectDependency&lt;/code&gt; when added via &lt;code&gt;Configuration#withDependencies&lt;/code&gt; and &lt;code&gt;Configuration#defaultDependencies&lt;/code&gt; actions as those actions execute during the &lt;code&gt;Configuration&lt;/code&gt; locking.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #4</title>
