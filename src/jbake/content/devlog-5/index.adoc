@@ -1,0 +1,64 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: devlog-5
+:jbake-id: {jbake-permalink}
+= Devlog #5
+Daniel Lacasse
+2022-07-19
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Development log #5
+//:jbake-leadimage: empty.png
+//:jbake-leadimagealt: empty
+:jbake-twitter: { "creator": "@lacasseio" }
+:ref-issue-configuration-internal-before-locking: https://github.com/gradle/gradle/issues/19131
+:ref-issue-kotlin-plugin-misbehaving: https://youtrack.jetbrains.com/issue/KT-52984/Kotlin-Gradle-plugin-is-misbehaving-by-resolving-DomainObjectCollection-early
+
+
+This development log (devlog) includes work done since the link:/devlog-4/[last devlog], which mainly focuses on the Universal Model, more specifically on dependency buckets (aka Gradle `Configuration`).
+The progress was primarily technical; hence we think sharing the major roadblocks we overcame around using `Configuration` in a nested hierarchy would be appropriate for this devlog.
+
+When we talk about nested hierarchy, we mean several layers of domain object ownership.
+For example, a component, variant or artifact can own a dependency bucket, which in turn, a component or variant can own artifacts, and finally, a component can own variants.
+This kind of hierarchy causes a lot of headaches in terms of discovery.
+In a fully _lazy_ build, how does Gradle know it collected every outgoing `Configuration` for a proper dependency resolution?
+The short answer is it can't!
+The focus today is on how to configure `Configuration` without realizing the world properly.
+Stay tuned for more discussion on the discovery in the future.
+
+== Misbehaving plugins
+
+Our first surprise was a misbehaving plugin.
+In our example, the link:{ref-issue-kotlin-plugin-misbehaving}[Koltin Gradle plugin realizes the dependencies of a `Configuration` too early] preventing a pull behaviour from our model using `addAllLater` trick.
+Thankfully, we have an internal concept of _finalized_ state, which we can use to propagate the dependencies from our buckets to their matching `Configuration`.
+
+**Lesson:** Plugin authors should avoid realizing `DomainObjectCollection` too early.
+
+== Completing the `Configuration`
+
+To ensure we can _finalize_ a `Configuration` before Gradle performs its dependency resolution, we need some ways to receive a notification when Gradle is _about to use_ the `Configuration`.
+The link:{ref-issue-configuration-internal-before-locking}[only hook available to us is `ConfigurationInternal#beforeLocking`].
+It would be wrong to think `Configuration#beforeResolve` is the public API equivalent; the `Configuration` is already immutable.
+Thanks to the internal hook, we can perform additional configuration avoidance.
+
+== Resolving gap of the `Configuration`
+
+Now that we can adequately avoid early configuration and _finalize_ the `Configuration` itself, are we done?
+Unfortunately, we face our final surprise, `Configuration`.s are not locked when Gradle visit their task dependencies.
+A `Configuration` behave much like a `FileCollection`.
+We can iterate the resolved files or visit the task dependencies that produce those files.
+In practice, visiting the task dependencies looks at `ProjectDependency` as it's the only kind of `Dependency` that contains meaningful `TaskDependency`.
+Sadly for us, visiting the task dependencies does not lock the `Configuration` and only looks at the current `DependencySet`.
+Because of misbehaving plugins, we couldn't lazily attach our dependencies via `addAllLater`.
+The result is a bit confusing.
+The tasks using the `Configuration` won't have the correct task dependencies but will still end up with the expected resolved files, which points to missing files.
+In our Universal Model, we work around this issue by finalizing the dependency bucket upon collecting the incoming files.
+However, in our JNI library plugin, we had to force the `java` plugin's `Configuration` to lock at key locations.
+
+Note that, as of Gradle 7.4, Gradle will ignore task dependencies provided by `ProjectDependency` when added via `Configuration#withDependencies` and `Configuration#defaultDependencies` actions as those actions execute during the `Configuration` locking.
