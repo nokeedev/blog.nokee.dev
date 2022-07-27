@@ -14,8 +14,6 @@ Daniel Lacasse
 :jbake-status: published
 :jbake-tags: devlog
 :jbake-description: Development log #4
-//:jbake-leadimage: empty.png
-//:jbake-leadimagealt: empty
 :jbake-twitter: { "creator": "@lacasseio" }
 
 

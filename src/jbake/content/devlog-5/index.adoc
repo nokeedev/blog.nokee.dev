@@ -14,8 +14,6 @@ Daniel Lacasse
 :jbake-status: published
 :jbake-tags: devlog
 :jbake-description: Development log #5
-//:jbake-leadimage: empty.png
-//:jbake-leadimagealt: empty
 :jbake-twitter: { "creator": "@lacasseio" }
 :ref-issue-configuration-internal-before-locking: https://github.com/gradle/gradle/issues/19131
 :ref-issue-kotlin-plugin-misbehaving: https://youtrack.jetbrains.com/issue/KT-52984/Kotlin-Gradle-plugin-is-misbehaving-by-resolving-DomainObjectCollection-early

@@ -14,8 +14,6 @@ Daniel Lacasse
 :jbake-status: published
 :jbake-tags: devlog
 :jbake-description: Development log #1
-//:jbake-leadimage: empty.png
-//:jbake-leadimagealt: empty
 :jbake-twitter: { "creator": "@lacasseio" }
 :ref-jbake: https://jbake.org/
 :ref-jbake-official-plugin: https://github.com/jbake-org/jbake-gradle-plugin

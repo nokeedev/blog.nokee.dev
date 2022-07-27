@@ -14,8 +14,6 @@ Daniel Lacasse
 :jbake-status: published
 :jbake-tags: devlog
 :jbake-description: Development log #2
-//:jbake-leadimage: empty.png
-//:jbake-leadimagealt: empty
 :jbake-twitter: { "creator": "@lacasseio" }
 :ref-old-model-pr: https://github.com/nokeedev/gradle-native/pull/596
 :ref-source-under-binary-pr: https://github.com/nokeedev/gradle-native/pull/602
