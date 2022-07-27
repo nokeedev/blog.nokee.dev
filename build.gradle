@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-	jbake 'dev.nokee.docs:dotgithub:latest.release'
+	jbake 'dev.nokee.docs:layout-page:latest.release'
 }
 
 site {
