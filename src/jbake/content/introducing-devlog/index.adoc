@@ -12,8 +12,8 @@ Daniel Lacasse
 2022-04-20
 :jbake-type: blog_post
 :jbake-status: published
-:jbake-tags: devlog
-:jbake-description: Introducing recurrent development logs for Nokee
+:jbake-tags: devlog, blog
+:jbake-description: Introducing recurrent development logs for Nokee.
 :jbake-leadimage: introducing-devlog-small.png
 :jbake-leadimagealt: Stay UP TO DATE with Nokee development
 :jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }

@@ -1,5 +1,7 @@
 :jbake-type: blog_index
 :jbake-status: published
+:jbake-description: The Nokee Blog
+:jbake-tags: index
 :ref-feed: https://feed.nokee.dev/feed.xml
 = Welcome to the Gradle Native Blog
 

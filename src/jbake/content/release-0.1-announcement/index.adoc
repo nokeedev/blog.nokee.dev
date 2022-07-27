@@ -14,7 +14,7 @@ Daniel Lacasse
 :jbake-status: published
 :jbake-tags: blog
 :jbake-description: Announcing the first release of the Nokee plugin suite.
-:jbake-twitter: { "creator": "@lacasseio", "card": "summary_large_image" }
+:jbake-twitter: { "creator": "@lacasseio" }
 
 I'm proud to announce the <<../../docs/0.1.0/release-notes.adoc#,first version of the Nokee plugins>>.
 

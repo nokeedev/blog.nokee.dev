@@ -7,6 +7,7 @@ Daniel Lacasse
 :jbake-status: published
 :jbake-tags: blog
 :idprefix:
+:jbake-description: Polling iOS developer regarding their build state.
 
 // Target audience: users and build authors
 
