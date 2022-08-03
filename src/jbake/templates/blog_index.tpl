@@ -2,7 +2,7 @@ layout 'layout-page.tpl', content: content, config: config,
 	headContents: contents {
 		link(href: '/css/blog-layout.css', rel: 'stylesheet')
 	},
-	bodyContents: contents {
+	pageContents: contents {
 		yieldUnescaped(content.body)
 
 		published_blog_posts.each { post ->
