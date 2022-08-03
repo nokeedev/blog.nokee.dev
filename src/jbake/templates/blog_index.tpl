@@ -1,4 +1,7 @@
 layout 'layout-page.tpl', content: content, config: config,
+	headContents: contents {
+		link(href: '/css/blog-layout.css', rel: 'stylesheet')
+	},
 	bodyContents: contents {
 		yieldUnescaped(content.body)
 

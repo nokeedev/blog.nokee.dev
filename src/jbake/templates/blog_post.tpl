@@ -1,5 +1,6 @@
 layout 'layout-page.tpl', content: content, config: config,
 	headContents: contents {
+		link(href: '/css/blog-layout.css', rel: 'stylesheet')
 		link(href: '/css/blog-email-signup.css', rel: 'stylesheet')
 		if (content.useroughviz && content.useroughviz == 'true') {
 			script(src: 'https://unpkg.com/rough-viz@1.0.6') {}
