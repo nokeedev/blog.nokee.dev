@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en" prefix="og: https://ogp.me/ns#">
     <head>
-        <title>Farewell Bintray&amp;#8230;&amp;#8203;</title>
+        <title>Devlog #6</title>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet"/>
         <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet"/>
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -9,28 +9,24 @@
         <link href="/component-asciidoctor-color-override.css" rel="stylesheet"/>
         <link href="/css/docs-base.css" rel="stylesheet"/>
 <link href="/css/blog-layout.css" rel="stylesheet"/><link href="/css/blog-email-signup.css" rel="stylesheet"/>        <link href="/css/normalize-8.0.1.css" rel="stylesheet"/><link href="/css/prettify.css" rel="stylesheet"/>
-        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:card" content="summary"/>
         <meta name="twitter:site" content="@nokeedev"/>
         <meta name="twitter:creator" content="@lacasseio"/>
-        <meta name="twitter:title" content="Farewell Bintray&amp;#8230;&amp;#8203;"/>
-        <meta name="twitter:description" content="Introducing our new artifact repositories for Nokee."/>
-        <meta name="twitter:image" content="https://blog.nokee.dev/farewell-bintray/farewell-bintray-small.png"/>
-        <meta name="twitter:image:alt" content="Farewell Bintray"/>
+        <meta name="twitter:title" content="Devlog #6"/>
+        <meta name="twitter:description" content="Development log #6"/>
 
-        <meta property="og:url" content="https://blog.nokee.dev/farewell-bintray/"/>
+        <meta property="og:url" content="https://blog.nokee.dev/devlog-6/"/>
         <meta property="og:site_name" content="Nokee"/>
-        <meta property="og:title" content="Farewell Bintray&amp;#8230;&amp;#8203;"/>
-        <meta property="og:description" content="Introducing our new artifact repositories for Nokee."/>
-        <meta property="og:image" content="https://blog.nokee.dev/farewell-bintray/farewell-bintray-small.png"/>
-        <meta property="og:image:alt" content="Farewell Bintray"/>
+        <meta property="og:title" content="Devlog #6"/>
+        <meta property="og:description" content="Development log #6"/>
 
         <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
         <meta name="author" content="Nokee"/>
-        <meta name="keywords" content="blog"/>
-        <meta name="description" content="Introducing our new artifact repositories for Nokee."/>
-        <link rel="canonical" href="https://blog.nokee.dev/farewell-bintray/"/>
+        <meta name="keywords" content="devlog"/>
+        <meta name="description" content="Development log #6"/>
+        <link rel="canonical" href="https://blog.nokee.dev/devlog-6/"/>
         <link href="/component-menu.css" rel="stylesheet"/>
         <link href="/component-menu-light.css" rel="stylesheet"/>
 
@@ -74,101 +70,100 @@
         <main class="main-content">
 <div class="chapter">
                 <div id="header">
-<img src="farewell-bintray-small.png" alt="Farewell Bintray"/><h1>Farewell Bintray&#8230;&#8203;</h1><p><em>16 February 2021</em></p>                    
+<h1>Devlog #6</h1><p><em>20 September 2022</em></p>                    
                 </div>
                 <div id="content">
                     
-                    <div class="paragraph">
-<p>On February 3rd, <a href="https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/">JFrog announced the sunset of Bintray and JCenter services</a>.
-This news is particularly devastating as we depended on those services to release our hard work to you, our fantastic users.
-We are committed to offering our plugins and libraries without interruption, which is why solving this issue became our top priority.</p>
+                    <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This week&#8217;s development log (devlog) is a three-for-one special and includes work done since the <a href="/devlog-5/">last devlog</a>, published a while ago.
+We split our primary development time between improvement to the language source set model, and the Xcode build adapter.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="language_source_set_improvements"><a class="anchor" href="#language_source_set_improvements"></a><a class="link" href="#language_source_set_improvements">Language Source Set Improvements</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For a while now, we had two competing <code>LanguageSourceSet</code> implementations.
+When we first introduced the concept, our chosen design focused on declaring the sources and headers.
+We borrow some ideas from the software model core plugins.
+The models were single bags of files that didn&#8217;t correctly represent reality and didn&#8217;t allow for ad-hoc declaration of source sets.
+The second concept initially introduced in the JNI library plugin focuses on software composition.
+In short, declaring a <code>LanguageSourceSet</code> implied the sources, their headers, a compile task, and consumable dependencies.
+We can use the source set alone to create object files or as part of a more complex hiearchy such as an executable binary.
+Thanks to our universal model, we can clearly define the owner and simple rules that will automatically complete native components with the right source set.
+The last part is much more complicated than it seems.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="xcode_build_adapter_improvements"><a class="anchor" href="#xcode_build_adapter_improvements"></a><a class="link" href="#xcode_build_adapter_improvements">Xcode Build Adapter Improvements</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As we onboarded more real-life projects with our Xcode build adapter plugin, it became clear that support for cross-project dependencies was necessary.
+Previously, we only supported implicit dependencies via Xcode workspace.
+We took a step back and made a deeper analysis of our Xcode model which led to the following graph <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="xcode-model.png" alt="PBXProj models as understood by the Xcode build system">
+</div>
+<div class="title">Figure 1. PBXProj models and relationships</div>
 </div>
 <div class="paragraph">
-<p>We maintain two major artifact groups:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/nokeedev"><code>dev.nokee</code></a>: a suite of Gradle plugins for painless native development</p>
-</li>
-<li>
-<p><a href="https://github.com/gradle-plugins"><code>dev.gradleplugins</code></a>: a suite of Gradle plugins and libraries for accelerated Gradle plugin development.</p>
-</li>
-</ul>
+<p>One thing that stands out from our research is how simple yet powerful the Xcode build system is.
+We need a stellar understanding of Xcode to ensure proper up-to-date checking, caching and parallelization.</p>
 </div>
 <div class="paragraph">
-<p>Moving forward, we will host the artifacts for both groups on our servers.
-Unfortunately, we won&#8217;t release the subsequent versions simultaneously into the central plugin portal until <a href="https://github.com/gradle/plugin-portal-requests/issues/78">the Gradle team provide more guidance to the plugin development community</a>.
-See the <a href="https://repo.nokee.dev">repositories landing page</a> for more information on how to configure your Gradle build.</p>
+<p>The first step was to deserialize cross-project reference from the PBXProj properly.
+It allows us to understand cross-project dependencies and remote product references (e.g. file references declared in another project).
+Then, we perform an additional discovery step during configuration to find the effective list of Xcode projects participating in the build.
+Finally, we use the Gradle dependency engine to process project dependencies (implicit, explicit and cross-project).</p>
 </div>
 <div class="paragraph">
-<p>The following is a rundown of the replacement URLs for our Bintray repositories:</p>
+<p>This small change to how we handle Xcode projects allows for deeper insight into the build process via build scan:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://repo.nokee.dev/release" class="bare">https://repo.nokee.dev/release</a> contains the artifacts from the following Bintray repositories:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>hxxps://dl.bintray.com/nokeedev/distributions</p>
-</li>
-<li>
-<p>hxxps://dl.bintray.com/nokeedev/distributions-initialization</p>
-</li>
-<li>
-<p>hxxps://dl.bintray.com/gradle-plugins/distributions</p>
-</li>
-</ul>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="https://scans.gradle.com/s/xgn7sfgn7ykya/timeline"><img src="vlc-ios-build-scan.png" alt="Build scan timeline of VLC iOS build"></a>
 </div>
-</li>
-<li>
-<p><a href="https://repo.nokee.dev/snapshot" class="bare">https://repo.nokee.dev/snapshot</a> contains the artifacts from the following Bintray repository:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>hxxps://dl.bintray.com/nokeedev/distributions-snapshots</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
+<div class="title">Figure 2. Build scan of vlc-ios project</div>
 </div>
 <div class="paragraph">
-<p>In general, the migration process is as simple as updating the repositories to their new locations.
-However, some of our plugins have internal dependencies to Bintray, e.g. they configure repositories for the projects.
-We recommend updating the following plugins to the minimum specified version:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>dev.gradleplugins.java-gradle-plugin</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
-</li>
-<li>
-<p><code>dev.gradleplugins.groovy-gradle-pluign</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
-</li>
-<li>
-<p><code>dev.gradleplugins.gradle-plugin-development</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
-</li>
-<li>
-<p><code>dev.gradleplugins.gradle-plugin-unit-test</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
-</li>
-<li>
-<p><code>dev.gradleplugins.gradle-plugin-functional-test</code> &#8594; 1.2.1 (with <a href="https://github.com/gradle-plugins/toolbox/#usage">repository in <code>pluginManagement</code></a>)</p>
-</li>
-<li>
-<p>Nokee init plugin &#8594; use the <a href="https://raw.githubusercontent.com/nokeedev/init.nokee.dev/main/nokee.init.gradle">latest version</a> according to the <a href="https://github.com/nokeedev/init.nokee.dev/#usage">usage documentation</a>.</p>
-</li>
-</ul>
+<p>As we can see, all targets are independent, even if they come from the same project.
+Previously all targets of a single project were treated as a single cluster.
+To successfully break down target clusters, we preprocess the Xcode project before delegating the build to <code>xcodebuild</code>.
+Thanks to the simplicity of the Xcode build system, we can trick Xcode into consuming our previously built products as part of a different and independent invocation.</p>
 </div>
 <div class="paragraph">
-<p>There are still more than two months before the service is wholly decommissioned; however, we urge our users to take the time now and proceed with a migration to the new repository locations.
-All new versions of our plugins and libraries will be released only in our repositories.
-If you have any questions regarding this migration, please sends us an email to <a href="mailto:bintray-migration@nokee.dev">bintray-migration@nokee.dev</a>.</p>
+<p>Our next focus will be improving the configuration of Gradle&#8217;s superior up-to-date check by extracting more accurate information from Xcode projects.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ad_hoc_artifact_repositories"><a class="anchor" href="#ad_hoc_artifact_repositories"></a><a class="link" href="#ad_hoc_artifact_repositories">Ad-hoc Artifact Repositories</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>We are working on deeper integration with Gradle removing your need to manage those repositories manually.
-Stay tuned.</p>
+<p>Our plugins still rely on core native support in Gradle to discover and locate native toolchains.
+It isn&#8217;t ideal for us, given our lack of control over such critical infrastructure.
+For a long while, we had a plan to select native toolchains (and system libraries) using the Gradle dependency engine.
+Recently, <a href="https://github.com/nokeedev/gradle-native/pull/708">we pushed the first part of this plan which introduces the concept of ad-hoc artifact repositories</a>.
+They are on-disk Maven repositories with a twist!
+The repository provides callbacks to generate the repository&#8217;s content before completing the resolution.
+We did countless experiments, and this solution was by far the simplest.
+We still rely on internal Gradle APIs, so we don&#8217;t expect users to interact directly with those repositories.
+However, it marks the first step toward better native dependency management (including Conan support).
+We already migrated our macOS framework dependency support from the dreadful embedded Jetty server to an ad-hoc repository.</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. We are developing the <a href="https://github.com/nokeedev/gradle-native/blob/master/subprojects/xcode-ide-kit/src/docs/pbxproj.dot">graph</a> organically based on the development need.
+</div>
 </div>
                     
                 </div>

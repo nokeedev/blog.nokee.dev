@@ -6,9 +6,109 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Wed, 3 Aug 2022 23:05:42 +0000</pubDate>
-		<lastBuildDate>Wed, 3 Aug 2022 23:05:42 +0000</lastBuildDate>
+		<pubDate>Tue, 20 Sep 2022 19:19:42 +0000</pubDate>
+		<lastBuildDate>Tue, 20 Sep 2022 19:19:42 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #6</title>
+			<link>https://feed.nokee.dev/devlog-6</link>
+			<pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-6</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This week&amp;#8217;s development log (devlog) is a three-for-one special and includes work done since the &lt;a href=&quot;/devlog-5/&quot;&gt;last devlog&lt;/a&gt;, published a while ago.
+We split our primary development time between improvement to the language source set model, and the Xcode build adapter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;language_source_set_improvements&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#language_source_set_improvements&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#language_source_set_improvements&quot;&gt;Language Source Set Improvements&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For a while now, we had two competing &lt;code&gt;LanguageSourceSet&lt;/code&gt; implementations.
+When we first introduced the concept, our chosen design focused on declaring the sources and headers.
+We borrow some ideas from the software model core plugins.
+The models were single bags of files that didn&amp;#8217;t correctly represent reality and didn&amp;#8217;t allow for ad-hoc declaration of source sets.
+The second concept initially introduced in the JNI library plugin focuses on software composition.
+In short, declaring a &lt;code&gt;LanguageSourceSet&lt;/code&gt; implied the sources, their headers, a compile task, and consumable dependencies.
+We can use the source set alone to create object files or as part of a more complex hiearchy such as an executable binary.
+Thanks to our universal model, we can clearly define the owner and simple rules that will automatically complete native components with the right source set.
+The last part is much more complicated than it seems.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;xcode_build_adapter_improvements&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#xcode_build_adapter_improvements&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#xcode_build_adapter_improvements&quot;&gt;Xcode Build Adapter Improvements&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As we onboarded more real-life projects with our Xcode build adapter plugin, it became clear that support for cross-project dependencies was necessary.
+Previously, we only supported implicit dependencies via Xcode workspace.
+We took a step back and made a deeper analysis of our Xcode model which led to the following graph &lt;sup class=&quot;footnote&quot;&gt;[&lt;a id=&quot;_footnoteref_1&quot; class=&quot;footnote&quot; href=&quot;#_footnotedef_1&quot; title=&quot;View footnote.&quot;&gt;1&lt;/a&gt;]&lt;/sup&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;xcode-model.png&quot; alt=&quot;PBXProj models as understood by the Xcode build system&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 1. PBXProj models and relationships&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;One thing that stands out from our research is how simple yet powerful the Xcode build system is.
+We need a stellar understanding of Xcode to ensure proper up-to-date checking, caching and parallelization.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first step was to deserialize cross-project reference from the PBXProj properly.
+It allows us to understand cross-project dependencies and remote product references (e.g. file references declared in another project).
+Then, we perform an additional discovery step during configuration to find the effective list of Xcode projects participating in the build.
+Finally, we use the Gradle dependency engine to process project dependencies (implicit, explicit and cross-project).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This small change to how we handle Xcode projects allows for deeper insight into the build process via build scan:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;a class=&quot;image&quot; href=&quot;https://scans.gradle.com/s/xgn7sfgn7ykya/timeline&quot;&gt;&lt;img src=&quot;vlc-ios-build-scan.png&quot; alt=&quot;Build scan timeline of VLC iOS build&quot;&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 2. Build scan of vlc-ios project&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As we can see, all targets are independent, even if they come from the same project.
+Previously all targets of a single project were treated as a single cluster.
+To successfully break down target clusters, we preprocess the Xcode project before delegating the build to &lt;code&gt;xcodebuild&lt;/code&gt;.
+Thanks to the simplicity of the Xcode build system, we can trick Xcode into consuming our previously built products as part of a different and independent invocation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our next focus will be improving the configuration of Gradle&amp;#8217;s superior up-to-date check by extracting more accurate information from Xcode projects.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;ad_hoc_artifact_repositories&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#ad_hoc_artifact_repositories&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#ad_hoc_artifact_repositories&quot;&gt;Ad-hoc Artifact Repositories&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our plugins still rely on core native support in Gradle to discover and locate native toolchains.
+It isn&amp;#8217;t ideal for us, given our lack of control over such critical infrastructure.
+For a long while, we had a plan to select native toolchains (and system libraries) using the Gradle dependency engine.
+Recently, &lt;a href=&quot;https://github.com/nokeedev/gradle-native/pull/708&quot;&gt;we pushed the first part of this plan which introduces the concept of ad-hoc artifact repositories&lt;/a&gt;.
+They are on-disk Maven repositories with a twist!
+The repository provides callbacks to generate the repository&amp;#8217;s content before completing the resolution.
+We did countless experiments, and this solution was by far the simplest.
+We still rely on internal Gradle APIs, so we don&amp;#8217;t expect users to interact directly with those repositories.
+However, it marks the first step toward better native dependency management (including Conan support).
+We already migrated our macOS framework dependency support from the dreadful embedded Jetty server to an ad-hoc repository.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;footnote&quot; id=&quot;_footnotedef_1&quot;&gt;
+&lt;a href=&quot;#_footnoteref_1&quot;&gt;1&lt;/a&gt;. We are developing the &lt;a href=&quot;https://github.com/nokeedev/gradle-native/blob/master/subprojects/xcode-ide-kit/src/docs/pbxproj.dot&quot;&gt;graph&lt;/a&gt; organically based on the development need.
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #5</title>
