@@ -1,0 +1,50 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: devlog-7
+:jbake-id: {jbake-permalink}
+= Devlog #7
+Daniel Lacasse
+2022-10-25
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Development log #7
+:jbake-twitter: { "creator": "@lacasseio" }
+
+:ref-compare-merge-xcode: https://github.com/nokeedev/gradle-native/issues/664
+:ref-testing-coverage: https://github.com/nokeedev/gradle-native/issues/527
+
+
+This week's development log (devlog) includes work and experiments done since the link:/devlog-6/[last devlog].
+We split our primary development time between improvement to the Xcode build adapter and our internal testing infrastructure.
+
+== Xcode Build Adapter Improvements
+
+While preparing the work for Xcode scheme support, we retouched some of the internal implementations to make it more testable, a big subject in the Gradle world.
+We are finishing the reimplementation of the Xcode models, the backbone of the build adapter.
+Performance bottlenecks were showing up during the configuration time.
+The refactor will unblock future work such as link:{ref-compare-merge-xcode}[helping users to compare and merge Xcode projects], e.g. the dreadful pbxproj merge conflict.
+It will also help with malformed or badly crafted projects.
+The new implementation keeps track of already assigned Global IDs.
+Sometimes, we need to edit an existing Xcode project without breaking any potential reference to its elements.
+For this reason, we need to keep track of the PBXObject's Global ID to reuse it when serializing the project again.
+Finally, properties that we believe do not affect the build process are generally not mapped in our models.
+However, we are skeptical that this may cause unintended side effects when editing projects as we remove those properties.
+The new implementation preserves all properties and their declared order, minimizing potential issues with Xcodebuild.
+
+== Internal Testing Infrastructure Improvements
+
+Testing Gradle plugins is a complicated subject.
+We already documented a link:{ref-testing-coverage}[possible solution at the beginning of the year] but never got to perform actual experimentation.
+Since the last devlog, we finally did some exploration on that very solution.
+Unfortunately, we didn't finalize a complete solution due to time constraints.
+However, we can successfully say the outlined solution is up-and-coming.
+The following steps are to split the work into mergeable PRs that would alleviate some of our pain, mainly tool selection and coverage assertion.
+
+Through this work, we worked on our sample tests - our longest and most impactful tests - which we converted to JUnit 5 (from Spock).
+We cut down the execution time in half for those tests, thanks to JUnit parallel execution.
