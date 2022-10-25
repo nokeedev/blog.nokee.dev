@@ -6,9 +6,61 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Tue, 20 Sep 2022 19:19:42 +0000</pubDate>
-		<lastBuildDate>Tue, 20 Sep 2022 19:19:42 +0000</lastBuildDate>
+		<pubDate>Tue, 25 Oct 2022 19:58:54 +0000</pubDate>
+		<lastBuildDate>Tue, 25 Oct 2022 19:58:54 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #7</title>
+			<link>https://feed.nokee.dev/devlog-7</link>
+			<pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-7</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This week&amp;#8217;s development log (devlog) includes work and experiments done since the &lt;a href=&quot;/devlog-6/&quot;&gt;last devlog&lt;/a&gt;.
+We split our primary development time between improvement to the Xcode build adapter and our internal testing infrastructure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;xcode_build_adapter_improvements&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#xcode_build_adapter_improvements&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#xcode_build_adapter_improvements&quot;&gt;Xcode Build Adapter Improvements&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;While preparing the work for Xcode scheme support, we retouched some of the internal implementations to make it more testable, a big subject in the Gradle world.
+We are finishing the reimplementation of the Xcode models, the backbone of the build adapter.
+Performance bottlenecks were showing up during the configuration time.
+The refactor will unblock future work such as &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/664&quot;&gt;helping users to compare and merge Xcode projects&lt;/a&gt;, e.g. the dreadful pbxproj merge conflict.
+It will also help with malformed or badly crafted projects.
+The new implementation keeps track of already assigned Global IDs.
+Sometimes, we need to edit an existing Xcode project without breaking any potential reference to its elements.
+For this reason, we need to keep track of the PBXObject&amp;#8217;s Global ID to reuse it when serializing the project again.
+Finally, properties that we believe do not affect the build process are generally not mapped in our models.
+However, we are skeptical that this may cause unintended side effects when editing projects as we remove those properties.
+The new implementation preserves all properties and their declared order, minimizing potential issues with Xcodebuild.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;internal_testing_infrastructure_improvements&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#internal_testing_infrastructure_improvements&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#internal_testing_infrastructure_improvements&quot;&gt;Internal Testing Infrastructure Improvements&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Testing Gradle plugins is a complicated subject.
+We already documented a &lt;a href=&quot;https://github.com/nokeedev/gradle-native/issues/527&quot;&gt;possible solution at the beginning of the year&lt;/a&gt; but never got to perform actual experimentation.
+Since the last devlog, we finally did some exploration on that very solution.
+Unfortunately, we didn&amp;#8217;t finalize a complete solution due to time constraints.
+However, we can successfully say the outlined solution is up-and-coming.
+The following steps are to split the work into mergeable PRs that would alleviate some of our pain, mainly tool selection and coverage assertion.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Through this work, we worked on our sample tests - our longest and most impactful tests - which we converted to JUnit 5 (from Spock).
+We cut down the execution time in half for those tests, thanks to JUnit parallel execution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #6</title>
