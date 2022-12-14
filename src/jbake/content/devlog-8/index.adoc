@@ -1,0 +1,38 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: devlog-8
+:jbake-id: {jbake-permalink}
+= Devlog #8
+Daniel Lacasse
+2022-12-14
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Development log #8
+:jbake-twitter: { "creator": "@lacasseio" }
+
+This week's development log (devlog) includes work and experiments done since the link:/devlog-7/[last devlog].
+Our primary focus was the correctness of Xcode build adapter.
+
+== Xcode Build Adapter Correctness
+
+Before tackling support for Xcode scheme, we want to improve the correctness of our build adapter.
+
+But what does correctness imply?
+In short, our build adapter should delegate to Xcode when it deems the previous work to be out-of-date.
+It means any meaningful change to the build configuration and input/output files.
+
+It raises the question, what is a meaningful change?
+Gradle is efficient at detecting changes to input/output files.
+The main issue is finding out what those files are.
+As for the build configuration, we want to do better than simply snapshotting the pbxproj file.
+For this reason, we are distilling the information found inside Xcode project so Gradle can understand them and perform its outstanding up-to-date checking.
+Thanks to the great modelling we did a couple of months ago, we can reuse the same infrastructure to encode an _Xcode build spec_ containing all the Gradle annotation required.
+
+At the moment, we merged the obvious out-of-date scenario around non-declared inputs/outputs for shell script build phases.
+We are working on improved correctness.
