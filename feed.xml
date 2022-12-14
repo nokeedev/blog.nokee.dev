@@ -6,9 +6,51 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Tue, 25 Oct 2022 19:58:54 +0000</pubDate>
-		<lastBuildDate>Tue, 25 Oct 2022 19:58:54 +0000</lastBuildDate>
+		<pubDate>Wed, 14 Dec 2022 09:56:35 +0000</pubDate>
+		<lastBuildDate>Wed, 14 Dec 2022 09:56:35 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #8</title>
+			<link>https://feed.nokee.dev/devlog-8</link>
+			<pubDate>Wed, 14 Dec 2022 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-8</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This week&amp;#8217;s development log (devlog) includes work and experiments done since the &lt;a href=&quot;/devlog-7/&quot;&gt;last devlog&lt;/a&gt;.
+Our primary focus was the correctness of Xcode build adapter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;xcode_build_adapter_correctness&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#xcode_build_adapter_correctness&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#xcode_build_adapter_correctness&quot;&gt;Xcode Build Adapter Correctness&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Before tackling support for Xcode scheme, we want to improve the correctness of our build adapter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But what does correctness imply?
+In short, our build adapter should delegate to Xcode when it deems the previous work to be out-of-date.
+It means any meaningful change to the build configuration and input/output files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It raises the question, what is a meaningful change?
+Gradle is efficient at detecting changes to input/output files.
+The main issue is finding out what those files are.
+As for the build configuration, we want to do better than simply snapshotting the pbxproj file.
+For this reason, we are distilling the information found inside Xcode project so Gradle can understand them and perform its outstanding up-to-date checking.
+Thanks to the great modelling we did a couple of months ago, we can reuse the same infrastructure to encode an &lt;em&gt;Xcode build spec&lt;/em&gt; containing all the Gradle annotation required.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the moment, we merged the obvious out-of-date scenario around non-declared inputs/outputs for shell script build phases.
+We are working on improved correctness.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #7</title>
