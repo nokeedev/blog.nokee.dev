@@ -1,0 +1,53 @@
+:idprefix:
+:icons: font
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:jbake-permalink: devlog-9
+:jbake-id: {jbake-permalink}
+= Devlog #9
+Daniel Lacasse
+2023-04-18
+:jbake-type: blog_post
+:jbake-status: published
+:jbake-tags: devlog
+:jbake-description: Development log #9
+:jbake-twitter: { "creator": "@lacasseio" }
+
+Hello, Nokee users!
+We hope you all had a fantastic New Year and are off to a great start in 2023.
+We apologize for the radio silence over the past few months.
+Rest assured; our team has been hard at work making significant improvements to the Nokee plugins.
+This devlog will provide an overview of the progress made since the link:/devlog-7/[last devlog].
+Our primary focus was the Xcode build adapter.
+
+== Improved correctness
+
+We've considerably enhanced the correctness of build input detection from Xcode projects.
+This improvement ensures that the build tasks are more accurately detected when out-of-date, resulting in a more reliable build process and reducing the likelihood of issues caused by stale build outputs.
+
+== Configurable build settings
+To work around the slow performance of querying `xcodebuild` for effective build settings and overcome the temporary limitation of the inability to extract all build settings from Xcode projects, we've added the ability to configure build settings for each Xcode target build task.
+This feature allows you to fine-tune your build process and helps to streamline build configuration times.
+
+== Preliminary build caching
+
+We've enabled build caching on all Xcode target build tasks, which improves build times.
+However, this feature is still in its preliminary stages.
+The build cache is not relocatable, meaning we can only share the build cache when performing the build in the exact same working directory.
+We'll continue refining the build input detection in upcoming updates.
+
+== Expanded testing to Signal and Wikipedia iOS applications
+To ensure the reliability and effectiveness of our improvements, we've expanded our testing to cover the Signal and Wikipedia iOS applications.
+This broadened scope of testing will enable us to catch and fix potential issues more effectively, leading to a more stable and robust build adapter between Xcode and Gradle.
+
+== Reduced reliance on `xcodebuild`
+Lastly, we've made efforts to improve the overall performance of the Xcode build adapter by reducing our dependence on xcodebuild.
+This change should result in faster build times for your projects.
+
+We appreciate your patience during this period of growth and development.
+Our team is dedicated to continuously improving the Nokee plugins, and we're excited about the progress made so far.
+As always, we welcome your feedback and suggestions to help make Nokee even better.
+Here's to a productive and successful 2023!
