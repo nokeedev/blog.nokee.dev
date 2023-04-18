@@ -6,9 +6,83 @@
 		<atom:link href="https://feed.nokee.dev/feed.xml" rel="self" type="application/atom+xml" />
 		<description>Gradle Native Blog</description>
 		<language>en-ca</language>
-		<pubDate>Wed, 14 Dec 2022 09:56:35 +0000</pubDate>
-		<lastBuildDate>Wed, 14 Dec 2022 09:56:35 +0000</lastBuildDate>
+		<pubDate>Tue, 18 Apr 2023 10:49:04 +0000</pubDate>
+		<lastBuildDate>Tue, 18 Apr 2023 10:49:04 +0000</lastBuildDate>
 
+		
+		<item>
+			<title>Devlog #9</title>
+			<link>https://feed.nokee.dev/devlog-9</link>
+			<pubDate>Tue, 18 Apr 2023 00:00:00 +0000</pubDate>
+			<guid isPermaLink="false">blog/devlog-9</guid>
+			<description>
+			&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Hello, Nokee users!
+We hope you all had a fantastic New Year and are off to a great start in 2023.
+We apologize for the radio silence over the past few months.
+Rest assured; our team has been hard at work making significant improvements to the Nokee plugins.
+This devlog will provide an overview of the progress made since the &lt;a href=&quot;/devlog-7/&quot;&gt;last devlog&lt;/a&gt;.
+Our primary focus was the Xcode build adapter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;improved_correctness&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#improved_correctness&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#improved_correctness&quot;&gt;Improved correctness&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We&amp;#8217;ve considerably enhanced the correctness of build input detection from Xcode projects.
+This improvement ensures that the build tasks are more accurately detected when out-of-date, resulting in a more reliable build process and reducing the likelihood of issues caused by stale build outputs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;configurable_build_settings&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#configurable_build_settings&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#configurable_build_settings&quot;&gt;Configurable build settings&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To work around the slow performance of querying &lt;code&gt;xcodebuild&lt;/code&gt; for effective build settings and overcome the temporary limitation of the inability to extract all build settings from Xcode projects, we&amp;#8217;ve added the ability to configure build settings for each Xcode target build task.
+This feature allows you to fine-tune your build process and helps to streamline build configuration times.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;preliminary_build_caching&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#preliminary_build_caching&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#preliminary_build_caching&quot;&gt;Preliminary build caching&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We&amp;#8217;ve enabled build caching on all Xcode target build tasks, which improves build times.
+However, this feature is still in its preliminary stages.
+The build cache is not relocatable, meaning we can only share the build cache when performing the build in the exact same working directory.
+We&amp;#8217;ll continue refining the build input detection in upcoming updates.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;expanded_testing_to_signal_and_wikipedia_ios_applications&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#expanded_testing_to_signal_and_wikipedia_ios_applications&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#expanded_testing_to_signal_and_wikipedia_ios_applications&quot;&gt;Expanded testing to Signal and Wikipedia iOS applications&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To ensure the reliability and effectiveness of our improvements, we&amp;#8217;ve expanded our testing to cover the Signal and Wikipedia iOS applications.
+This broadened scope of testing will enable us to catch and fix potential issues more effectively, leading to a more stable and robust build adapter between Xcode and Gradle.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;reduced_reliance_on_xcodebuild&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;#reduced_reliance_on_xcodebuild&quot;&gt;&lt;/a&gt;&lt;a class=&quot;link&quot; href=&quot;#reduced_reliance_on_xcodebuild&quot;&gt;Reduced reliance on &lt;code&gt;xcodebuild&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Lastly, we&amp;#8217;ve made efforts to improve the overall performance of the Xcode build adapter by reducing our dependence on xcodebuild.
+This change should result in faster build times for your projects.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We appreciate your patience during this period of growth and development.
+Our team is dedicated to continuously improving the Nokee plugins, and we&amp;#8217;re excited about the progress made so far.
+As always, we welcome your feedback and suggestions to help make Nokee even better.
+Here&amp;#8217;s to a productive and successful 2023!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+			</description>
+		</item>
 		
 		<item>
 			<title>Devlog #8</title>
